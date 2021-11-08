@@ -100,7 +100,8 @@ html {
 
     display: inline-block;
 
-    margin-right:20px;
+    padding: 10px 30px;
+    /* margin-right:20px; */
 }
 
 .links li{
