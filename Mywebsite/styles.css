@@ -45,6 +45,7 @@ html {
     min-height: 8vh;
 
     color: seashell;
+    
 
 }
 
@@ -70,6 +71,8 @@ html {
     display: inline-block;
 
     text-align: center;
+
+    padding: 10px 30px;
 }
 
 .links{
@@ -100,14 +103,18 @@ html {
 
     display: inline-block;
 
-    padding: 10px 30px;
+    padding: 10px 20px;
     /* margin-right:20px; */
+
+    margin-top:1vh;
 }
 
 .links li{
 
     list-style: none;
 
+    margin-top:1vh;
+    
 }
 
 .links a:hover{
