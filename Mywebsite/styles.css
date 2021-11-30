@@ -18,19 +18,11 @@ html {
 /* Menu Styles */
 
 
-.background{
-
-    text-align: center;
+.Menu{
 
     background-color: rgb(41, 40, 43);
 
-}
-
-.Menu{
-
-    height: 100px;
-
-    display: flex;
+    height: 10vh;
 
     box-sizing: border-box;
 
@@ -40,16 +32,18 @@ html {
 
     align-items: center;
 
-    padding: 0px;
-
     min-height: 8vh;
 
     color: seashell;
+
+    display:flex;
+
+    flex-direction: row;
     
 
 }
 
-.Navigation h4{
+.Menu  h4{
     text-transform: uppercase;
 
     letter-spacing: 4px;
@@ -58,6 +52,8 @@ html {
 
     font-style: italic;
 
+    width:30vh;
+    
     background: -webkit-linear-gradient(to right, #12c2e9, #c471ed, #f64f59); 
   
     background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
@@ -68,16 +64,15 @@ html {
     
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
-    display: inline-block;
-
-    text-align: center;
-
-    padding: 10px 30px;
+    
 }
+
 
 .links{
 
     display: flex;
+
+    flex-direction: row;
 
     justify-content: space-around;
 
@@ -85,7 +80,8 @@ html {
 
 }
 
-.links a{
+a{
+    display:block;
 
     color: seashell;
 
@@ -109,345 +105,29 @@ html {
     margin-top:1vh;
 }
 
-.links li{
 
-    list-style: none;
-
-    margin-top:1vh;
-    
-}
-
-.links a:hover{
+a:hover{
 
     border-bottom: seashell solid 2px;
 }
 
-.mobile-view div{
 
-    width: 22px;
 
-    height: 3.5px;
 
-    background-color: seashell;
 
-    margin: 5px;
 
-}
 
-.mobile-view{
 
-    display: none;
 
-    cursor: pointer;
 
-}
 
 
-@media only screen and (max-width: 768px){
 
-    body{
 
-        overflow-x: hidden;
 
-    }
 
-    .links{
 
-        display: flex;
 
-        flex-direction: column;
-
-        align-items: center;
-
-        background-color: rgb(41, 40, 43);
-
-        width: 100%;
-
-        transform: translateX(100%);
-
-        transition: transform 0.5s ease-in;
-
-        position: absolute;
-
-        right: 0px;
-
-        height: 95vh;
-
-        top: 8vh;
-
-    }
-
-    .links li{
-
-        opacity: 0;
-
-    }
-
-    .mobile-view{
-
-        display: block;
-
-    }
-
-    .Banner{
-
-        height: 10px;
-
-        display: 50%;
-
-    }
-
-    .info{
-
-        padding: 25px 25px 25px;
-
-        width: 100%;
-
-        text-align: center;
-    }
-
-    .Summary p{
-
-        width: 100%;
-
-    }
-
-    .Galery{
-
-        flex-direction: column;
-
-    }
-
-    .Introduction{
-
-        margin-top:5vh;
-
-        align-items: center;
-
-    }
-
-    .Images img{
-
-        width: 100%; 
-
-    }
-
-    .Summary p{
-
-        font-size: 18px;
-
-    }
-
-    .Social-Media{
-
-        width: 100%;
-
-        position: absolute;
-
-        display: flex;
-
-        flex-direction: column;
-
-        align-items: center;
-
-        margin-top: 50;
-
-    }
-
-    .timeline p{
-
-        font-size: 28px;
-
-    }
-
-    .timeline .date::before{
-
-        font-size: 20px;
-    }
-
-    form{
-
-        width: 100%;
-
-    }
-
-
-
-}
-
-
-@media only screen and (max-width: 1024px){
-
-    .links{
-
-        width: 55%;
-
-    }
-    
-}
-
-.active{
-
-    transform: translateX(0%);
-
-}
-
-@keyframes linksFaded{
-    
-    from{
-
-        transform: translateX(50px);
-
-        opacity: 0;
-
-    }
-
-    to{
-
-        transform: translateX(0px);
-
-        opacity: 1;
-        
-    }
-}
-
-.transform .Second-line{
-
-    opacity: 0;
-
-}
-
-.transform .First-line{
-
-    transform: rotate(-45deg) translate(-5px,6px);
-
-}
-
-.transform .Third-line{
-
-    transform: rotate(45deg) translate(-5px,-7px);
-
-}
-
-.My-Skills {
-
-  display: grid;
-
-  grid-template-columns: repeat(auto-fill, minmax(524px, 1fr));
-
-  grid-gap: 15px;
-
-}
-
-.portfolio-item-wrapper {
-
-  position: relative;
-
-}
-
-.portfolio-img-background {
-
-  background-size: cover;
-
-  background-position: center;
-
-  background-repeat: no-repeat;
-
-  height: 350px;
-
-  width: 100%;
-
-}
-
-.img-text-wrapper {
-
-  position: absolute;
-
-  top: 0;
-
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: center;
-
-  align-items: center;
-
-  height: 100%;
-
-  text-align: center;
-
-  padding-left: 100px;
-
-  padding-right: 100px;
-
-}
-
-.img-text-wrapper .subtitle {
-
-  transition: 1s;
-
-  color: transparent;
-
-}
-
-.image-blur {
-
-  transition: 1s;
-
-  filter: brightness(10%);
-
-}
-
-.img-text-wrapper:hover .subtitle {
-
-  color: lightseagreen;
-
-  font-weight: 600;
-
-}
-
-.logo-wrapper img {
-
-  width: 15%;
-
-  margin-bottom: 20px;
-
-  align-items: center;
-
-}
-
-
-.profile-image-wrapper img {
-
-  width: 100%;
-
-}
-
-.profile-content-wrapper {
-
-  padding: 30px;
-
-}
-
-.profile-content-wrapper h1 {
-
-  color: lightseagreen;
-
-}
-
-
-/*Contents Styles*/
-
-.Banner{
-
-    width: 100%;
-
-    height: 5px;
-
-    display: block;
-
-}
 
 
 
