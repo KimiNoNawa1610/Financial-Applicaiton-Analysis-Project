@@ -4,12 +4,12 @@ const { Connection, Request } = require("tedious");
 const config = {
   authentication: {
     options: {
-      userName: "Nhan.Vo@student.csulb.edu", // update me
-      password: "Killerbee16102000!" // update me
+      userName: "Nhan", // update me
+      password: "Talonss5" // update me
     },
     type: "default"
   },
-  server: "your_server.database.windows.net", // update me
+  server: "fiaa.database.windows.net", // update me
   options: {
     database: "fiaa", //update me
     encrypt: true
@@ -23,7 +23,13 @@ connection.on("connect", err => {
   if (err) {
     console.error(err.message);
   } else {
-    console.log("hello")
     queryDatabase();
   }
 });
+
+connection.connect();
+
+function queryDatabase() {
+  console.log("Reading rows from the Table...");
+
+}

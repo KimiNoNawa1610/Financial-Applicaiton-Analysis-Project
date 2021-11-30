@@ -13,3 +13,12 @@ function passCheck(){
     }
 
 }
+
+var email= document.getElementById("email");
+
+var username = document.getElementById("username");
+var password=document.getElementById("psw");
+
+
+
+
