@@ -1,0 +1,27 @@
+*{
+    padding:0;
+    margin:0;
+    align-content: center;
+}
+
+main{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+form{
+    width: 400px;
+    border: solid rgb(130, 130, 143);
+    padding: 5rem;
+}
+
+button{
+    align-self: center;
+    margin-top: 2rem;
+    justify-content: center;
+}

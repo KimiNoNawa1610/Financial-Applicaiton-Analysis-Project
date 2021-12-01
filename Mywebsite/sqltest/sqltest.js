@@ -19,6 +19,7 @@ var config = {
 
 var connection = new Connection(config);
 
+module.exports=connection;
 // Attempt to connect and execute queries if connection goes through
 connection.on("connect", err => {
   if (err) {
@@ -62,6 +63,7 @@ function queryDatabase1() {
   connection.execSql(request);
   return num;
 }
+
 
 // function InsertStatement() {
 //   request = new Request(`INSERT dbo.users (username, useremail, Userpassword) VALUES ('${'Brandon'}', '${'Brandon@gmail.com'}', '${'1234'}')`, function(err) {

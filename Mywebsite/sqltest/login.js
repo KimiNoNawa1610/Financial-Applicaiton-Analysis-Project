@@ -30,6 +30,7 @@ loginButton.addEventListener("click", (e) => {
         loginErrorMsg.style.opacity = 1;
     }
 })
+
 var { Connection, Request } = require("tedious");
 
 // Create connection to database
