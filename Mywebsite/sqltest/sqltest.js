@@ -23,6 +23,7 @@ connection.on("connect", err => {
   if (err) {
     console.error(err.message);
   } else {
+    console.log("hello")
     queryDatabase();
   }
 });
