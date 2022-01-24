@@ -41,6 +41,7 @@
 
         <div class = "collapse navbar-collapse" id="navbar">
           <div class = "navbar-nav">
+
             {% if user.is_authenticated %}
             <a class = "nav-item nav-link" id = "home" href="/">Home</a>
             <a class = "nav-item nav-link" id = "logout" href="/logout">Logout</a>
@@ -48,6 +49,13 @@
             <a class = "nav-item nav-link" id = "login" href="/login">Login</a>
             <a class = "nav-item nav-link" id = "signup" href="/signup">Sign Up</a>
             {% endif %}
+            
+            <p>
+            <form action="{{ url_for('auth.search') }}" method="post">
+              <input type = 'text' name = "Stock Name" placeholder = "Enter the name of the stock">
+            </form>
+            </p>
+
           </div>
         </div>
     </nav>

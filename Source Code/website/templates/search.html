@@ -1,0 +1,13 @@
+{% extends "base.html" %}<!--extends the base.html template-->
+
+{% block title %}Search{% endblock %}<!--Override the default name from the base.html template-->
+
+{% block content %}
+
+    <p>this is search page</p>
+
+    <form action="{{ url_for('auth.search') }}" method="POST">
+        <input type = 'text' name = "Stock Name" placeholder = "Enter the name of the stock">
+    </form>
+
+{% endblock %}

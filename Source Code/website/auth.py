@@ -7,6 +7,12 @@ from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth',__name__)
 
+@auth.route('/search')
+def search():
+    return render_template('search.html', user = current_user)
+
+
+
 #check user login function
 
 @auth.route('/login', methods=['GET','POST'])

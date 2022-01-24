@@ -1,5 +1,4 @@
 #store the standard route to the website
-from nis import cat
 from unicodedata import category
 from flask import Blueprint, jsonify, render_template, request, flash, jsonify
 from flask_login import  login_required, current_user
