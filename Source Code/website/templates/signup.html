@@ -1,0 +1,97 @@
+{% extends "base.html" %}<!--extends the base.html template-->
+
+{% block title %}Sign Up{% endblock %}<!--Override the default name from the base.html template-->
+
+<!--Basic user sign up information form-->
+{% block content %} 
+
+<form method="POST">
+
+    <h3 align="center">
+
+        Sign Up 
+
+    </h3>
+
+    <!--Email-->
+    <div class="form-group">
+
+        <label for="email">Email Address</label>
+
+        <input 
+        type="email" 
+        class="form-control" 
+        id="email" name="email" 
+        placeholder="Please enter your email"
+        />
+
+
+    </div>
+
+    <!--First Name-->
+    <div class="form-group">
+
+        <label for="firstname">First Name</label>
+
+        <input 
+        type="text" 
+        class="form-control" 
+        id="firstname" name="firstname" 
+        placeholder="Please enter your first name"
+        />
+
+
+    </div>
+
+    <!--Last Name-->
+    <div class="form-group">
+
+        <label for="lastname">Last Name</label>
+
+        <input 
+        type="text" 
+        class="form-control" 
+        id="lastname" name="lastname" 
+        placeholder="Please enter your last name"
+        />
+
+
+    </div>
+
+    <!--Password-->
+    <div class="form-group">
+
+        <label for="password">Password</label>
+
+        <input 
+        type="text" 
+        class="form-control" 
+        id="password" name="password" 
+        placeholder="Please enter your password"
+        />
+
+
+    </div>
+
+    <!--Confirm Password-->
+    <div class="form-group">
+
+        <label for="checkpassword">Re-enter Password</label>
+
+        <input 
+        type="text" 
+        class="form-control" 
+        id="checkpassword" name="checkpassword" 
+        placeholder="Please confirm your password"
+        />
+
+
+    </div>
+
+    <br />
+
+    <!--Submit Button-->
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
+{% endblock %}

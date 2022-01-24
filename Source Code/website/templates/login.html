@@ -1,0 +1,47 @@
+{% extends "base.html" %}<!--extends the base.html template-->
+
+{% block title %}Login{% endblock %}<!--Override the default name from the base.html template-->
+
+{% block content %} <form method="POST">
+
+    <h3 align="center">
+
+        Login
+
+    </h3>
+
+    <!--Email-->
+    <div class="form-group">
+
+        <label for="email">Email Address</label>
+
+        <input 
+        type="email" 
+        class="form-control" 
+        id="email" name="email" 
+        placeholder="Please enter your email"
+        />
+
+
+    </div>
+
+    <!--Password-->
+    <div class="form-group">
+
+        <label for="password">Password</label>
+
+        <input 
+        type="text" 
+        class="form-control" 
+        id="password" name="password" 
+        placeholder="Please enter your password"
+        />
+
+
+    </div>
+
+    <br />
+
+    <!--Submit Button-->
+    <button type="submit" class="btn btn-primary">Login</button>
+{% endblock %}

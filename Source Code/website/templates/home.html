@@ -1,0 +1,39 @@
+{% extends "base.html" %}<!--extends the base.html template-->
+
+{% block title %}Home{% endblock %}<!--Override the default name from the base.html template-->
+
+{% block content %} 
+<h1 align="center">
+    Stock(s)
+</h1>
+
+<!--Display user's owned stocks-->
+<ul class = "list-group list-group-flush" id="stocks">
+
+    {% for stock in user.stocks %}
+
+    <li class = "list-group-item">
+        {{stock.name}}
+
+        <button type="button" class="close" onCLick = "deleteStock({{ stock.id }})">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+
+    </li>
+    
+    {% endfor %}
+
+</ul>
+
+<!--Allow user to add what stock(s) they are investing in-->
+<form method="POST">
+    <textarea name="stock" id="stock" class="form-control"> </textarea>
+    <div align="center">
+        <button type = "submit" class = "btn btn-primary">
+            Add Stock Name
+        </button>
+    </div>
+</form>
+{% endblock %}
