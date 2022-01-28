@@ -1,0 +1,66 @@
+{% extends "base.html" %}<!--extends the base.html template-->
+
+{% block title %}Sign Up{% endblock %}<!--Override the default name from the base.html template-->
+
+<!--Basic user sign up information form-->
+{% block content %} 
+
+  <form method="POST">
+
+    <h3 align="center">
+
+        help
+
+    </h3>
+
+    <!--Email-->
+    <div class="form-group">
+
+        <label for="email">Email Address</label>
+
+        <input 
+        type="email" 
+        class="form-control" 
+        id="email" name="email" 
+        placeholder="Please enter your email"
+        />
+
+
+    </div>
+
+    <!--First Name-->
+    <div class="form-group">
+
+        <label for="firstname">First Name</label>
+
+        <input 
+        type="text" 
+        class="form-control" 
+        id="name" name="name" 
+        placeholder="Please enter your first name"
+        />
+
+
+    </div>
+
+
+    <!--Password-->
+    <div class="form-group">
+
+        <label for="message">Message</label>
+
+        <input 
+        type="text" 
+        class="form-control" 
+        id="message" name="message" 
+        placeholder="question"
+        />
+
+
+    </div>
+      <!--Submit Button-->
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    
+  </form>
+{% endblock %}

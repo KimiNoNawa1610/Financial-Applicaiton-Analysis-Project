@@ -5,6 +5,8 @@ from flask_login import  login_required, current_user
 from .models import Stock
 from .  import db
 import json
+from flask_mail import Mail, Message
+from . import mail
 
 views = Blueprint('views',__name__)
 
@@ -43,6 +45,17 @@ def delete_stock():
             
     
     return jsonify({})
+
+#send message
+@views.route('/message',methods=['GET','POST'])
+def message():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        name = request.form.get('name')
+        message=request.form.get('message')
+        msg= Message(subject=f'Mail from {name}',body=f'{message}',sender='brandonorp9@gmail.com',recipients=['brandonorp9@gmail.com'])
+        mail.send(msg)
+    return render_template("message.html", user=current_user)
 
 
 
