@@ -11,8 +11,13 @@ from . import mail
 views = Blueprint('views',__name__)
 
 @views.route('/', methods=['GET','POST'])
+def home():
+    return  render_template("home.html", user=current_user)
+    
+
+@views.route('/profile', methods=['GET','POST'])
 @login_required
-def home(): #this function will run everytime we access the view's route
+def profile(): #this function will run everytime we access the view's route
     if(request.method == "POST"):
         stock = request.form.get('stock')
 
@@ -28,7 +33,7 @@ def home(): #this function will run everytime we access the view's route
             db.session.add(new_stock)
             db.session.commit()
             flash("new Stock added!", category = "success")
-    return  render_template("home.html", user=current_user)# return the html file that we want to render to the website
+    return  render_template("profile.html", user=current_user)# return the html file that we want to render to the website
 
 
 # delete stock name
@@ -43,7 +48,6 @@ def delete_stock():
             db.session.delete(stock)
             db.session.commit()
             
-    
     return jsonify({})
 
 #send message
