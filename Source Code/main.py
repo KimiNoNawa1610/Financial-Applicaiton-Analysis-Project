@@ -4,7 +4,7 @@ app = create_app()
 
 if(__name__== '__main__'):
 
-    app.run() # running website in debug mode (any change will be immediately implemented)
+    app.run(debug = True) # running website in debug mode (any change will be immediately implemented)
 
 
 

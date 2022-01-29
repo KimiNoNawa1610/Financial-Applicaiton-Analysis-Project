@@ -1,6 +1,14 @@
-import plotly.graph_objs as go
+# Raw Package
+import numpy as np
+import pandas as pd
+
+#Data Source
 import yfinance as yf
 
-data = yf.download(tickers=stock_price, period = ‘how_many_days’, interval = ‘how_long_between_each_check’, rounding= bool)
-data = yf.download(tickers='GOOG', period = '5d', interval = '15m', rounding= True)
+#Data viz
+import plotly.graph_objs as go
+
+#Interval required 1 minute
+data = yf.download(tickers='UBER', period='1d', interval='1m')
+
 print(data)

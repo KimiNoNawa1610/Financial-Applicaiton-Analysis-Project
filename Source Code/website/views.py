@@ -3,7 +3,7 @@ from unicodedata import category
 from flask import Blueprint, jsonify, render_template, request, flash, jsonify
 from flask_login import  login_required, current_user
 from .models import Stock
-from .  import db
+from . import db
 import json
 from flask_mail import Mail, Message
 from . import mail
@@ -47,15 +47,17 @@ def delete_stock():
     return jsonify({})
 
 #send message
-@views.route('/message',methods=['GET','POST'])
+@views.route('/contactus',methods=['GET','POST'])
 def message():
     if request.method == 'POST':
         email = request.form.get('email')
         name = request.form.get('name')
         message=request.form.get('message')
-        msg= Message(subject=f'Mail from {name}',body=f'{message}',sender='brandonorp9@gmail.com',recipients=['brandonorp9@gmail.com'])
+        msg= Message(subject=f'Mail from {name}', body=f'{message}', sender = email, recipients = ['ropofo6438@yks247.com'])
         mail.send(msg)
-    return render_template("message.html", user=current_user)
+        flash("Thank you for contact us.",category = "success")
+        flash("Your message was sent. We will contact you soon.",category = "success")
+    return render_template("contactus.html", user=current_user)
 
 
 

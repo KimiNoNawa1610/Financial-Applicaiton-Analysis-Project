@@ -23,16 +23,14 @@ def create_app():
     app.config['MAIL_PASSWORD']=''
     app.config['MAIL_USE_TLS']=False
     app.config['MAIL_USE_SSL']= True
-    
-
 
     app.config['SECRET_KEY'] = '2022BrokeAF***COVID' #seret key to protect cache and private data of the website
 
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}' # The sqlite database is store at this location
 
     db.init_app(app)
-    mail.init_app(app)
 
+    mail.init_app(app)
 
     from .views import views # assign the homepage to the contructor
 
