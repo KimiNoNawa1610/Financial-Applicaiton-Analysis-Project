@@ -36,7 +36,7 @@
         
         <span class = "navbar-toggler-icon">
 
-          <!--List of function-->
+          <!--Nav Bar-->
         </button>
 
         <div class = "collapse navbar-collapse" id="navbar">
@@ -52,13 +52,12 @@
             <!-- help button-->
             <a class = "nav-item nav-link" id="message" href="/contactus">Contact Us</a>
             
-            
-            <p>
-              &emsp;
-            <form action="{{ url_for('auth.search') }}" method="post">
-              <input type = 'text' name = "StockName" placeholder = "Enter the name of the stock" size = "30">
+            <!--Search bar-->
+            <form class="form-inline" action="{{url_for('views.search')}}" method="POST">
+              {{ form.hidden_tag() }}
+              <input class="form-control mr-sm-2" type="search" name = "search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-info" type="submit">Search</button>
             </form>
-            </p>
 
           </div>
         </div>

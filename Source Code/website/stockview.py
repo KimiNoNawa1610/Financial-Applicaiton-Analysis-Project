@@ -2,6 +2,7 @@
 import yfinance as yf
 
 #Interval required 1 minute
-data = yf.download(tickers='UBER', period='1d', interval='1m')
 
-print(data)
+def getData(name):
+    data = yf.download(tickers=name, period='1d', interval='1m')
+    return data
