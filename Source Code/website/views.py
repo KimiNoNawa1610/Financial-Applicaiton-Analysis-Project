@@ -4,17 +4,21 @@ from flask import Blueprint, jsonify, render_template, request, flash, jsonify
 from flask_login import  login_required, current_user
 from .models import Stock
 from . import db
+from .searchform import SearchForm
+from .stockview import getData
 import json
 from flask_mail import Mail, Message
 from . import mail
 
 views = Blueprint('views',__name__)
 
+#home page
 @views.route('/', methods=['GET','POST'])
 def home():
-    return  render_template("home.html", user=current_user)
-    
+    return  render_template("home.html",form =SearchForm(), user=current_user)
 
+
+#profile
 @views.route('/profile', methods=['GET','POST'])
 @login_required
 def profile(): #this function will run everytime we access the view's route
@@ -33,7 +37,8 @@ def profile(): #this function will run everytime we access the view's route
             db.session.add(new_stock)
             db.session.commit()
             flash("new Stock added!", category = "success")
-    return  render_template("profile.html", user=current_user)# return the html file that we want to render to the website
+    return  render_template("profile.html", form =SearchForm(), user=current_user)# return the html file that we want to render to the website
+
 
 
 # delete stock name
@@ -50,6 +55,7 @@ def delete_stock():
             
     return jsonify({})
 
+
 #send message
 @views.route('/contactus',methods=['GET','POST'])
 def message():
@@ -61,7 +67,26 @@ def message():
         mail.send(msg)
         flash("Thank you for contact us.",category = "success")
         flash("Your message was sent. We will contact you soon.",category = "success")
-    return render_template("contactus.html", user=current_user)
+    return render_template("contactus.html", form =SearchForm(), user=current_user)
+
+
+#Pass stuff to Navbar
+@views.context_processor
+def base():
+    form = SearchForm()
+    return dict(form = form)# we need to let the base.html know that search has a form
+
+
+#search
+@views.route('/search', methods=["POST"])
+def search():
+    form =SearchForm()
+    if (form.validate_on_submit()):
+        searched = form.search.data
+        print(getData(searched))
+        return render_template("search.html",form=form, user=current_user, searched= searched)
+
+
 
 
 
