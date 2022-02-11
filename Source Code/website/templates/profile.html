@@ -3,9 +3,15 @@
 {% block title %}Profile{% endblock %}<!--Override the default name from the base.html template-->
 
 {% block content %} 
-<h1 align="center">
+
+<h4>Welcome to your profile {{user.firstname+" "+user.lastname}}</h4>
+
+
+<h3 align="center">
     Stock(s) Watchlist
-</h1>
+</h3>
+
+
 
 <!--Display user's owned stocks-->
 <ul class = "list-group list-group-flush" id="stocks">
