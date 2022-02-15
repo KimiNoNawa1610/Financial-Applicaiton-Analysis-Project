@@ -3,5 +3,39 @@
 {% block title %}Home{% endblock %}<!--Override the default name from the base.html template-->
 
 {% block content %} 
-Hi, this is home
+
+<h1>WELCOME TO FIAA</h1>
+
+
+<img src="{{url_for('static', filename='images/giphy.gif')}}" style="width: 80%; display: block;
+margin-left: auto;
+margin-right: auto;"/>
+
+<div class="card text-center bg-info mb-3" align="center" ">
+    <figure class="text-center" style="color: white;" >
+        <blockquote class="blockquote">
+          <b>I will tell you how to become rich. Close the doors. Be fearful when others are greedy. Be greedy when others are fearful.</b>
+        </blockquote>
+        <figcaption class="blockquote-footer" style="color: white;">
+            <cite title="Source Title">Warren Buffett</cite>
+        </figcaption>
+    </figure>
+</div>
+
+
+<style>
+
+    body{
+        background-size:cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-image: url({{url_for("static",filename='images/hl_finance.jpg')}});
+    }
+
+    h1{
+        text-align: center;
+        color:rgb(221, 235, 236);
+    }
+
+</style>
 {% endblock %}
