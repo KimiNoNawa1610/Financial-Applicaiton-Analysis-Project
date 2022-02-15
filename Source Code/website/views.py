@@ -6,7 +6,6 @@ from .models import Stock
 from . import db
 from .fy import getStockPrice
 from .searchform import SearchForm
-from .stockview import getData
 import json
 from flask_mail import Mail, Message
 from . import mail
@@ -86,8 +85,6 @@ def search():
     form =SearchForm()
     if (form.validate_on_submit()):
         searched = form.search.data
-<<<<<<< HEAD
-        print(getData(searched))
         price = getStockPrice(searched)
         dates=getdates(searched)
         values=price
@@ -111,12 +108,6 @@ def getdates(stock):
     for i in df.index:
         dates.append(i.strftime('%Y-%m-%d %X'))
     return dates
-=======
-        #print(getData(searched))
-        return render_template("search.html",form=form, user=current_user, searched= searched)
-
-
->>>>>>> bdf428131da6712b40e2d22d62bf9c90fe223474
 
 
 
