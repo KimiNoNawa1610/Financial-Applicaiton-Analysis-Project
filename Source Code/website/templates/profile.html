@@ -20,7 +20,8 @@
           <tr>
             <th></th>
             <th style="text-align:center">Name</th>
-            <th style="text-align:center">Price</th>
+            <th style="text-align:center">Bought Price</th>
+            <th style="text-align:center">Current Price</th>
             <th></th>
             
           </tr>
@@ -36,6 +37,8 @@
                 <td style="text-align:center">{{stock.name}}</td>
 
                 <td style="text-align:center">$ {{stock.price}}</td>
+
+                <td style="text-align:center">$ {{currentprice}}</td>
 
                 <td><button type="button" class="close" onCLick = "deleteStock({{ stock.id }})">
                     <span aria-hidden="true">
