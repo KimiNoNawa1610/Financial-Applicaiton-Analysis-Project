@@ -1,34 +1,62 @@
 {% extends "base.html" %}<!--extends the base.html template-->
 
-{% block title %}Home{% endblock %}<!--Override the default name from the base.html template-->
+{% block title %}Profile{% endblock %}<!--Override the default name from the base.html template-->
 
 {% block content %} 
-<h1 align="center">
-    Stock(s)
-</h1>
+
+<h4>Welcome to your profile {{user.firstname+" "+user.lastname}}</h4>
+
+
+<h3 align="center">
+    Stock(s) Watchlist
+</h3>
+
+
 
 <!--Display user's owned stocks-->
 <ul class = "list-group list-group-flush" id="stocks">
+    <table id="data" class="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th style="text-align:center">Name</th>
+            <th style="text-align:center">Price</th>
+            <th></th>
+            
+          </tr>
+        </thead>
 
-    {% for stock in user.stocks %}
+        <tbody>
+        {% for stock in user.stocks %}
+            
+            <tr>
 
-    <li class = "list-group-item">
-        {{stock.name}}
-        <button type="button" class="close" onCLick = "deleteStock({{ stock.id }})">
-            <span aria-hidden="true">
-                &times;
-            </span>
-        </button>
+                <td></td>
 
-    </li>
-    
-    {% endfor %}
+                <td style="text-align:center">{{stock.name}}</td>
+
+                <td style="text-align:center">$ {{stock.price}}</td>
+
+                <td><button type="button" class="close" onCLick = "deleteStock({{ stock.id }})">
+                    <span aria-hidden="true">
+                        &times;
+                    </span>
+                </button></td>
+      
+            </tr>
+            
+        
+        {% endfor %}
+
+        </tbody>
+
+    </table>
 
 </ul>
 
 <!--Allow user to add what stock(s) they are investing in-->
 <form method="POST">
-    <textarea name="stock" id="stock" class="form-control"> </textarea>
+    <textarea rows="1"  name="stock" id="stock" class="form-control"> </textarea>
     <div align="center">
         <button type = "submit" class = "btn btn-primary">
             Add Stock Name

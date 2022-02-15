@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, render_template, request, flash, jsonify
 from flask_login import  login_required, current_user
 from .models import Stock
 from . import db
+from .fy import getStockPrice
 from .searchform import SearchForm
 from .stockview import getData
 import json
@@ -34,10 +35,11 @@ def profile(): #this function will run everytime we access the view's route
 
         else:
 
-            new_stock = Stock(name = stock, user_id = current_user.id)
+            new_stock = Stock(name = stock, price = getStockPrice(stock),user_id = current_user.id)
             db.session.add(new_stock)
             db.session.commit()
             flash("new Stock added!", category = "success")
+
     return  render_template("profile.html", form =SearchForm(), user=current_user)# return the html file that we want to render to the website
 
 
@@ -84,6 +86,7 @@ def search():
     form =SearchForm()
     if (form.validate_on_submit()):
         searched = form.search.data
+<<<<<<< HEAD
         print(getData(searched))
         price = getStockPrice(searched)
         dates=getdates(searched)
@@ -108,6 +111,12 @@ def getdates(stock):
     for i in df.index:
         dates.append(i.strftime('%Y-%m-%d %X'))
     return dates
+=======
+        #print(getData(searched))
+        return render_template("search.html",form=form, user=current_user, searched= searched)
+
+
+>>>>>>> bdf428131da6712b40e2d22d62bf9c90fe223474
 
 
 
