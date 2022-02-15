@@ -9,6 +9,7 @@ from .stockview import getData
 import json
 from flask_mail import Mail, Message
 from . import mail
+import yfinance as yf
 
 views = Blueprint('views',__name__)
 
@@ -78,15 +79,35 @@ def base():
 
 
 #search
-@views.route('/search', methods=["POST"])
+@views.route('/search', methods=["GET","POST"])
 def search():
     form =SearchForm()
     if (form.validate_on_submit()):
         searched = form.search.data
         print(getData(searched))
-        return render_template("search.html",form=form, user=current_user, searched= searched)
+        price = getStockPrice(searched)
+        dates=getdates(searched)
+        values=price
+        hope={
+            "name":"brandon",
+            "price": 122,
+            "low":100,
+        }
+        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),hope=hope)
+        
+    
+def getStockPrice(stock):
+    msft = yf.Ticker(stock)
+    df = msft.history(period="max")#start="2021-01-28",end="2022-02-02")
+    return df['Close'].tolist()
 
-
+def getdates(stock):
+    msft = yf.Ticker(stock)
+    df = msft.history(period="max")#start="2021-01-28",end="2022-02-02")
+    dates=[]
+    for i in df.index:
+        dates.append(i.strftime('%Y-%m-%d %X'))
+    return dates
 
 
 

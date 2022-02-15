@@ -6,6 +6,51 @@
 
     <p>this is search page for {{searched}}</p>
 
-    
+<div class="container">
+  <div class="row">
+    <div class="col text-light bg-dark" style="margin:20px 0px 20px 0px">
+      <h1 style="padding:20px 0px 20px 0px">Stock movements demonstrator</h1>
+    </div>
+</div>
+<div class="col-3"><p><b>{{searched}}</b></p>
+    <p>Symbol: <span id="symbol">{{hope["name"]}}</span></p>
+      <p>Day High: <span id="dayHigh">{{hope["price"]}}</span></p>
+      <p>Day Low: <span id="dayLow">{{hope["low"]}}</span></p>   
+    </div>
+      <div class="col-9">
+      <h2 id="companyName"></h2>
+      <div class="conatainer" style="width:900px;">
+        <canvas id="myChart"></canvas>
+      </div>
+</div>
 
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+let bottom = JSON.parse({{ dates | tojson }})
+let income = JSON.parse({{ money | tojson }})
+
+const data = {
+  labels: bottom,
+  datasets: [{
+    label: 'My First dataset',
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data:income,
+  }]
+};
+const config = {
+  type: 'line',
+  data: data,
+  options: {}
+};
+</script>
+<script>
+  let myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+</script>
 {% endblock %}
