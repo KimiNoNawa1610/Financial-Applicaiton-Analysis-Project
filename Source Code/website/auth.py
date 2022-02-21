@@ -13,7 +13,6 @@ def search():
     return render_template('search.html', user = current_user)
 
 
-
 #check user login function
 
 @auth.route('/login', methods=['GET','POST'])
@@ -23,7 +22,7 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        user = User.query.filter_by(email =email).first()
+        user = User.query.filter_by(email = email).first()
 
         if (user):
 
