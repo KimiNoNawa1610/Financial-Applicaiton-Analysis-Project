@@ -2,11 +2,12 @@
 from unicodedata import category
 from flask import Blueprint, jsonify, render_template, request, flash, jsonify
 from flask_login import  login_required, current_user
-from .models import Stock
+from .models import Stock, User
 from . import db
 from .fy import getStockPrice1d, getCurrentPrice
 from .searchform import SearchForm
 import json
+from .userform import UserForm
 from flask_mail import Mail, Message
 from . import mail
 import yfinance as yf
@@ -24,6 +25,8 @@ def home():
 def profile(): #this function will run everytime we access the view's route
     if(request.method == "POST"):
         stock = request.form.get('stock')
+
+        stock = stock.lstrip()
 
         if(Stock.query.filter_by(name = stock).first()):
             flash(stock + " is already existed in your stock list", category = "error")
@@ -48,11 +51,38 @@ def delete_stock():
     stock = Stock.query.get(stockId)
     if (stock):
         if (stock.user_id == current_user.id):
-            flash(stock.name + "is successfully removed")
+            flash(stock.name + " stock is successfully removed from your watchlist")
             db.session.delete(stock)
             db.session.commit()
-            
     return jsonify({})
+
+
+#update user information
+@views.route('/update/<int:id>', methods = ['GET','POST'])
+def updateProfile(id):
+    form = UserForm()
+    user_to_update = User.query.get_or_404(id)
+    if request.method == "POST":
+        newfirstname = request.form['firstname']
+        newlastname = request.form['lastname']
+        newemail = request.form['email']
+        if(newemail.lstrip()):
+            user_to_update.email = request.form['email']
+        if(newfirstname.lstrip()):
+            user_to_update.firstname = request.form['firstname']
+        if(newlastname.lstrip()):
+            user_to_update.lastname  = request.form['lastname']
+        try:
+            db.session.commit()
+            flash("Your information has been updated!", category = "success")
+            return render_template("profile.html",form = form, user = current_user, user_to_update = user_to_update)
+        except:
+            flash("There is an ERROR!!!. We cannot update your information. Please try again", category = "error")
+    
+    else:
+        return render_template("update.html", form = form, user = current_user, user_to_update = user_to_update)
+            
+
 
 #send message
 @views.route('/contactus', methods=['GET','POST'])
@@ -64,7 +94,7 @@ def message():
         msg = Message(subject = f'Mail from {name}', body = f'{message}', sender = email, recipients = ['ropofo6438@yks247.com'])
         mail.send(msg)
         flash("Thank you for contact us.", category = "success")
-        flash("Your message was sent. We will contact you soon.", category = "success")
+        flash("Your message was sent. We will contact you soon.", category = 'error')
     
     return render_template("contactus.html", form = SearchForm(), user = current_user)
 
@@ -72,7 +102,6 @@ def message():
 @views.context_processor
 def base():
     form = SearchForm()
-
     return dict(form = form)# we need to let the base.html know that search has a form
 
 #search
@@ -82,9 +111,9 @@ def search():
     if (form.validate_on_submit()):
         searched = form.search.data
         price = getStockPrice(searched)
-        dates=getdates(searched)
-        values=price
-        Info=information(searched)
+        dates= getdates(searched)
+        values= price
+        Info= information(searched)
 
         return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info)
         

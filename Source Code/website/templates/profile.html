@@ -4,14 +4,31 @@
 
 {% block content %} 
 
-<h4>Welcome to your profile, {{user.firstname+" "+user.lastname}}!</h4>
 
+
+<div class="card" align="center">
+    <div class="card-body">
+        <h4>Welcome to your profile!</h4>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><b>Firstname:</b> {{user.firstname}}</li>
+      <li class="list-group-item"><b>Lastname:</b> {{user.lastname}}</li>
+      <li class="list-group-item"><b>Email:</b> {{user.email}}</li>
+    </ul>
+</div>
+
+<form align="center" action="{{url_for('views.updateProfile',id=user.id)}}">
+    <button type="submit" class="btn btn-primary">Update Profile</button>
+ </form>
+
+
+
+
+<hr style="height:2px; width:100%; border-width:0; color:rgb(40, 159, 189); background-color:rgb(40, 159, 189)">
 
 <h3 align="center">
     Stock(s) Watchlist
 </h3>
-
-
 
 <!--Display user's owned stocks-->
 <ul class = "list-group list-group-flush" id="stocks">
@@ -21,9 +38,7 @@
             <th></th>
             <th style="text-align:center">Name</th>
             <th style="text-align:center">Bought Price</th>
-            <th style="text-align:center">Current Price</th>
             <th></th>
-            
           </tr>
         </thead>
 
@@ -37,8 +52,6 @@
                 <td style="text-align:center">{{stock.name}}</td>
 
                 <td style="text-align:center">$ {{stock.price}}</td>
-
-                <td style="text-align:center">$ {{currentprice}}</td>
 
                 <td><button type="button" class="close" onCLick = "deleteStock({{ stock.id }})">
                     <span aria-hidden="true">
@@ -59,7 +72,7 @@
 
 <!--Allow user to add what stock(s) they are investing in-->
 <form method="POST">
-    <textarea rows="1"  name="stock" id="stock" class="form-control"> </textarea>
+    <textarea rows="1"  name="stock" id="stock" class="form-control"></textarea>
     <div align="center">
         <button type = "submit" class = "btn btn-primary">
             Add Stock Name
