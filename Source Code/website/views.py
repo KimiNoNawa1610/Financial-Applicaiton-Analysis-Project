@@ -1,6 +1,6 @@
 #store the standard route to the website
 from unicodedata import category
-from flask import Blueprint, jsonify, render_template, request, flash, jsonify
+from flask import Blueprint, jsonify, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import  login_required, current_user
 from .models import Stock, User
 from . import db
@@ -28,18 +28,21 @@ def profile(): #this function will run everytime we access the view's route
 
         stock = stock.lstrip()
 
-        if(Stock.query.filter_by(name = stock).first()):
-            flash(stock + " is already existed in your stock list", category = "error")
+        if(stock):
+            if(Stock.query.filter_by(name = stock).first()):
+                flash(stock + " is already existed in your stock list", category = "error")
 
-        elif (len(stock)<0):
-            flash("stock name is too short!", category = "error")
+            elif (len(stock)<0):
+                flash("stock name is too short!", category = "error")
 
+            else:
+                new_stock = Stock(name = stock, price = str(getStockPrice1d(stock)),user_id = current_user.id)
+                db.session.add(new_stock)
+                db.session.commit()
+                flash("new Stock added!", category = "success")
+                return  render_template("profile.html", form = SearchForm(), currentprice = getCurrentPrice(stock), user = current_user)# return the html file that we want to render to the website
         else:
-            new_stock = Stock(name = stock, price = str(getStockPrice1d(stock)),user_id = current_user.id)
-            db.session.add(new_stock)
-            db.session.commit()
-            flash("new Stock added!", category = "success")
-            return  render_template("profile.html", form = SearchForm(), currentprice = getCurrentPrice(stock), user = current_user)# return the html file that we want to render to the website
+            return  render_template("profile.html", form = SearchForm(), user = current_user)# return the html file that we want to render to the website
 
     return  render_template("profile.html", form = SearchForm(), user = current_user)# return the html file that we want to render to the website
 
@@ -81,8 +84,19 @@ def updateProfile(id):
     
     else:
         return render_template("update.html", form = form, user = current_user, user_to_update = user_to_update)
-            
 
+
+
+@views.route('/delete/<int:id>', methods = ['GET','POST'])
+def delete(id):
+    User.query.filter_by(id=id).delete()
+    try:
+        db.session.commit()
+        flash("We have deleted your account", category = "success")
+    except:
+        flash("There is an ERROR!!!. We cannot delete your account. Please try again", category = "error")
+    
+    return redirect(url_for('views.home'))
 
 #send message
 @views.route('/contactus', methods=['GET','POST'])
