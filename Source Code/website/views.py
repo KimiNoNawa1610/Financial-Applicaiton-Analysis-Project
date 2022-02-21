@@ -89,8 +89,9 @@ def updateProfile(id):
 
 @views.route('/delete/<int:id>', methods = ['GET','POST'])
 def delete(id):
-    User.query.filter_by(id=id).delete()
     try:
+        Stock.query.filter_by(user_id=id).delete()
+        User.query.filter_by(id=id).delete()
         db.session.commit()
         flash("We have deleted your account", category = "success")
     except:
