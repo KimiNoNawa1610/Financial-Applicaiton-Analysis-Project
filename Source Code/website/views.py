@@ -99,6 +99,9 @@ def delete(id):
     
     return redirect(url_for('views.home'))
 
+
+
+
 #send message
 @views.route('/contactus', methods=['GET','POST'])
 def message():
