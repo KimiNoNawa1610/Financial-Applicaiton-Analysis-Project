@@ -10,6 +10,7 @@ import json
 from flask_mail import Mail, Message
 from . import mail
 import yfinance as yf
+import random
 
 views = Blueprint('views',__name__)
 
@@ -75,30 +76,43 @@ def base():
 
     return dict(form = form)# we need to let the base.html know that search has a form
 
+price=[]
+dates=[]
 #search
 @views.route('/search', methods=["GET","POST"])
 def search():
     form =SearchForm()
     if (form.validate_on_submit()):
         searched = form.search.data
-        price = getStockPrice(searched)
+        price =getStockPrice(searched)
         dates=getdates(searched)
         values=price
         Info=information(searched)
 
         return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info)
         
+@views.route('/data',methods=["GET","POST"])
+def data():
+    msft = yf.Ticker('msft')
+    hist=msft.history(period="3mo")
+    price=hist["Open"].tolist()
+    prices=json.dumps(price)
+    return "hello"
+
+
+
+
+
 def getStockPrice(stock):
     msft = yf.Ticker(stock)
-    df = msft.history(period="max")#start="2021-01-28",end="2022-02-02")
-
-    return df['Close'].tolist()
+    information = yf.download(tickers=stock, period='1d', interval='1m')
+    return information['Open'].tolist()
 
 def getdates(stock):
     msft = yf.Ticker(stock)
-    df = msft.history(period="max")#start="2021-01-28",end="2022-02-02")
+    information = yf.download(tickers=stock, period='1d', interval='1m')
     dates=[]
-    for i in df.index:
+    for i in information.index:
         dates.append(i.strftime('%Y-%m-%d %X'))
     
     return dates
@@ -107,3 +121,4 @@ def information(stock):
     msft = yf.Ticker(stock)
 
     return msft.info
+
