@@ -14,6 +14,10 @@ import time
 import smtplib
 import requests
 
+def getStockPrice(stock):
+    msft = yf.Ticker(stock)
+    df = msft.history(period="max")
+
 def checkStock(searched):
     alertPrice = getStockPrice(searched)
     alertValue = alertPrice
@@ -21,18 +25,19 @@ def checkStock(searched):
         #send email if price goes under 100, this number is abitrary for time being
         send_email()
 
-def send_email(password):
+
+def send_email():
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
-    server.login('TempEmailHere', password)
+    server.login('throwaway246abc@gmail.com', 'throwit246abc')
     subject = 'Price has fallen under $100'
     body = 'Price down'
     msg = f'subject: {subject} {body}'
 
     server.sendmail(
-        'senderEmailHere',
-        'ReceiverEmailHere',
+        'throwaway246abc@gmail.com',
+        'throwaway246abc@gmail.com',
         msg
     )
 
