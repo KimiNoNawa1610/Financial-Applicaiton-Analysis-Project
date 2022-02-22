@@ -22,6 +22,14 @@
     <!-- to make a graph-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src='static/Chart.min.js'></script>
+
+    <style>
+
+      body{
+          background-size:cover;
+          background-repeat: repeat-y;
+          background-image: url({{url_for("static",filename='images/hl_finance.jpg')}});
+    </style>
     
 
 
@@ -31,35 +39,6 @@
 </head>
 
 <body>
-    <!--Pop-up chat box-->
-    <div class="chatbox">
-      <div class="chatbox__support">
-          <div class="chatbox__header">
-              Chat support!
-          </div>
-          <div class="messages">
-              <div>
-                  <div class="messages__item--visitor">
-                      Hi!
-                  </div>
-                  <div class="messages__item--operator">
-                      What is it?
-                  </div>
-                  .<div class="messages__item--typing">
-                      <span class="messages__dot"></span>
-                      <span class="messages__dot"></span>
-                      <span class="messages__dot"></span>
-                  </div>
-              </div>
-          </div>
-          <div class="chatbox__footer">
-              <input type="text" placeholder="Write a message">
-          </div>
-      </div>
-      <div class="chatbox__button">
-          <button>I'm a button!</button>
-      </div>
-    </div>
     
     <!--Menu Bar-->
     <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
@@ -98,6 +77,8 @@
           </div>
         </div>
     </nav>
+
+
 
     <!--message output function for all templates-->
 
@@ -172,6 +153,39 @@
         <div class="card-footer text-muted"></div>
       </div>
     </footer>
+
+    <!--Pop-up chat box-->
+    <div class="chatbox">
+      <div class="chatbox__support">
+          <div class="chatbox__header">
+              Chat support!
+          </div>
+          <div class="messages">
+              <div>
+                  <div class="messages__item--visitor">
+                      Hi!
+                  </div>
+                  <div class="messages__item--operator">
+                      What is it?
+                  </div>
+                  .<div class="messages__item--typing">
+                      <span class="messages__dot"></span>
+                      <span class="messages__dot"></span>
+                      <span class="messages__dot"></span>
+                  </div>
+              </div>
+          </div>
+          <div class="chatbox">
+              <input type="text" 
+              class="form-control" 
+              id="popmessage" name="popmessage" 
+              placeholder="What can we help you?">
+          </div>
+      </div>
+      <div class="chatbox__button">
+          <button>I'm a button!</button>
+      </div>
+    </div>
 
     <!--Javascript script for Bootstrap-->
     <script

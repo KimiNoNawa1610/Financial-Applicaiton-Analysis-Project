@@ -1,0 +1,66 @@
+{% extends "base.html" %}<!--extends the base.html template-->
+
+{% block title %}Update Profile{% endblock %}<!--Override the default name from the base.html template-->
+
+
+<!--Update information form-->
+{% block content %} 
+
+<form method="POST">
+
+    <h3 align="center">
+
+        Update Profile
+
+    </h3>
+
+    <!--Email-->
+    <div class="form-group">
+
+        <label for="email">Email Address</label>
+
+        <input 
+        type="email" 
+        class="form-control" 
+        id="email" name="email" 
+        placeholder="Please enter your email"
+        />
+
+
+    </div>
+
+    <!--First Name-->
+    <div class="form-group">
+
+        <label for="firstname">First Name</label>
+
+        <input 
+        type="text" 
+        class="form-control" 
+        id="firstname" name="firstname" 
+        placeholder="Please enter your first name"
+        />
+
+
+    </div>
+
+    <!--Last Name-->
+    <div class="form-group">
+
+        <label for="lastname">Last Name</label>
+
+        <input 
+        type="text" 
+        class="form-control" 
+        id="lastname" name="lastname" 
+        placeholder="Please enter your last name"
+        />
+
+
+    </div>
+
+    <!--Submit Button-->
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
+{% endblock %}
