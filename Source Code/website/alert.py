@@ -14,12 +14,12 @@ import time
 import smtplib
 import requests
 
-alertPrice = getStockPrice(searched)
-alertValue = alertPrice
-
-if alertPrice < 100: #modify number for user options
-    #send email if price goes under 100, this number is abitrary for time being
-    send_email()
+def checkStock(searched):
+    alertPrice = getStockPrice(searched)
+    alertValue = alertPrice
+    if alertPrice < 100: #modify number for user options
+        #send email if price goes under 100, this number is abitrary for time being
+        send_email()
 
 def send_email(password):
     server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -41,3 +41,7 @@ def send_email(password):
 #this form of email sending can only send emails to gmail that have
 #less secure apps allowed to recieve emails from
 #otherwise gmail will block it
+
+while(True):
+    checkStock(searched)
+    time.sleep(1800)
