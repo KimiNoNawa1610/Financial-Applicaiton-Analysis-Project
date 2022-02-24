@@ -30,14 +30,14 @@ def send_email():
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
-    server.login('throwaway246abc@gmail.com', 'throwit246abc')
+    server.login('throwaway246abc@gmail.com', 'throwit246abc') #sender email
     subject = 'Price has fallen under $100'
     body = 'Price down'
     msg = f'subject: {subject} {body}'
 
-    server.sendmail(
-        'throwaway246abc@gmail.com',
-        'throwaway246abc@gmail.com',
+    server.sendmail( #change email to use the user's email
+        'throwaway246abc@gmail.com', #sender
+        'throwaway246abc@gmail.com', #receiver 
         msg
     )
 

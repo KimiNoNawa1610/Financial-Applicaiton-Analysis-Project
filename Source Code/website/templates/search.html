@@ -4,7 +4,6 @@
 
 {% block content %}
 
-<h1 style="text-align: center;">This is search page for {{searched}} stock</h1>
 
 <div class="container">
   <div class="row">
@@ -18,19 +17,21 @@
   </div>
   <div class="col-9">
     <h2 id="companyName"></h2>
-    <aside>
-    <div class="conatainer" style="width:900px;">
-      <canvas id="myChart"></canvas>
-    </div>
-    </aside>
   </div>
 </div>
+
+
+<button class="btn btn-info" type="button" id="drawc">stop </button>
+<div class="conatainer" style="width:900px;">
+      <canvas id="myChart"></canvas>
+</div>
+
+
 
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-
 let bottom = JSON.parse({{ dates | tojson }})
 let income = JSON.parse({{ money | tojson }})
 
@@ -48,11 +49,15 @@ const config = {
   data: data,
   options: {}
 };
+
+var ctx = document.getElementById("myChart");
+var newmychart = new Chart(ctx,config);
+
+let upbtn=document.getElementById("upd")
+
+
+
+
 </script>
-<script>
-  let myChart = new Chart(
-    document.getElementById('myChart'),
-    config
-  );
-</script>
+
 {% endblock %}
