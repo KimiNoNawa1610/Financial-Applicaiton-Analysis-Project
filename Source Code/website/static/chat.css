@@ -6,7 +6,7 @@
 }
 
 /* CONTENT IS CLOSE */
-.chatbox__support {
+.chatbox_support {
     display: flex;
     flex-direction: column;
     background: #eee;
@@ -26,20 +26,20 @@
 }
 
 /* BUTTON */
-.chatbox__button {
+.chatbox_button {
     text-align: right;
 }
 
 
 /* HEADER */
-.chatbox__header {
+.chatbox_header {
     position: sticky;
     top: 0;
     background: orange;
 }
 
 /* MESSAGES */
-.chatbox__messages {
+.chatbox_messages {
     margin-top: auto;
     display: flex;
     flex-direction: column;
@@ -47,22 +47,22 @@
     flex-direction: column-reverse;
 }
 
-.messages__item {
+.messages_item {
     background: orange;
     max-width: 60.6%;
     width: fit-content;
 }
 
-.messages__item--operator {
+.messages_item--operator {
     margin-left: auto;
 }
 
-.messages__item--visitor {
+.messages_item--visitor {
     margin-right: auto;
 }
 
 /* FOOTER */
-.chatbox__footer {
+.chatbox_footer {
     position: sticky;
     bottom: 0;
 }
