@@ -11,6 +11,7 @@ from .userform import UserForm
 from flask_mail import Mail, Message
 from . import mail
 import yfinance as yf
+import random
 
 views = Blueprint('views',__name__)
 
@@ -40,7 +41,7 @@ def profile(): #this function will run everytime we access the view's route
                 db.session.add(new_stock)
                 db.session.commit()
                 flash("new Stock added!", category = "success")
-                return  render_template("profile.html", form = SearchForm(), currentprice = getCurrentPrice(stock), user = current_user)# return the html file that we want to render to the website
+                return  render_template("profile.html", form = SearchForm(), currentprice = getStockPrice1d(stock), user = current_user)# return the html file that we want to render to the website
         else:
             return  render_template("profile.html", form = SearchForm(), user = current_user)# return the html file that we want to render to the website
 
@@ -99,9 +100,6 @@ def delete(id):
     
     return redirect(url_for('views.home'))
 
-
-
-
 #send message
 @views.route('/contactus', methods=['GET','POST'])
 def message():
@@ -122,6 +120,8 @@ def base():
     form = SearchForm()
     return dict(form = form)# we need to let the base.html know that search has a form
 
+price=[]
+dates=[]
 #search
 @views.route('/search', methods=["GET","POST"])
 def search():
@@ -135,22 +135,32 @@ def search():
 
         return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info)
         
+@views.route('/data',methods=["GET","POST"])
+def data():
+    msft = yf.Ticker('msft')
+    hist=msft.history(period="3mo")
+    price=hist["Open"].tolist()
+    prices=json.dumps(price)
+    return "hello"
+
+
+
+
+
 def getStockPrice(stock):
     msft = yf.Ticker(stock)
-    df = msft.history(period="max")#start="2021-01-28",end="2022-02-02")
-
-    return df['Close'].tolist()
+    information = yf.download(tickers=stock, period='1d', interval='1m')
+    return information['Open'].tolist()
 
 def getdates(stock):
     msft = yf.Ticker(stock)
-    df = msft.history(period="max")#start="2021-01-28",end="2022-02-02")
+    information = yf.download(tickers=stock, period='1d', interval='1m')
     dates=[]
-    for i in df.index:
+    for i in information.index:
         dates.append(i.strftime('%Y-%m-%d %X'))
     
     return dates
 
 def information(stock):
     msft = yf.Ticker(stock)
-
     return msft.info
