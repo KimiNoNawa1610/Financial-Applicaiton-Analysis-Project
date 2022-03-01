@@ -41,7 +41,7 @@ def profile(): #this function will run everytime we access the view's route
                 db.session.add(new_stock)
                 db.session.commit()
                 flash("new Stock added!", category = "success")
-                return  render_template("profile.html", form = SearchForm(), currentprice = getCurrentPrice(stock), user = current_user)# return the html file that we want to render to the website
+                return  render_template("profile.html", form = SearchForm(), currentprice = getStockPrice1d(stock), user = current_user)# return the html file that we want to render to the website
         else:
             return  render_template("profile.html", form = SearchForm(), user = current_user)# return the html file that we want to render to the website
 
