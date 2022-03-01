@@ -141,7 +141,7 @@ def data():
     hist=msft.history(period="3mo")
     price=hist["Open"].tolist()
     prices=json.dumps(price)
-    return "hello"
+    return prices
 
 
 

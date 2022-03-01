@@ -24,6 +24,12 @@
 <button class="btn btn-info" type="button" id="drawc">stop </button>
 <div class="conatainer" style="width:900px;">
       <canvas id="myChart"></canvas>
+      <button id="day">1d</button>
+      <button id="mo3">3mo</button>
+      <button id="mo6">6mo</button>
+      <button id="year">1 year</button>
+      <button id="year5"> 5 years</button>
+      <button id="year10"> 10 year</button>
 </div>
 
 
@@ -32,32 +38,16 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-let bottom = JSON.parse({{ dates | tojson }})
-let income = JSON.parse({{ money | tojson }})
 
-const data = {
-  labels: bottom,
-  datasets: [{
-    label: 'My First dataset',
-    backgroundColor: 'rgb(255, 99, 132)',
-    borderColor: 'rgb(255, 99, 132)',
-    data:income,
-  }]
-};
-const config = {
-  type: 'line',
-  data: data,
-  options: {}
-};
 
-var ctx = document.getElementById("myChart");
-var newmychart = new Chart(ctx,config);
 
-let upbtn=document.getElementById("upd")
 
 
 
 
 </script>
+<script type="text/javascript"
+    src="{{ url_for('static', filename='stock.js')}}">
+</script> 
 
 {% endblock %}
