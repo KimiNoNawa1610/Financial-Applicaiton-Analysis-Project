@@ -19,6 +19,8 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../static/chat.css"/>
+    <link rel="stylesheet" href="../static/style.css"/>
+    <link rel="stylesheet" href="../static/typing.css"/>
     <!-- to make a graph-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src='static/Chart.min.js'></script>
@@ -156,37 +158,38 @@
     </footer>
 
     <!--Pop-up chat box-->
-    <div class="chatbox">
-      <div class="chatbox__support">
-          <div class="chatbox__header">
-              Chat support!
-          </div>
-          <div class="messages">
-              <div>
-                  <div class="messages__item--visitor">
-                      Hi!
-                  </div>
-                  <div class="messages__item--operator">
-                      What is it?
-                  </div>
-                  .<div class="messages__item--typing">
-                      <span class="messages__dot"></span>
-                      <span class="messages__dot"></span>
-                      <span class="messages__dot"></span>
-                  </div>
-              </div>
-          </div>
-          <div class="chatbox">
-              <input type="text" 
-              class="form-control" 
-              id="popmessage" name="popmessage" 
-              placeholder="What can we help you?">
-          </div>
-      </div>
-      <div class="chatbox__button">
-          <button>I'm a button!</button>
-      </div>
+    <div class="container">
+      <div class="chatbox">
+        <div class="chatbox_support">
+            <div class="chatbox_header">
+                Chat support!
+            </div>
+            <div class="chatbox_messages">
+                <div>
+                    <div class="messages_item messages_item--visitor">
+                        Hi!
+                    </div>
+                    <div class="messages_item messages_item--operator">
+                        What can we help you?
+                    </div>
+                    <div class="messages_item messages_item--typing">
+                      <span class="messages_dot"></span>
+                      <span class="messages_dot"></span>
+                      <span class="messages_dot"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="chatbox_footer">
+                <input type="text" placeholder="Write a message">
+                <button>Send</button>
+            </div>
+        </div>
+        <div class="chatbox_button">
+            <button>button</button>
+        </div>
+      </div>  
     </div>
+
 
     <!--Javascript script for Bootstrap-->
     <script
