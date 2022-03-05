@@ -20,7 +20,7 @@ def formatdate(date_datetime):
      date_str = str(date_int)
      return date_str
 
-#FOR TABLE DISPLAY 
+#FOR TABLE DISPLAY (DIRECTLY FROM DOCUMENTATION
 def subdomain(symbol, start, end):
      format_url = "{0}/history?period1={1}&period2={2}"    
      tail_url = "&interval=div%7Csplit&filter=div&frequency=1d"
