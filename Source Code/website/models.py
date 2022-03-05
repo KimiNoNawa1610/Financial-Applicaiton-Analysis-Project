@@ -9,7 +9,10 @@ class Stock(db.Model):
     name = db.Column(db.String(50), unique = True)
     price = db.Column(db.String(50))
     date = db.Column(db.DateTime(timezone = True), default = func.now())
+    price_traget=db.Column(db.String(20))
+    alertACT=db.Column(db.Boolean()) #Active price Alert
     user_id =db.Column(db.Integer, db.ForeignKey('user.id'))
+    
 
 
 #user object (table)

@@ -132,19 +132,21 @@ def search():
         dates= getdates(searched)
         values= price
         Info= information(searched)
-
         return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info)
+    else:
+        stockName = yf.Ticker(request.args.get('stock'))
+        hist=stockName.history(period=request.args.get('time'))
+        price=hist["Open"].tolist()
+        prices=price
+        # GETTING THE DATES
+        dates=[]
+        for i in hist.index:
+            dates.append(i.strftime('%Y-%m-%d %X'))
+        dates = dates
+        return json.dumps([json.dumps(prices),json.dumps(dates)])
+
+
         
-@views.route('/data',methods=["GET","POST"])
-def data():
-    msft = yf.Ticker('msft')
-    hist=msft.history(period="3mo")
-    price=hist["Open"].tolist()
-    prices=json.dumps(price)
-    return prices
-
-
-
 
 
 def getStockPrice(stock):
@@ -158,7 +160,6 @@ def getdates(stock):
     dates=[]
     for i in information.index:
         dates.append(i.strftime('%Y-%m-%d %X'))
-    
     return dates
 
 def information(stock):

@@ -1,27 +1,21 @@
-from unicodedata import category
-from flask import Blueprint, jsonify, render_template, request, flash, jsonify, redirect, url_for
-from flask_login import  login_required, current_user
-from .models import Stock, User
-from . import db
-from .fy import getStockPrice1d, getCurrentPrice
-from .searchform import SearchForm
-import json
-from .userform import UserForm
-from flask_mail import Mail, Message
-from . import mail
 import yfinance as yf
 import time
 import smtplib
-import requests
 
-def getStockPrice(stock):
-    msft = yf.Ticker(stock)
-    df = msft.history(period="max")
+# searched = 'aapl'
+
+
+def getStockPrice1d(stock):
+    # print(stock)
+    info = yf.Ticker(stock)
+    return info.info['regularMarketPrice']
+
+# print(getStockPrice1d("TSLA"))
 
 def checkStock(searched):
-    alertPrice = getStockPrice(searched)
+    alertPrice = getStockPrice1d(searched)
     alertValue = alertPrice
-    if alertPrice < 100: #modify number for user options
+    if alertValue < 1000: #modify number for user options in seconds
         #send email if price goes under 100, this number is abitrary for time being
         send_email()
 

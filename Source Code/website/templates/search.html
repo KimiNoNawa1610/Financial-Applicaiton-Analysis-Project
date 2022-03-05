@@ -21,7 +21,7 @@
 </div>
 
 
-<button class="btn btn-info" type="button" id="drawc">stop </button>
+
 <div class="conatainer" style="width:900px;">
       <canvas id="myChart"></canvas>
       <button id="day">1d</button>
@@ -32,6 +32,55 @@
       <button id="year10"> 10 year</button>
 </div>
 
+<div>
+<h1> Company Information  </h1>
+<ol>
+  <li> Sector : {{Info["sector"]}} </li>
+  <li> industry : {{Info["industry"]}}</li>
+  <li> city : {{Info["city"]}} </li>
+  <li> state : {{Info["state"]}}</li>
+  <li> country : {{Info["country"]}}</li>
+  <li> website : {{Info["website"]}}</li>
+  <li> currentRation :{{Info["currentRatio"]}}
+  <li> debtToEquity : {{Info["debtToEquity"]}} </li>
+  <li> returnOnEquity : {{Info["returnOnEquity"]}}</li>
+  <li> quickRatio : {{Info["quickRatio"]}} </li>
+  <li> forwardEps : {{Info["forwardEps"]}} </li>
+  <li> book value : {{Info["bookValue"]}}</li>
+  <li> trailingEps : {{Info["trailingEps"]}}</li>
+  <li> lastDividendValue : {{Info["lastDividendValue"]}} </li>
+  <li> priceToBook : {{Info["priceToBook"]}} </li>
+  <li> yield : {{Info["yield"]}}</li>
+  <li> last dividend date : {{Info["lastDividendDate"]}}</li>
+  <li> priceToSalesTrailing12Months: {{Info["priceToSalesTrailing12Months"]}}</li>
+  <li> forwardPE : {{Info["forwardPE"]}}</li>
+  <li> ytdReturn : {{Info["ytdReturn"]}}</li>
+  <li> fiveYearAverageReturn : {{Info["fiveYearAverageReturn"]}}</li>
+  <li> twoHundredDayAverage : {{Info["twoHundredDayAverage"]}} </li>
+  <li> trailingAnnualDividendYield : {{Info["trailingAnnualDividendYield"]}} </li>
+  <li> payoutRatio : {{Info["payoutRatio"]}}</li>
+  <li> volume24Hr: {{Info["volume24Hr"]}}</li>
+  <li> regularMarketDayHigh: {{Info["regularMarketDayHigh"]}}</li>
+  <li> fiftyDayAverage : {{Info["fiftyDayAverage"]}} </li>
+  <li> trailingAnnualDividendRate : {{Info["trailingAnnualDividendRate"]}} </li>
+  <li> dividendRate : {{Info["dividendRate"]}} </li>
+  <li> exDividendDate: {{Info["exDividendDate"]}} </li>
+  <li> regularMarketDayLow:{{Info["regularMarketDayLow"]}}</li>
+  <li> trailingPE : {{Info["trailingPE"]}} </li>
+  <li> regularMarketVolume :{{Info["regularMarketVolume"]}}
+  <li> marketCap: {{Info["marketCap"]}} </li>
+  <li> dayLow :{{Info["dayLow"]}} </li>
+  <li> Volume : {{Info["volume"]}}</li>
+  <li> fiftyTwoWeekHigh: {{Info["fiftyTwoWeekHigh"]}}</li>
+  <li>fiveYearAvgDividendYield:{{Info["fiveYearAvgDividendYield"]}}</li>
+  <li> fiftyTwoWeekLow : {{Info["fiftyTwoWeekLow"]}}  </li>
+  <li>dividendYield : {{Info["dividendYield"]}}</li>
+  <li> dayHigh: {{Info["dayHigh"]}}</li>
+  <li> logo_url : {{Info["logo_url"]}}</li>
+<ol>
+<h2> Company Summary</h2>
+<p> {{Info["longBusinessSummary"]}}</p>
+</div>
 
 
 
@@ -40,7 +89,11 @@
 <script>
 let bottom = JSON.parse({{ dates | tojson }})
 let income = JSON.parse({{ money | tojson }})
-
+var ctx = document.getElementById("myChart").getContext("2d");
+// Gradient fill
+let gradient = ctx.createLinearGradient(0,0,0,400);
+gradient.addColorStop(0,'rgba(58,123,213,1)');
+gradient.addColorStop(1,'rgba(0,210,255,0.3)');
 const data = {
   labels: bottom,
   datasets: [{
@@ -48,36 +101,50 @@ const data = {
     backgroundColor: 'rgb(255, 99, 132)',
     borderColor: 'rgb(255, 99, 132)',
     data:income,
+    fill : true,
+    backgroundColor : gradient
   }]
 };
 const config = {
   type: 'line',
   data: data,
-  options: {}
+  options: {
+    elements: {
+      point:{
+        radius : 0
+      }
+    },
+    scales :{
+      x:{
+        ticks:{
+          display : false
+        }
+      }
+
+    } 
+  }
 };
 
-var ctx = document.getElementById("myChart");
+
 var newmychart = new Chart(ctx,config);
 
-let mo3=document.getElementById("mo3")
+let stockName=document.getElementById("symbol");
+let mo3=document.getElementById("mo3");
+let mo6=document.getElementById("mo6");
+let year=document.getElementById("year");
+let year5=document.getElementById("year5");
+let year10=document.getElementById("year10");
 
 
 
 mo3.addEventListener("click",()=>{
-  console.log('hello1')
   let xhr = new XMLHttpRequest();
-  xhr.open('GET','http://127.0.0.1:5000/data',true);
+  xhr.open('GET','http://127.0.0.1:5000/search?time=3mo&stock='+stockName.textContent,true);
   xhr.onload= function(){
     if(this.status == 200){
       let information = JSON.parse(this.responseText);
-      
-      dates =[]
-      for(let num =0;num< information.length;num++)
-      {
-        dates.push(num)
-      }
-      newmychart.data.labels=dates;
-      newmychart.data.datasets[0].data=information;
+      newmychart.data.labels=JSON.parse(information[1]);
+      newmychart.data.datasets[0].data=JSON.parse(information[0]);
       newmychart.update();
     }
 
@@ -86,6 +153,66 @@ mo3.addEventListener("click",()=>{
 });
 
 
+
+mo6.addEventListener("click",()=>{
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET','http://127.0.0.1:5000/search?time=6mo&stock='+stockName.textContent,true);
+  xhr.onload= function(){
+    if(this.status == 200){
+      let information = JSON.parse(this.responseText);
+      newmychart.data.labels=JSON.parse(information[1]);
+      newmychart.data.datasets[0].data=JSON.parse(information[0]);
+      newmychart.update();
+    }
+
+  }
+  xhr.send();
+});
+
+year.addEventListener("click",()=>{
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET','http://127.0.0.1:5000/search?time=1y&stock='+stockName.textContent,true);
+  xhr.onload= function(){
+    if(this.status == 200){
+      let information = JSON.parse(this.responseText);
+      newmychart.data.labels=JSON.parse(information[1]);
+      newmychart.data.datasets[0].data=JSON.parse(information[0]);
+      newmychart.update();
+    }
+
+  }
+  xhr.send();
+});
+
+year5.addEventListener("click",()=>{
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET','http://127.0.0.1:5000/search?time=5y&stock='+stockName.textContent,true);
+  xhr.onload= function(){
+    if(this.status == 200){
+      let information = JSON.parse(this.responseText);
+      newmychart.data.labels=JSON.parse(information[1]);
+      newmychart.data.datasets[0].data=JSON.parse(information[0]);
+      newmychart.update();
+    }
+
+  }
+  xhr.send();
+});
+
+year10.addEventListener("click",()=>{
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET','http://127.0.0.1:5000/search?time=10y&stock='+stockName.textContent,true);
+  xhr.onload= function(){
+    if(this.status == 200){
+      let information = JSON.parse(this.responseText);
+      newmychart.data.labels=JSON.parse(information[1]);
+      newmychart.data.datasets[0].data=JSON.parse(information[0]);
+      newmychart.update();
+    }
+
+  }
+  xhr.send();
+});
 
 
 

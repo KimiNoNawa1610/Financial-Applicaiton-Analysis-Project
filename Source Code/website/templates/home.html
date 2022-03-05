@@ -4,7 +4,18 @@
 
 {% block content %} 
 
+<div class= "graphs" >
+    <div id="Dow">
+         <canvas id="dowChart"></canvas>
+    </div>
+    <div>
+         <canvas id="nasdaqChart"></canvas>
+    </div>
+    <div>
+         <canvas id="SP500Chart"></canvas>
+    </div>
 
+</div>
 
 <img src="{{url_for('static', filename='images/giphy.gif')}}" style="width: 100%; display: block;
 margin-left: auto;
@@ -28,6 +39,160 @@ padding-top: 20px;"/>
     .grid-container{
         display: grid;
     }
+    .graphs{
+        display:flex;
+    }
+
 
 </style>
+<script>
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET','http://127.0.0.1:5000/search?time=3mo&stock=Dow',true);
+    xhr.onload= function(){
+    if(this.status == 200){
+        let information = JSON.parse(this.responseText);
+        let dates=JSON.parse(information[1]);
+        let price =JSON.parse(information[0]);
+        var ctx = document.getElementById("dowChart").getContext("2d");
+    // Gradient fill
+    let gradient = ctx.createLinearGradient(0,0,0,400);
+    gradient.addColorStop(0,'rgba(58,123,213,1)');
+    gradient.addColorStop(1,'rgba(0,210,255,0.3)');
+    const data = {
+    labels: dates,
+    datasets: [{
+    label: 'My First dataset',
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data:price,
+    fill : true,
+    backgroundColor : gradient
+    }]
+    };
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+        elements: {
+        point:{
+            radius : 0
+        }
+        },
+    scales :{
+        x:{
+        ticks:{
+            display : false
+            }
+        }
+
+        } 
+    }
+};
+
+
+var newmychart = new Chart(ctx,config);
+
+    }}
+    xhr.send();
+
+    //nasdaq
+let xhrnas = new XMLHttpRequest();
+    xhrnas.open('GET','http://127.0.0.1:5000/search?time=3mo&stock=Dow',true);
+    xhrnas.onload= function(){
+    if(this.status == 200){
+        let information = JSON.parse(this.responseText);
+        let dates=JSON.parse(information[1]);
+        let price =JSON.parse(information[0]);
+        var ctx = document.getElementById("nasdaqChart").getContext("2d");
+    // Gradient fill
+    let gradient = ctx.createLinearGradient(0,0,0,400);
+    gradient.addColorStop(0,'rgba(58,123,213,1)');
+    gradient.addColorStop(1,'rgba(0,210,255,0.3)');
+    const data = {
+    labels: dates,
+    datasets: [{
+    label: 'My First dataset',
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data:price,
+    fill : true,
+    backgroundColor : gradient
+    }]
+    };
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+        elements: {
+        point:{
+            radius : 0
+        }
+        },
+    scales :{
+        x:{
+        ticks:{
+            display : false
+            }
+        }
+
+        } 
+    }
+};
+
+
+var nasychart = new Chart(ctx,config);
+
+    }}
+    xhrnas.send();
+    //sp500
+let xhrsp = new XMLHttpRequest();
+    xhrsp.open('GET','http://127.0.0.1:5000/search?time=3mo&stock=Dow',true);
+    xhrsp.onload= function(){
+    if(this.status == 200){
+        let information = JSON.parse(this.responseText);
+        let dates=JSON.parse(information[1]);
+        let price =JSON.parse(information[0]);
+        var ctx = document.getElementById("SP500Chart").getContext("2d");
+    // Gradient fill
+    let gradient = ctx.createLinearGradient(0,0,0,400);
+    gradient.addColorStop(0,'rgba(58,123,213,1)');
+    gradient.addColorStop(1,'rgba(0,210,255,0.3)');
+    const data = {
+    labels: dates,
+    datasets: [{
+    label: 'My First dataset',
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data:price,
+    fill : true,
+    backgroundColor : gradient
+    }]
+    };
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+        elements: {
+        point:{
+            radius : 0
+        }
+        },
+    scales :{
+        x:{
+        ticks:{
+            display : false
+            }
+        }
+
+        } 
+    }
+};
+
+
+var spychart = new Chart(ctx,config);
+
+    }}
+    xhrsp.send();
+</script>
+
 {% endblock %}
