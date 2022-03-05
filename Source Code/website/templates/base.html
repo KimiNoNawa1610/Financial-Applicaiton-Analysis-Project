@@ -4,214 +4,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="../static/chat.css"/>
-    <link rel="stylesheet" href="../static/style.css"/>
-    <link rel="stylesheet" href="../static/typing.css"/>
-    <!-- to make a graph-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src='static/Chart.min.js'></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    crossorigin="anonymous"
+  />
+  <!--
+  <link rel="stylesheet" href="../static/chat.css"/>
+  <link rel="stylesheet" href="../static/style.css"/>
+  <link rel="stylesheet" href="../static/typing.css"/>
+  -->
+  <!-- to make a graph-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src='static/Chart.min.js'></script>
 
-    <style>
+  <style>
+    body{
+        background-size:cover;
+        background-repeat: repeat-y;
+        background-image: url({{url_for("static",filename='images/hl_finance.jpg')}});
+    }
+  </style>
+  
+  <title>{% block title %}HOME{% endblock %}</title> <!--Override if the child have a different title name-->
 
-      body{
-          background-size:cover;
-          background-repeat: repeat-y;
-          background-image: url({{url_for("static",filename='images/hl_finance.jpg')}});
-
-    </style>
-    
-
-
-    <title>{% block title %}HOME{% endblock %}</title> <!--Override if the child have a different title name-->
-
-    
 </head>
 
 <body>
-    
-    <!--Menu Bar-->
-    <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class = "navbar-brand mb-0 h1">FIAA</a>
-        <button 
-        class = "navbar-toggler" 
-        type = "button" 
-        data-toggle = "collapse" 
-        data-target = "#navbar">
-        
-        <span class = "navbar-toggler-icon">
+  <!-- Messenger Chat Plugin Code -->
+  <div id="fb-root"></div>
 
-          <!--Nav Bar-->
-        </button>
+  <!-- Your Chat Plugin code -->
+  <div id="fb-customer-chat" class="fb-customerchat">
+  </div>
 
-        <div class = "collapse navbar-collapse" id="navbar">
-          <div class = "navbar-nav">
-            <a class = "nav-item nav-link" id = "home" href="/">Home</a>
-            {% if user.is_authenticated %}            
-            <a class = "nav-item nav-link" id = "profile" href="/profile">Profile</a>
-            <a class = "nav-item nav-link" id = "logout" href="/logout">Logout</a>
-            {% else %}
-            <a class = "nav-item nav-link" id = "login" href="/login">Login</a>
-            <a class = "nav-item nav-link" id = "signup" href="/signup">Sign Up</a>
-            {% endif %}
-            <!-- help button-->
-            <a class = "nav-item nav-link" id="message" href="/contactus">Contact Us</a>
-            
-            <!--Search bar-->
-            <form class="form-inline" action="{{url_for('views.search')}}" method="POST">
-              {{ form.hidden_tag() }}
-              <input class="form-control mr-sm-2" type="search" name = "search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-info" type="submit">Search</button>
-            </form>
+  <script>
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "100449225937902");
+    chatbox.setAttribute("attribution", "biz_inbox");
+  </script>
 
-          </div>
-        </div>
-    </nav>
+  <!-- Your SDK code -->
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        xfbml            : true,
+        version          : 'v13.0'
+      });
+    };
 
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>  
 
+  <!--Menu Bar-->
+  <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class = "navbar-brand mb-0 h1">FIAA</a>
+      <button 
+      class = "navbar-toggler" 
+      type = "button" 
+      data-toggle = "collapse" 
+      data-target = "#navbar">
+      
+      <span class = "navbar-toggler-icon">
 
-    <!--message output function for all templates-->
-
-    {% with messages = get_flashed_messages(with_categories = true) %}
-
-    {% if messages %}
-
-    {% for category, message in messages %}
-
-    <!--check if error message-->
-
-    {% if category == 'error' %}
-
-    <div class="alert alert-danger alert-dismissable fade show" role="alert">
-
-      {{ message }}
-
-      <button type="button" class="close" data-dismiss="alert">
-
-        <span aria-hidden="true">&times;</span>
-
+        <!--Nav Bar-->
       </button>
 
-    </div>
+      <div class = "collapse navbar-collapse" id="navbar">
+        <div class = "navbar-nav">
+          <a class = "nav-item nav-link" id = "home" href="/">Home</a>
+          {% if user.is_authenticated %}            
+          <a class = "nav-item nav-link" id = "profile" href="/profile">Profile</a>
+          <a class = "nav-item nav-link" id = "logout" href="/logout">Logout</a>
+          {% else %}
+          <a class = "nav-item nav-link" id = "login" href="/login">Login</a>
+          <a class = "nav-item nav-link" id = "signup" href="/signup">Sign Up</a>
+          {% endif %}
+          <!-- help button-->
+          <a class = "nav-item nav-link" id="message" href="/contactus">Contact Us</a>
+          
+          <!--Search bar-->
+          <form class="form-inline" action="{{url_for('views.search')}}" method="POST">
+            {{ form.hidden_tag() }}
+            <input class="form-control mr-sm-2" type="search" name = "search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-info" type="submit">Search</button>
+          </form>
 
-
-    <!--else, normal message-->
-
-    {% else%}
-
-
-    <div class="alert alert-success alert-dismissable fade show" role="alert">
-
-      {{ message }}
-
-      <button type="button" class="close" data-dismiss="alert">
-
-        <span aria-hidden="true">&times;</span>
-
-      </button>
-
-    </div>
-
-    {% endif %}
-
-    {% endfor %}
-
-    {% endif %}
-
-    {% endwith%}
-
-    <div class = "container">
-      {% block content %} {% endblock %}
-    </div>
-
-    <!--Footer-->
-    <footer class="bg-white" style="padding-top: 20px;">
-      <div class="card text-center" align="center">
-        <h5 class="card-header">Recommended Trading Platforms</h5>
-        
-        <div class="card-text">
-  
-          <a href="https://www.webull.com/">
-            <img src="{{url_for('static', filename='images/webull.png')}}" align="center" width="200" />
-           </a>
-  
-           <a href="https://robinhood.com/">
-            <img src="{{url_for('static', filename='images/Robinhood.png')}}" align="center" width="200"/>
-           </a>
-  
         </div>
-        <div class="card-footer text-muted"></div>
       </div>
-    </footer>
+  </nav>
 
-    <!--Pop-up chat box-->
-    <div class="container">
-      <div class="chatbox">
-        <div class="chatbox_support">
-            <div class="chatbox_header">
-                Chat support!
-            </div>
-            <div class="chatbox_messages">
-                <div>
-                    <div class="messages_item messages_item--visitor">
-                        Hi!
-                    </div>
-                    <div class="messages_item messages_item--operator">
-                        What can we help you?
-                    </div>
-                    <div class="messages_item messages_item--typing">
-                      <span class="messages_dot"></span>
-                      <span class="messages_dot"></span>
-                      <span class="messages_dot"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="chatbox_footer">
-                <input type="text" placeholder="Write a message">
-                <button>Send</button>
-            </div>
-        </div>
-        <div class="chatbox_button">
-            <button>button</button>
-        </div>
-      </div>  
+  <!--message output function for all templates-->
+
+  {% with messages = get_flashed_messages(with_categories = true) %}
+
+  {% if messages %}
+
+  {% for category, message in messages %}
+
+  <!--check if error message-->
+
+  {% if category == 'error' %}
+
+  <div class="alert alert-danger alert-dismissable fade show" role="alert">
+
+    {{ message }}
+
+    <button type="button" class="close" data-dismiss="alert">
+
+      <span aria-hidden="true">&times;</span>
+
+    </button>
+
+  </div>
+
+  <!--else, normal message-->
+
+  {% else%}
+
+
+  <div class="alert alert-success alert-dismissable fade show" role="alert">
+
+    {{ message }}
+
+    <button type="button" class="close" data-dismiss="alert">
+
+      <span aria-hidden="true">&times;</span>
+
+    </button>
+
+  </div>
+
+  {% endif %}
+
+  {% endfor %}
+
+  {% endif %}
+
+  {% endwith%}
+
+  <div class = "container">
+    {% block content %} {% endblock %}
+  </div>
+
+  <!--Footer-->
+  <footer class="bg-white" style="padding-top: 20px;">
+    <div class="card text-center" align="center">
+      <h5 class="card-header">Recommended Trading Platforms</h5>
+      
+      <div class="card-text">
+
+        <a href="https://www.webull.com/">
+          <img src="{{url_for('static', filename='images/webull.png')}}" align="center" width="200" />
+          </a>
+
+          <a href="https://robinhood.com/">
+          <img src="{{url_for('static', filename='images/Robinhood.png')}}" align="center" width="200"/>
+          </a>
+
+      </div>
+      <div class="card-footer text-muted"></div>
     </div>
+  </footer>
 
+  <!--Pop-up chat box-->
+  <!--
+  <div class="container">
+    <div class="chatbox">
+      <div class="chatbox_support">
+          <div class="chatbox_header">
+              Chat support!
+          </div>
+          <div class="chatbox_messages">
+              <div>
+                  <div class="messages_item messages_item--visitor">
+                      Hi!
+                  </div>
+                  <div class="messages_item messages_item--operator">
+                      What can we help you?
+                  </div>
+                  <div class="messages_item messages_item--typing">
+                    <span class="messages_dot"></span>
+                    <span class="messages_dot"></span>
+                    <span class="messages_dot"></span>
+                  </div>
+              </div>
+          </div>
+          <div class="chatbox_footer">
+              <input type="text" placeholder="Write a message">
+              <button>Send</button>
+          </div>
+      </div>
+      <div class="chatbox_button">
+          <button>button</button>
+      </div>
+    </div>  
+  </div>
+  -->
 
-    <!--Javascript script for Bootstrap-->
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
+  <!--Javascript script for Bootstrap-->
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+  ></script>
 
-    <script type="text/javascript"
-    src="{{ url_for('static', filename='index.js')}}">
-    </script> 
-    <script src="../static/chat.js"></script>
-    <script src="../static/chatapp.js"></script>
+  <script type="text/javascript"
+  src="{{ url_for('static', filename='index.js')}}">
+  </script> 
+  <!--
+  <script src="../static/chat.js"></script>
+  <script src="../static/chatapp.js"></script>
+  -->
 </body>
 </html>
