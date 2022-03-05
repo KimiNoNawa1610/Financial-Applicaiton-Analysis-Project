@@ -47,9 +47,9 @@ def clean_dividends(symbol, dividends):
 #END
 
 
-class getDiv(ticker):
-    x = ticker.dividents
-    price = x + getStockPrice(ticker)
+class getDiv(yf.Ticker):
+    x = yf.Ticker.dividents
+    price = x + getStockPrice(yf.Ticker)
     #100 + divident return per stock
     x.actions
     div = x.dividends
