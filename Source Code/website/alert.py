@@ -1,38 +1,37 @@
-from unicodedata import category
-from flask import Blueprint, jsonify, render_template, request, flash, jsonify, redirect, url_for
-from flask_login import  login_required, current_user
-from .models import Stock, User
-from . import db
-from .fy import getStockPrice1d, getCurrentPrice
-from .searchform import SearchForm
-import json
-from .userform import UserForm
-from flask_mail import Mail, Message
-from . import mail
 import yfinance as yf
 import time
 import smtplib
-import requests
+
+# searched = 'aapl'
+
+
+def getStockPrice1d(stock):
+    # print(stock)
+    info = yf.Ticker(stock)
+    return info.info['regularMarketPrice']
+
+# print(getStockPrice1d("TSLA"))
 
 def checkStock(searched):
-    alertPrice = getStockPrice(searched)
+    alertPrice = getStockPrice1d(searched)
     alertValue = alertPrice
-    if alertPrice < 100: #modify number for user options
+    if alertValue < 1000: #modify number for user options
         #send email if price goes under 100, this number is abitrary for time being
         send_email()
 
-def send_email(password):
+
+def send_email():
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
-    server.login('TempEmailHere', password)
+    server.login('throwaway246abc@gmail.com', 'throwit246abc') #sender email
     subject = 'Price has fallen under $100'
     body = 'Price down'
     msg = f'subject: {subject} {body}'
 
-    server.sendmail(
-        'senderEmailHere',
-        'ReceiverEmailHere',
+    server.sendmail( #change email to use the user's email
+        'throwaway246abc@gmail.com', #sender
+        'throwaway246abc@gmail.com', #receiver 
         msg
     )
 
