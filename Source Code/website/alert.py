@@ -15,7 +15,7 @@ def getStockPrice1d(stock):
 def checkStock(searched):
     alertPrice = getStockPrice1d(searched)
     alertValue = alertPrice
-    if alertValue < 1000: #modify number for user options
+    if alertValue < 1000: #modify number for user options in seconds
         #send email if price goes under 100, this number is abitrary for time being
         send_email()
 
