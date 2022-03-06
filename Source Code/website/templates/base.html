@@ -145,72 +145,54 @@
 
   {% endwith%}
 
-    
-
     <div class = "container-fluid" style="padding-bottom: 200px;">
       {% block content %} {% endblock %}
-
     </div>
 
-  
     <!--Trading Platform-->
-    
-  <div class="card text-center" align="center">
-    <h5 class="card-header"><b>Recommended Trading Platforms</b></h5>
-    
-    <div class="card-text">
+    <footer class="w3-center w3-grey w3-padding-64">
+      <a href="/" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+      <p><b>Recommended Trading Platforms</b></p>
+      <p>
+        <a href="https://www.webull.com/">
+          <img src="{{url_for('static', filename='images/webull.png')}}" align="center" width="200" />
+        </a>
+        <a href="https://robinhood.com/">
+          <img src="{{url_for('static', filename='images/Robinhood.png')}}" align="center" width="200"/>
+        </a>
+      </p>
+    </footer>
 
-      <a href="https://www.webull.com/">
-        <img src="{{url_for('static', filename='images/webull.png')}}" align="center" width="200" />
-        
-      </a>
-
-        
-      <a href="https://robinhood.com/">
-        <img src="{{url_for('static', filename='images/Robinhood.png')}}" align="center" width="200"/>
-        
-      </a>
-
-    
-      
-      
-    </div>
-      
-    <div class="card-footer text-muted"></div>
-  
-  </div>
-
-  <!--Pop-up chat box-->
-  
-  <div class="chatbox"  method="GET">
-    <div class="chatbox_support" >
-        <div class="chatbox_header">
-            Chat support!
-        </div>
-        <div class="chatbox_messages">
-            <div>
-                <div class="messages_item messages_item--visitor">
-                    Hi!
-                </div>
-                <div class="messages_item messages_item--operator">
-                    What can we help you?
-                </div>
-                <div class="messages_item messages_item--typing">
-                  <span class="messages_dot"></span>
-                  <span class="messages_dot"></span>
-                  <span class="messages_dot"></span>
-                </div>
-            </div>
-        </div>
-        <div class="chatbox_footer">
-            <input type="text" placeholder="Write a message">
-            <button>Send</button>
-        </div>
-    </div>
-    <div class="chatbox_button">
-        <button>button</button>
-    </div>
-  </div>  
+    <!--Pop-up chat box-->
+    <div class="chatbox"  method="GET">
+      <div class="chatbox_support" >
+          <div class="chatbox_header">
+              Chat support!
+          </div>
+          <div class="chatbox_messages">
+              <div>
+                  <div class="messages_item messages_item--visitor">
+                      Hi!
+                  </div>
+                  <div class="messages_item messages_item--operator">
+                      What can we help you?
+                  </div>
+                  <div class="messages_item messages_item--typing">
+                    <span class="messages_dot"></span>
+                    <span class="messages_dot"></span>
+                    <span class="messages_dot"></span>
+                  </div>
+              </div>
+          </div>
+          <div class="chatbox_footer">
+              <input type="text" placeholder="Write a message">
+              <button>Send</button>
+          </div>
+      </div>
+      <div class="chatbox_button">
+          <button>button</button>
+      </div>
+    </div>  
 
     <!--Javascript script for Bootstrap-->
     <script
