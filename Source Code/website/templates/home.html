@@ -15,27 +15,52 @@
          <canvas id="SP500Chart"></canvas>
     </div>
 
+<<<<<<< Updated upstream
 </div>
 
 <img src="{{url_for('static', filename='images/giphy.gif')}}" style="width: 100%; display: block;
+=======
+<!--
+<img src="{{url_for('static', filename='images/giphy.gif')}}" style="width: 60%; display: block;
+>>>>>>> Stashed changes
 margin-left: auto;
 margin-right: auto;
 padding-top: 20px;"/>
+-->
+
+<h4 align="center" style="margin-top: 20px;"> <b>LASTEST MARKET NEWS</b></h4>
+
+<div class="slider">
+    <div class="slider-wrapper flex flex">
+
+        {% for title, desc,img,p_date,url in contents %}
+        <div class="slide flex">
+            <div class="slide-image slider-link next"><img src = "{{img}}"><div class="overlay"></div></div>
+            <div class="slide-content">
+                <div class="slide-date">{{p_date}}</div>
+                <div class="slide-title"><b>{{title}}</b></div>
+                <div class="slide-text">{{desc}}</div>
+                <a href="{{url}}">READ MORE</a>
+            </div>
+        </div>
+        
+        {% endfor %}
+    
+    </div>
+</div>
+
+<div class="arrows">
+    <a href="#" title="Previous" class="arrow slider-link prev"></a>
+    <a href="#" title="Next" class="arrow slider-link next"></a>
+</div>
 
 
-<figure class="text-center" style="font-family: 'Times New Roman', Times, serif; padding-top: 20px;">
-    <blockquote class="blockquote" >
-        <i>I will tell you how to become rich. Close the doors. Be fearful when others are greedy. Be greedy when others are fearful.</i>
-    </blockquote>
-    <figcaption class="blockquote-footer">
-        <cite title="Source Title" style="color: black;">Warren Buffett</cite>
-    </figcaption>
-</figure>
 
 
 
-<style>
+{% endblock %}
 
+<<<<<<< Updated upstream
     .grid-container{
         display: grid;
     }
@@ -196,3 +221,6 @@ var spychart = new Chart(ctx,config);
 </script>
 
 {% endblock %}
+=======
+
+>>>>>>> Stashed changes

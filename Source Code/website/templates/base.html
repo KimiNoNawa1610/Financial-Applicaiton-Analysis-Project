@@ -173,6 +173,7 @@
           <img src="{{url_for('static', filename='images/webull.png')}}" align="center" width="200" />
           </a>
 
+<<<<<<< Updated upstream
           <a href="https://robinhood.com/">
           <img src="{{url_for('static', filename='images/Robinhood.png')}}" align="center" width="200"/>
           </a>
@@ -242,4 +243,108 @@
   <script src="../static/chatapp.js"></script>
   -->
 </body>
+=======
+
+   
+    
+
+
+    <!--Pop-up chat box-->
+  
+    <div class="chatbox"  method="GET">
+      <div class="chatbox_support" >
+          <div class="chatbox_header">
+              Chat support!
+          </div>
+          <div class="chatbox_messages">
+              <div>
+                  <div class="messages_item messages_item--visitor">
+                      Hi!
+                  </div>
+                  <div class="messages_item messages_item--operator">
+                      What can we help you?
+                  </div>
+                  <div class="messages_item messages_item--typing">
+                    <span class="messages_dot"></span>
+                    <span class="messages_dot"></span>
+                    <span class="messages_dot"></span>
+                  </div>
+              </div>
+          </div>
+          <div class="chatbox_footer">
+              <input type="text" placeholder="Write a message">
+              <button>Send</button>
+          </div>
+      </div>
+      <div class="chatbox_button">
+          <button>button</button>
+      </div>
+    </div>  
+
+    
+
+    <div class = "container-fluid" style="padding-bottom: 200px;">
+      {% block content %} {% endblock %}
+
+    </div>
+
+  
+    <!--Trading Platform-->
+    
+  <div class="card text-center" align="center">
+    <h5 class="card-header"><b>Recommended Trading Platforms</b></h5>
+    
+    <div class="card-text">
+
+      <a href="https://www.webull.com/">
+        <img src="{{url_for('static', filename='images/webull.png')}}" align="center" width="200" />
+        
+      </a>
+
+        
+      <a href="https://robinhood.com/">
+        <img src="{{url_for('static', filename='images/Robinhood.png')}}" align="center" width="200"/>
+        
+      </a>
+
+    
+      
+      
+    </div>
+      
+    <div class="card-footer text-muted"></div>
+  
+  </div>
+
+    
+    
+
+
+    <!--Javascript script for Bootstrap-->
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <script type="text/javascript"
+    src="{{ url_for('static', filename='index.js')}}">
+    </script> 
+    <script src="../static/chat.js"></script>
+    <script src="../static/chatapp.js"></script>
+    <script src="../static/script.js"></script>
+    
+
+  </body>
+>>>>>>> Stashed changes
 </html>

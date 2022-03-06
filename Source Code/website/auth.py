@@ -37,9 +37,8 @@ def login():
 
                 flash("incorrect password!! \nPlease try again", category = 'error')
 
-        else:
+        elif(email != ""):
             flash("The user with that email does not exist. \nPlease sign up to login", category = "error")
-
 
     return render_template("login.html", form =SearchForm(), user = current_user)
 
