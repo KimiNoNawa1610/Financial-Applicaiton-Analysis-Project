@@ -4,9 +4,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!--Override if the child have a different title name-->
+  <title>{% block title %}HOME{% endblock %}</title>
+
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <link
     rel="stylesheet"
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -18,95 +26,74 @@
     href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     crossorigin="anonymous"
   />
-  <!--
   <link rel="stylesheet" href="../static/chat.css"/>
   <link rel="stylesheet" href="../static/style.css"/>
   <link rel="stylesheet" href="../static/typing.css"/>
-  -->
-  <!-- to make a graph-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src='static/Chart.min.js'></script>
 
   <style>
-    body{
-        background-size:cover;
-        background-repeat: repeat-y;
-        background-image: url({{url_for("static",filename='images/hl_finance.jpg')}});
+    body,h1,h2,h3,h4,h5,h6 {
+      font-family: "Raleway", sans-serif
+    }
+    
+    body, html {
+      height: 100%;
+      line-height: 1.8;
+    }
+        
+    .w3-bar .w3-button {
+      padding: 16px;
     }
   </style>
-  
-  <title>{% block title %}HOME{% endblock %}</title> <!--Override if the child have a different title name-->
-
 </head>
 
 <body>
-  <!-- Messenger Chat Plugin Code -->
-  <div id="fb-root"></div>
-
-  <!-- Your Chat Plugin code -->
-  <div id="fb-customer-chat" class="fb-customerchat">
-  </div>
-
-  <script>
-    var chatbox = document.getElementById('fb-customer-chat');
-    chatbox.setAttribute("page_id", "100449225937902");
-    chatbox.setAttribute("attribution", "biz_inbox");
-  </script>
-
-  <!-- Your SDK code -->
-  <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        xfbml            : true,
-        version          : 'v13.0'
-      });
-    };
-
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  </script>  
-
-  <!--Menu Bar-->
-  <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class = "navbar-brand mb-0 h1">FIAA</a>
-      <button 
-      class = "navbar-toggler" 
-      type = "button" 
-      data-toggle = "collapse" 
-      data-target = "#navbar">
-      
-      <span class = "navbar-toggler-icon">
-
-        <!--Nav Bar-->
-      </button>
-
-      <div class = "collapse navbar-collapse" id="navbar">
-        <div class = "navbar-nav">
-          <a class = "nav-item nav-link" id = "home" href="/">Home</a>
-          {% if user.is_authenticated %}            
-          <a class = "nav-item nav-link" id = "profile" href="/profile">Profile</a>
-          <a class = "nav-item nav-link" id = "logout" href="/logout">Logout</a>
-          {% else %}
-          <a class = "nav-item nav-link" id = "login" href="/login">Login</a>
-          <a class = "nav-item nav-link" id = "signup" href="/signup">Sign Up</a>
-          {% endif %}
-          <!-- help button-->
-          <a class = "nav-item nav-link" id="message" href="/contactus">Contact Us</a>
-          
-          <!--Search bar-->
-          <form class="form-inline" action="{{url_for('views.search')}}" method="POST">
-            {{ form.hidden_tag() }}
-            <input class="form-control mr-sm-2" type="search" name = "search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-info" type="submit">Search</button>
-          </form>
-
-        </div>
+  <!-- Navbar (sit on top) -->
+  <div class="w3-top">
+    <div class="w3-bar w3-white w3-card" id="myNavbar">
+      <a href="/" class="w3-bar-item w3-button w3-wide">FIAA</a>
+      <!-- Right-sided navbar links -->
+      <div class="w3-right w3-hide-small">
+        <a href="/" class="w3-bar-item w3-button" id="home">HOME</a>
+        {% if user.is_authenticated %} 
+        <a href="/profile" class="w3-bar-item w3-button" id="profile">PROFILE</a>
+        <a href="/logout" class="w3-bar-item w3-button" id="logout">LOGOUT</a>
+        {% else %}
+        <a href="/signup" class="w3-bar-item w3-button" id="signup">SIGN UP</a>
+        <a href="/login" class="w3-bar-item w3-button" id="login">LOGIN</a>
+        {% endif %}
+        <a href="/contactus" class="w3-bar-item w3-button" id="message">CONTACT US</a>
+        <!-- Search form-->
+        <form class="searchForm w3-bar-item form-inline" action="{{url_for('views.search')}}" method="POST">
+          {{ form.hidden_tag() }}
+          <input type="search" placeholder="Search.." name="search">
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
       </div>
+      <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+      <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+  </div>
+  
+  <!-- Sidebar on small screens when clicking the menu icon -->
+  <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+    <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+    <a href="/" onclick="w3_close()" class="w3-bar-item w3-button" id="home">HOME</a>
+    {% if user.is_authenticated %} 
+    <a href="/profile" onclick="w3_close()" class="w3-bar-item w3-button" id="profile">PROFILE</a>
+    <a href="/logout" onclick="w3_close()" class="w3-bar-item w3-button" id="logout">LOGOUT</a>
+    {% else %}
+    <a href="/signup" onclick="w3_close()" class="w3-bar-item w3-button" id="signup">SIGN UP</a>
+    <a href="/login" onclick="w3_close()" class="w3-bar-item w3-button" id="login">LOGIN</a>
+    {% endif %}
+    <a href="/contactus" onclick="w3_close()" class="w3-bar-item w3-button" id="message">CONTACT US</a>
+    <!-- Search form-->
+    <form class="form-inline searchForm w3-bar-item" action="{{url_for('views.search')}}" method="POST">
+      {{ form.hidden_tag() }}
+      <input type="search" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
   </nav>
 
   <!--message output function for all templates-->
@@ -247,9 +234,34 @@
     </script> 
     <script src="../static/chat.js"></script>
     <script src="../static/chatapp.js"></script>
-    
-    
 
+    <script>
+      // Toggle between showing and hiding the sidebar when clicking the menu icon
+      var mySidebar = document.getElementById("mySidebar");
+      
+      function w3_open() {
+        if (mySidebar.style.display === 'block') {
+          mySidebar.style.display = 'none';
+        } else {
+          mySidebar.style.display = 'block';
+        }
+      }
+      // Close the sidebar with the close button
+      function w3_close() {
+          mySidebar.style.display = "none";
+      }
+    </script>
+  
+    <!-- to make a graph-->
+    <script 
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" 
+      integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" 
+      crossorigin="anonymous" referrerpolicy="no-referrer"
+    ></script>
+    <script 
+      src='static/Chart.min.js'
+    ></script>
+    
   </body>
 
 </html>

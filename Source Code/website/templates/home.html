@@ -4,54 +4,13 @@
 
 {% block content %} 
 
-<div class= "graphs" >
-    <div id="Dow">
-         <canvas id="dowChart"></canvas>
-    </div>
-    <div id="Nas">
-         <canvas id="nasdaqChart"></canvas>
-    </div>
-    <div id="SP">
-         <canvas id="SP500Chart"></canvas>
-    </div>
-</div>
-
-<h4 align="center" style="margin-top: 20px;"> <b>LASTEST MARKET NEWS</b></h4>
-
-<div class=" newsfeet">
-
-    <div class="slider">
-    
-
-        {% for title, desc,img,p_date,url in contents %}
-        <div class="slide">
-            <img src = "{{img}}">
-            <div class="info">
-                <h2>{{title}}</h2>
-                <p>{{desc}}<br><a href="{{url}}">READ MORE</a></p>
-                
-            </div>
-        </div>
-        
-        {% endfor %}
-
-        <div class="navigation">
-            <i class="fas fa-chevron-left prev-btn"></i>
-            <i class="fas fa-chevron-right next-btn"></i>
-        </div>
-        
-        
-        
-    </div>
-
-    
-    
-
-</div>
-
-
-
 <style>
+    .grid-container{
+        display: grid;
+    }
+    .graphs{
+        display:flex;
+    }
     .newsfeet{
         height: 550px;
         display: flex;
@@ -131,15 +90,60 @@
     }
 
     .prev-btn
-
-
-
     .graphs{
         position: absolute;
         padding-top: 1000px;
     }
-
 </style>
+
+<!--full-height image -->
+<div class="w3-display-container w3-grayscale-min">
+    <img src="../static/images/cover.png" style="width:100%">
+    <div class="w3-display-left w3-text-white" style="padding:48px">
+        <span class="w3-jumbo w3-hide-medium w3-hide-small">Financial Investment Analysis Application</span><br>
+        <span class="w3-xlarge w3-hide-large">Financial Investment Analysis Applications</span>
+    </div> 
+    <div class="w3-display-bottomleft w3-text-grey w3-large" style="padding:24px 48px">
+        <i class="fa fa-facebook-official w3-hover-opacity"></i>
+        <i class="fa fa-instagram w3-hover-opacity"></i>
+        <i class="fa fa-twitter w3-hover-opacity"></i>
+        <i class="fa fa-linkedin w3-hover-opacity"></i>
+    </div>
+</div>
+
+<!--graph-->
+<div class= "graphs" >
+    <div id="Dow">
+         <canvas id="dowChart"></canvas>
+    </div>
+    <div id="Nas">
+         <canvas id="nasdaqChart"></canvas>
+    </div>
+    <div id="SP">
+         <canvas id="SP500Chart"></canvas>
+    </div>
+</div>
+
+<h4 align="center" style="margin-top: 20px;"> <b>LASTEST MARKET NEWS</b></h4>
+
+<div class=" newsfeet">
+    <div class="slider">
+        {% for title, desc,img,p_date,url in contents %}
+        <div class="slide">
+            <img src = "{{img}}">
+            <div class="info">
+                <h2>{{title}}</h2>
+                <p>{{desc}}<br><a href="{{url}}">READ MORE</a></p>
+                
+            </div>
+        </div>
+        {% endfor %}
+        <div class="navigation">
+            <i class="fas fa-chevron-left prev-btn"></i>
+            <i class="fas fa-chevron-right next-btn"></i>
+        </div>
+    </div>
+</div>
 
 <script>
     let xhr = new XMLHttpRequest();
