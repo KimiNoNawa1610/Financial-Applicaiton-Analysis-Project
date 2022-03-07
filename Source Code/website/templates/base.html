@@ -124,15 +124,10 @@
 
 
   <div class="alert alert-success alert-dismissable fade show" role="alert">
-
     {{ message }}
-
     <button type="button" class="close" data-dismiss="alert">
-
       <span aria-hidden="true">&times;</span>
-
     </button>
-
   </div>
 
   {% endif %}
@@ -143,105 +138,104 @@
 
   {% endwith%}
 
-    <div class = "container-fluid" style="padding-bottom: 200px;">
-      {% block content %} {% endblock %}
+  <div class = "container-fluid" style="padding-bottom: 200px;">
+    {% block content %} {% endblock %}
+  </div>
+
+  <!--Trading Platform-->
+  <footer class="w3-center w3-grey w3-padding-64">
+    <a href="/" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the home page</a>
+    <p><b>Recommended Trading Platforms</b></p>
+    <p>
+      <a href="https://www.webull.com/">
+        <img src="{{url_for('static', filename='images/webull.png')}}" align="center" width="200" />
+      </a>
+      <a href="https://robinhood.com/">
+        <img src="{{url_for('static', filename='images/Robinhood.png')}}" align="center" width="200"/>
+      </a>
+    </p>
+  </footer>
+
+  <!--Pop-up chat box-->
+  <div class="chatbox"  method="GET">
+    <div class="chatbox_support" >
+        <div class="chatbox_header">
+            Chat support!
+        </div>
+        <div class="chatbox_messages">
+            <div>
+                <div class="messages_item messages_item--visitor">
+                    Hi!
+                </div>
+                <div class="messages_item messages_item--operator">
+                    What can we help you?
+                </div>
+                <div class="messages_item messages_item--typing">
+                  <span class="messages_dot"></span>
+                  <span class="messages_dot"></span>
+                  <span class="messages_dot"></span>
+                </div>
+            </div>
+        </div>
+        <div class="chatbox_footer">
+            <input type="text" placeholder="Write a message">
+            <button>Send</button>
+        </div>
     </div>
+    <div class="chatbox_button">
+        <button>button</button>
+    </div>
+  </div>  
 
-    <!--Trading Platform-->
-    <footer class="w3-center w3-grey w3-padding-64">
-      <a href="/" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
-      <p><b>Recommended Trading Platforms</b></p>
-      <p>
-        <a href="https://www.webull.com/">
-          <img src="{{url_for('static', filename='images/webull.png')}}" align="center" width="200" />
-        </a>
-        <a href="https://robinhood.com/">
-          <img src="{{url_for('static', filename='images/Robinhood.png')}}" align="center" width="200"/>
-        </a>
-      </p>
-    </footer>
+  <!--Javascript script for Bootstrap-->
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"
+  ></script>
 
-    <!--Pop-up chat box-->
-    <div class="chatbox"  method="GET">
-      <div class="chatbox_support" >
-          <div class="chatbox_header">
-              Chat support!
-          </div>
-          <div class="chatbox_messages">
-              <div>
-                  <div class="messages_item messages_item--visitor">
-                      Hi!
-                  </div>
-                  <div class="messages_item messages_item--operator">
-                      What can we help you?
-                  </div>
-                  <div class="messages_item messages_item--typing">
-                    <span class="messages_dot"></span>
-                    <span class="messages_dot"></span>
-                    <span class="messages_dot"></span>
-                  </div>
-              </div>
-          </div>
-          <div class="chatbox_footer">
-              <input type="text" placeholder="Write a message">
-              <button>Send</button>
-          </div>
-      </div>
-      <div class="chatbox_button">
-          <button>button</button>
-      </div>
-    </div>  
+  <script type="text/javascript"
+  src="{{ url_for('static', filename='index.js')}}">
+  </script> 
+  <script src="../static/chat.js"></script>
+  <script src="../static/chatapp.js"></script>
 
-    <!--Javascript script for Bootstrap-->
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
-
-    <script type="text/javascript"
-    src="{{ url_for('static', filename='index.js')}}">
-    </script> 
-    <script src="../static/chat.js"></script>
-    <script src="../static/chatapp.js"></script>
-
-    <script>
-      // Toggle between showing and hiding the sidebar when clicking the menu icon
-      var mySidebar = document.getElementById("mySidebar");
-      
-      function w3_open() {
-        if (mySidebar.style.display === 'block') {
-          mySidebar.style.display = 'none';
-        } else {
-          mySidebar.style.display = 'block';
-        }
-      }
-      // Close the sidebar with the close button
-      function w3_close() {
-          mySidebar.style.display = "none";
-      }
-    </script>
-  
-    <!-- to make a graph-->
-    <script 
-      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" 
-      integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" 
-      crossorigin="anonymous" referrerpolicy="no-referrer"
-    ></script>
-    <script 
-      src='static/Chart.min.js'
-    ></script>
+  <script>
+    // Toggle between showing and hiding the sidebar when clicking the menu icon
+    var mySidebar = document.getElementById("mySidebar");
     
-  </body>
+    function w3_open() {
+      if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+      } else {
+        mySidebar.style.display = 'block';
+      }
+    }
+    // Close the sidebar with the close button
+    function w3_close() {
+        mySidebar.style.display = "none";
+    }
+  </script>
 
+  <!-- to make a graph-->
+  <script 
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" 
+    integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer"
+  ></script>
+  <script 
+    src='static/Chart.min.js'
+  ></script>
+  
+</body>
 </html>
