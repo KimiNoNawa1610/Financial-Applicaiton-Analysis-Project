@@ -4,115 +4,83 @@
 
 {% block content %} 
 
-<div class="grid-container">
-
-
-    <div class="profile-infor" >
-
-        <div class="card">
-            <div class="card-body">
-                <h4>Welcome to your profile!</h4>
-            </div>
-            <ul class="list-group list-group-flush">
-            <li class="list-group-item"><b>Firstname:</b> {{user.firstname}}</li>
-            <li class="list-group-item"><b>Lastname:</b> {{user.lastname}}</li>
-            <li class="list-group-item"><b>Email:</b> {{user.email}}</li>
-            </ul>
-            
-        </div>
-
-   
-        <div align="center">
-
-            <form action="{{url_for('views.updateProfile',id=user.id)}}">
-                <button type="submit" class="btn btn-primary">Update Profile</button>
-            </form>
-        
-            <form action="{{url_for('views.delete',id=user.id)}}">
-                <button type="submit" class="btn btn-danger">Delete Profile</button>
-            </form>
-            
-        </div>
-
-    </div>
-
-    <div class="watchlist">
-
-        <!--Display user's owned stocks-->
-        <ul class = "list-group list-group-flush" id="stocks" style="background-color: aliceblue;">
-            <h3 align="center">
-                Stock(s) Watchlist
-            </h3>
-            <table id="data" class="table table-striped">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th style="text-align:center">Name</th>
-                    <th style="text-align:center">Bought Price</th>
-                    <th></th>
-                </tr>
-                </thead>
-
-                <tbody>
-                    {% for stock in user.stocks %}
-                
-                    <tr>
-
-                        <td></td>
-
-                        <td style="text-align:center">{{stock.name}}</td>
-
-                        <td style="text-align:center">$ {{stock.price}}</td>
-
-                        <td><button type="button" class="close" onCLick = "deleteStock({{ stock.id }})">
-                            <span aria-hidden="true">
-                                &times;
-                            </span>
-                        </button></td>
-        
-                    </tr>
-                
-            
-                {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </ul>
-
-        <!--Allow user to add what stock(s) they are investing in-->
-        <form method="POST">
-            <textarea rows="1"  name="stock" id="stock" class="form-control"></textarea>
-            <div align="center">
-                <button type = "submit" class = "btn btn-primary">
-                    Add Stock Name
-                </button>
-            </div>
-        </form>
-
-
-    </div>
-
-
-</div>   
-  
 <style>
-    .grid-container{
-        display: grid;
-        grid-template-columns: 2fr 4fr;
-        padding-top: 20px;
-        padding-bottom: 20px;
-        grid-gap: 20px;
-    }
-    form{
-        display: inline;
-    }
+  .grid-container{
+    display: grid;
+    grid-template-columns: 2fr 4fr;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    grid-gap: 20px;
+  }
+  form{
+    display: inline;
+  }
 </style>
 
-
-
-
-
+<div class="w3-container w3-light-grey" style="padding:128px 16px" id="profile">
+  <div class="grid-container">
+    <!--User information-->
+    <div class="profile-infor">
+      <div class="card">
+        <div class="card-body">
+          <h4>WELCOME TO YOUR PROFILE!</h4>
+          <ul class="list-group list-group-flush">
+          <li class="list-group-item"><b>First name:</b> {{user.firstname}}</li>
+          <li class="list-group-item"><b>Last name:</b> {{user.lastname}}</li>
+          <li class="list-group-item"><b>Email:</b> {{user.email}}</li>
+          </ul>
+        </div>
+      </div>
+      <div align="center">
+        <form action="{{url_for('views.updateProfile',id=user.id)}}">
+          <button type="submit" class="w3-button w3-green">UPDATE PROFILE</button>
+        </form>
+        <form action="{{url_for('views.delete',id=user.id)}}">
+          <button type="submit" class="w3-button w3-red">DELETE PROFILE</button>
+        </form>
+      </div>
+    </div>
+    <!--User Watchlist-->
+    <div class="watchlist">
+      <!--Display user's owned stocks-->
+      <ul class = "list-group list-group-flush" id="stocks" style="background-color: aliceblue;">
+        <h3 class="w3-center">STOCK(S) WATCHLIST</h3>
+        <table id="data" class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th style="text-align:center">NAME</th>
+              <th style="text-align:center">BOUGHT PRICE</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for stock in user.stocks %}
+              <tr>
+                <td></td>
+                <td style="text-align:center">{{stock.name}}</td>
+                <td style="text-align:center">$ {{stock.price}}</td>
+                <td><button type="button" class="close" onCLick = "deleteStock({{ stock.id }})">
+                  <span aria-hidden="true">
+                    &times;
+                  </span>
+                </button></td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </ul>
+      <!--Allow user to add what stock(s) they are investing in-->
+      <form method="POST">
+        <textarea rows="1"  name="stock" id="stock" class="form-control"></textarea>
+        <div align="center">
+          <button type = "submit" class = "w3-button w3-black">
+            ADD STOCK
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
