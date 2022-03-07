@@ -133,7 +133,7 @@ def message():
         email = request.form.get('email')
         name = request.form.get('name')
         message = request.form.get('message')
-        msg = Message(subject = f'Mail from {name}', body = f'{message}', sender = email, recipients = ['ropofo6438@yks247.com'])
+        msg = Message(subject = f'Mail from {name}', body = f'{message}', sender = email, recipients = ['fiaaonline@gmail.com'])
         mail.send(msg)
         flash("Thank you for contact us.", category = "success")
         flash("Your message was sent. We will contact you soon.", category = 'error')
@@ -170,10 +170,6 @@ def search():
             dates.append(i.strftime('%Y-%m-%d %X'))
         dates = dates
         return json.dumps([json.dumps(prices),json.dumps(dates)])
-
-
-        
-
 
 def getStockPrice(stock):
     msft = yf.Ticker(stock)

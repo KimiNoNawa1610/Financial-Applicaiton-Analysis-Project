@@ -5,53 +5,55 @@
 <!--Basic user sign up information form-->
 {% block content %} 
 
-  <form method="POST">
-
-    <h3 style="padding-top: 100px; font-size: 40px;" align="center">
-
-        <b>Contact Us</b>
-      
-    </h3>
-
-    <!--Email-->
-    <div class="form-group">
-        <label for="email">Email Address</label>
-        <input 
-          type="email" 
-          class="form-control" 
-          id="email" name="email" 
-          placeholder="Please enter your email"
-        />
-    </div>
-
-    <!--Name-->
-    <div class="form-group">
-        <label for="name">First Name</label>
+  
+<div class="w3-container w3-light-grey" style="padding:128px 16px" id="contact">
+  <h3 class="w3-center">CONTACT US</h3>
+  <p class="w3-center w3-large">Lets get in touch. Send us a message:</p>
+  <div style="margin-top:48px">
+    <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right"></i> California, US</p>
+    <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +00 151515</p>
+    <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: fiaaonline@gmail.com</p>
+    <br>
+    <form method="POST">
+      <!--Name-->
+      <div class="form-group">
+        <label for="name">Name:</label>
         <input 
           type="text" 
-          class="form-control" 
+          class="w3-input w3-border" 
           id="name" name="name" 
           placeholder="Please enter your name"
         />
-    </div>
-
-
-    <!--message-->
-    <div class="form-group">
-      <label for="message">Message</label>
-      <textarea 
-        type="text" 
-        class="form-control" 
-        id="message" name="message" 
-        placeholder="Please enter your message"
-        rows="7">
-    </textarea>
-      
+      </div>
+      <!--Email-->
+      <div class="form-group">
+        <label for="email">Email Address:</label>
+        <input 
+          type="email" 
+          class="w3-input w3-border" 
+          id="email" name="email" 
+          placeholder="Please enter your email"
+        />
+      </div>
+      <!--message-->
+      <div class="form-group">
+        <label for="message">Message:</label>
+        <input
+          type="text" 
+          class="w3-input w3-border" 
+          id="message" name="message" 
+          placeholder="Please enter your message"
+          />
+      </input>
+      </div>
+      <p>
+        <!--Submit Button-->
+        <button type="submit" class="w3-button w3-black">
+          <i class="fa fa-paper-plane"></i> SEND MESSAGE
+        </button>
+      </p>
+    </form>
   </div>
+</div>
 
-      <!--Submit Button-->
-    <button type="submit" class="btn btn-primary">Submit</button>
-
-    
-  </form>
 {% endblock %}
