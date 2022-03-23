@@ -8,12 +8,7 @@ class Stock(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(50), unique = True)
     price = db.Column(db.String(50))
-    date = db.Column(db.DateTime(timezone = True), default = func.now())
-    price_traget=db.Column(db.String(20))
-    alertACT=db.Column(db.Boolean()) #Active price Alert
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'))
     
-
 
 #user object (table)
 class User(db.Model, UserMixin):
@@ -22,6 +17,23 @@ class User(db.Model, UserMixin):
     firstname = db.Column(db.String(50))
     lastname = db.Column(db.String(50))
     password = db.Column(db.String(150))
-    stocks = db.relationship('Stock')
+    stocks = db.relationship('UserStock')
 
 
+class UserStock(db.Model):
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
+    stock_id = db.Column(db.Integer, db.ForeignKey('stock.id'), primary_key = True)
+    price = db.Column(db.Integer, db.ForeignKey('stock.price'), primary_key = True)
+    alert_act = db.Column(db.Boolean())
+    date = db.Column(db.DateTime(timezone = True), default = func.now())
+    total = db.Column(db.Integer) # calculated column needed /total
+    price_traget = db.Column(db.String(20))
+    rating = db.Column(db.Integer)
+    number_of_stock = db.Column(db.Integer) #calculated column?
+
+class Comment(db.Model):
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
+    stock_id = db.Column(db.Integer, db.ForeignKey('stock.id'), primary_key = True)
+    price = db.Column(db.Integer, db.ForeignKey('stock.price'), primary_key = False)
+    date = db.Column(db.DateTime(timezone = True), default = func.now(), primary_key = True)
+    comment = db.Column(db.String(500))
