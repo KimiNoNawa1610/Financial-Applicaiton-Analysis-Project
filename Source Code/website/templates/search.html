@@ -4,220 +4,207 @@
 
 {% block content %}
 
-
-<div class="container">
-  <div class="row">
-    <div class="col text-light bg-dark" style="margin:20px 0px 20px 0px">
-      <h1 style="padding:20px 0px 20px 0px">{{Info["longName"]}}</h1>
-    </div>
+<div class="w3-container" style="margin-top:128px" id="search">
+  <div class="text-light w3-black">
+    <h1 class="w3-center">{{Info["longName"]}}</h1>
   </div>
-  <div class="col-3">
-    <p>Symbol: <span id="symbol">{{Info["symbol"]}}</span></p>
-      <p> Current Price: $<span id="dayHigh">{{Info["currentPrice"]}}</span></p>  
-  </div>
-  <div class="col-9">
-    <h2 id="companyName"></h2>
+  <p class="w3-wide">Symbol: <span id="symbol">{{Info["symbol"]}}</span></p>
+  <p class="w3-wide">Current Price: $<span id="dayHigh">{{Info["currentPrice"]}}</span></p>  
+  <div class="conatainer" style="width:900px;">
+        <canvas id="myChart"></canvas>
+        <button id="day" class="w3-button w3-black">1 day</button>
+        <button id="mo3" class="w3-button w3-black">3 months</button>
+        <button id="mo6" class="w3-button w3-black">6 months</button>
+        <button id="year" class="w3-button w3-black">1 year</button>
+        <button id="year5" class="w3-button w3-black">5 years</button>
+        <button id="year10" class="w3-button w3-black">10 year</button>
   </div>
 </div>
 
-
-
-<div class="conatainer" style="width:900px;">
-      <canvas id="myChart"></canvas>
-      <button id="day">1d</button>
-      <button id="mo3">3mo</button>
-      <button id="mo6">6mo</button>
-      <button id="year">1 year</button>
-      <button id="year5"> 5 years</button>
-      <button id="year10"> 10 year</button>
+<!--About the company-->
+<div class="w3-container" style="margin-top:64px">
+  <div class="text-light w3-black">
+    <h2 class="w3-center">About {{Info["longName"]}}</h2>
+  </div>
+  <p> {{Info["longBusinessSummary"]}}</p>
 </div>
-
-<div>
-<h1> Company Information  </h1>
-<ol>
-  <li> Sector : {{Info["sector"]}} </li>
-  <li> industry : {{Info["industry"]}}</li>
-  <li> city : {{Info["city"]}} </li>
-  <li> state : {{Info["state"]}}</li>
-  <li> country : {{Info["country"]}}</li>
-  <li> website : {{Info["website"]}}</li>
-  <li> currentRation :{{Info["currentRatio"]}}
-  <li> debtToEquity : {{Info["debtToEquity"]}} </li>
-  <li> returnOnEquity : {{Info["returnOnEquity"]}}</li>
-  <li> quickRatio : {{Info["quickRatio"]}} </li>
-  <li> forwardEps : {{Info["forwardEps"]}} </li>
-  <li> book value : {{Info["bookValue"]}}</li>
-  <li> trailingEps : {{Info["trailingEps"]}}</li>
-  <li> lastDividendValue : {{Info["lastDividendValue"]}} </li>
-  <li> priceToBook : {{Info["priceToBook"]}} </li>
-  <li> yield : {{Info["yield"]}}</li>
-  <li> last dividend date : {{Info["lastDividendDate"]}}</li>
-  <li> priceToSalesTrailing12Months: {{Info["priceToSalesTrailing12Months"]}}</li>
-  <li> forwardPE : {{Info["forwardPE"]}}</li>
-  <li> ytdReturn : {{Info["ytdReturn"]}}</li>
-  <li> fiveYearAverageReturn : {{Info["fiveYearAverageReturn"]}}</li>
-  <li> twoHundredDayAverage : {{Info["twoHundredDayAverage"]}} </li>
-  <li> trailingAnnualDividendYield : {{Info["trailingAnnualDividendYield"]}} </li>
-  <li> payoutRatio : {{Info["payoutRatio"]}}</li>
-  <li> volume24Hr: {{Info["volume24Hr"]}}</li>
-  <li> regularMarketDayHigh: {{Info["regularMarketDayHigh"]}}</li>
-  <li> fiftyDayAverage : {{Info["fiftyDayAverage"]}} </li>
-  <li> trailingAnnualDividendRate : {{Info["trailingAnnualDividendRate"]}} </li>
-  <li> dividendRate : {{Info["dividendRate"]}} </li>
-  <li> exDividendDate: {{Info["exDividendDate"]}} </li>
-  <li> regularMarketDayLow:{{Info["regularMarketDayLow"]}}</li>
-  <li> trailingPE : {{Info["trailingPE"]}} </li>
-  <li> regularMarketVolume :{{Info["regularMarketVolume"]}}
-  <li> marketCap: {{Info["marketCap"]}} </li>
-  <li> dayLow :{{Info["dayLow"]}} </li>
-  <li> Volume : {{Info["volume"]}}</li>
-  <li> fiftyTwoWeekHigh: {{Info["fiftyTwoWeekHigh"]}}</li>
-  <li>fiveYearAvgDividendYield:{{Info["fiveYearAvgDividendYield"]}}</li>
-  <li> fiftyTwoWeekLow : {{Info["fiftyTwoWeekLow"]}}  </li>
-  <li>dividendYield : {{Info["dividendYield"]}}</li>
-  <li> dayHigh: {{Info["dayHigh"]}}</li>
-  <li> logo_url : {{Info["logo_url"]}}</li>
-<ol>
-<h2> Company Summary</h2>
-<p> {{Info["longBusinessSummary"]}}</p>
+<!--Information-->
+<div class="w3-container w3-center" style="margin-top:64px">
+  <div class="text-light w3-black">
+    <h2 class="w3-center">{{Info["longName"]}} Information</h2>
+  </div>
+  <ul class="w3-ul">
+    <li><b>Sector:</b> {{Info["sector"]}} </li>
+    <li><b>Industry:</b> {{Info["industry"]}}</li>
+    <li><b>City:</b> {{Info["city"]}} </li>
+    <li><b>State:</b> {{Info["state"]}}</li>
+    <li><b>Country:</b> {{Info["country"]}}</li>
+    <li><b>Website:</b> {{Info["website"]}}</li>
+    <li><b>Current Ration:</b> {{Info["currentRatio"]}}
+    <li><b>Debt to Equity:</b> {{Info["debtToEquity"]}} </li>
+    <li><b>Return on Equity:</b> {{Info["returnOnEquity"]}}</li>
+    <li><b>Quick Ratio:</b> {{Info["quickRatio"]}} </li>
+    <li><b>Forward Eps:</b> {{Info["forwardEps"]}} </li>
+    <li><b>Book Value:</b> {{Info["bookValue"]}}</li>
+    <li><b>Trailing Eps:</b> {{Info["trailingEps"]}}</li>
+    <li><b>Last Dividend Value:</b> {{Info["lastDividendValue"]}} </li>
+    <li><b>Price to Book:</b> {{Info["priceToBook"]}} </li>
+    <li><b>ield:</b>Y {{Info["yield"]}}</li>
+    <li><b>Last Dividend Date:</b> {{Info["lastDividendDate"]}}</li>
+    <li><b>Price to Sales Trailing 12 Months:</b> {{Info["priceToSalesTrailing12Months"]}}</li>
+    <li><b>Forward PE:</b> {{Info["forwardPE"]}}</li>
+    <li><b>Ytd Return:</b> {{Info["ytdReturn"]}}</li>
+    <li><b>Five Year Average Return:</b> {{Info["fiveYearAverageReturn"]}}</li>
+    <li><b>Two Hundred Day Average:</b> {{Info["twoHundredDayAverage"]}} </li>
+    <li><b>Trailing Annual Dividend Yield:</b> {{Info["trailingAnnualDividendYield"]}} </li>
+    <li><b>Payout Ratio:</b> {{Info["payoutRatio"]}}</li>
+    <li><b>Volume 24Hrs:</b> {{Info["volume24Hr"]}}</li>
+    <li><b>Regular Market Day High:</b> {{Info["regularMarketDayHigh"]}}</li>
+    <li><b>Fifty Day Average:</b> {{Info["fiftyDayAverage"]}} </li>
+    <li><b>Trailing Annual Dividend Rate:</b> {{Info["trailingAnnualDividendRate"]}} </li>
+    <li><b>Dividend Rate:</b> {{Info["dividendRate"]}} </li>
+    <li><b>Ex Dividend Date:</b> {{Info["exDividendDate"]}} </li>
+    <li><b>Regular Market Day Low:</b>{{Info["regularMarketDayLow"]}}</li>
+    <li><b>Trailing PE:</b> {{Info["trailingPE"]}} </li>
+    <li><b>Regular Market Volume:</b> {{Info["regularMarketVolume"]}}
+    <li><b>Market Cap:</b> {{Info["marketCap"]}} </li>
+    <li><b>Day Low:</b> {{Info["dayLow"]}} </li>
+    <li><b>Volume:</b> {{Info["volume"]}}</li>
+    <li><b>Fifty Two Week High:</b> {{Info["fiftyTwoWeekHigh"]}}</li>
+    <li><b>Five Year Avg Dividend Yield:</b> {{Info["fiveYearAvgDividendYield"]}}</li>
+    <li><b>Fifty Two Week Low:</b> {{Info["fiftyTwoWeekLow"]}}  </li>
+    <li><b>Dividend Yield:</b> {{Info["dividendYield"]}}</li>
+    <li><b>Day High:</b> {{Info["dayHigh"]}}</li>
+    <li><b>Logo Url:</b> {{Info["logo_url"]}}</li>
+  <ul>
 </div>
-
-
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-let bottom = JSON.parse({{ dates | tojson }})
-let income = JSON.parse({{ money | tojson }})
-var ctx = document.getElementById("myChart").getContext("2d");
-// Gradient fill
-let gradient = ctx.createLinearGradient(0,0,0,400);
-gradient.addColorStop(0,'rgba(58,123,213,1)');
-gradient.addColorStop(1,'rgba(0,210,255,0.3)');
-const data = {
-  labels: bottom,
-  datasets: [{
-    label: 'My First dataset',
-    backgroundColor: 'rgb(255, 99, 132)',
-    borderColor: 'rgb(255, 99, 132)',
-    data:income,
-    fill : true,
-    backgroundColor : gradient
-  }]
-};
-const config = {
-  type: 'line',
-  data: data,
-  options: {
-    elements: {
-      point:{
-        radius : 0
-      }
-    },
-    scales :{
-      x:{
-        ticks:{
-          display : false
+  let bottom = JSON.parse({{ dates | tojson }})
+  let income = JSON.parse({{ money | tojson }})
+  var ctx = document.getElementById("myChart").getContext("2d");
+  // Gradient fill
+  let gradient = ctx.createLinearGradient(0,0,0,400);
+  gradient.addColorStop(0,'rgba(58,123,213,1)');
+  gradient.addColorStop(1,'rgba(0,210,255,0.3)');
+  const data = {
+    labels: bottom,
+    datasets: [{
+      label: 'My First dataset',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data:income,
+      fill : true,
+      backgroundColor : gradient
+    }]
+  };
+  const config = {
+    type: 'line',
+    data: data,
+    options: {
+      elements: {
+        point:{
+          radius : 0
         }
+      },
+      scales :{
+        x:{
+          ticks:{
+            display : false
+          }
+        }
+
+      } 
+    }
+  };
+
+  var newmychart = new Chart(ctx,config);
+
+  let stockName=document.getElementById("symbol");
+  let mo3=document.getElementById("mo3");
+  let mo6=document.getElementById("mo6");
+  let year=document.getElementById("year");
+  let year5=document.getElementById("year5");
+  let year10=document.getElementById("year10");
+
+  mo3.addEventListener("click",()=>{
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET','http://127.0.0.1:5000/search?time=3mo&stock='+stockName.textContent,true);
+    xhr.onload= function(){
+      if(this.status == 200){
+        let information = JSON.parse(this.responseText);
+        newmychart.data.labels=JSON.parse(information[1]);
+        newmychart.data.datasets[0].data=JSON.parse(information[0]);
+        newmychart.update();
       }
 
-    } 
-  }
-};
-
-
-var newmychart = new Chart(ctx,config);
-
-let stockName=document.getElementById("symbol");
-let mo3=document.getElementById("mo3");
-let mo6=document.getElementById("mo6");
-let year=document.getElementById("year");
-let year5=document.getElementById("year5");
-let year10=document.getElementById("year10");
-
-
-
-mo3.addEventListener("click",()=>{
-  let xhr = new XMLHttpRequest();
-  xhr.open('GET','http://127.0.0.1:5000/search?time=3mo&stock='+stockName.textContent,true);
-  xhr.onload= function(){
-    if(this.status == 200){
-      let information = JSON.parse(this.responseText);
-      newmychart.data.labels=JSON.parse(information[1]);
-      newmychart.data.datasets[0].data=JSON.parse(information[0]);
-      newmychart.update();
     }
+    xhr.send();
+  });
 
-  }
-  xhr.send();
-});
+  mo6.addEventListener("click",()=>{
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET','http://127.0.0.1:5000/search?time=6mo&stock='+stockName.textContent,true);
+    xhr.onload= function(){
+      if(this.status == 200){
+        let information = JSON.parse(this.responseText);
+        newmychart.data.labels=JSON.parse(information[1]);
+        newmychart.data.datasets[0].data=JSON.parse(information[0]);
+        newmychart.update();
+      }
 
-
-
-mo6.addEventListener("click",()=>{
-  let xhr = new XMLHttpRequest();
-  xhr.open('GET','http://127.0.0.1:5000/search?time=6mo&stock='+stockName.textContent,true);
-  xhr.onload= function(){
-    if(this.status == 200){
-      let information = JSON.parse(this.responseText);
-      newmychart.data.labels=JSON.parse(information[1]);
-      newmychart.data.datasets[0].data=JSON.parse(information[0]);
-      newmychart.update();
     }
+    xhr.send();
+  });
 
-  }
-  xhr.send();
-});
+  year.addEventListener("click",()=>{
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET','http://127.0.0.1:5000/search?time=1y&stock='+stockName.textContent,true);
+    xhr.onload= function(){
+      if(this.status == 200){
+        let information = JSON.parse(this.responseText);
+        newmychart.data.labels=JSON.parse(information[1]);
+        newmychart.data.datasets[0].data=JSON.parse(information[0]);
+        newmychart.update();
+      }
 
-year.addEventListener("click",()=>{
-  let xhr = new XMLHttpRequest();
-  xhr.open('GET','http://127.0.0.1:5000/search?time=1y&stock='+stockName.textContent,true);
-  xhr.onload= function(){
-    if(this.status == 200){
-      let information = JSON.parse(this.responseText);
-      newmychart.data.labels=JSON.parse(information[1]);
-      newmychart.data.datasets[0].data=JSON.parse(information[0]);
-      newmychart.update();
     }
+    xhr.send();
+  });
 
-  }
-  xhr.send();
-});
+  year5.addEventListener("click",()=>{
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET','http://127.0.0.1:5000/search?time=5y&stock='+stockName.textContent,true);
+    xhr.onload= function(){
+      if(this.status == 200){
+        let information = JSON.parse(this.responseText);
+        newmychart.data.labels=JSON.parse(information[1]);
+        newmychart.data.datasets[0].data=JSON.parse(information[0]);
+        newmychart.update();
+      }
 
-year5.addEventListener("click",()=>{
-  let xhr = new XMLHttpRequest();
-  xhr.open('GET','http://127.0.0.1:5000/search?time=5y&stock='+stockName.textContent,true);
-  xhr.onload= function(){
-    if(this.status == 200){
-      let information = JSON.parse(this.responseText);
-      newmychart.data.labels=JSON.parse(information[1]);
-      newmychart.data.datasets[0].data=JSON.parse(information[0]);
-      newmychart.update();
     }
+    xhr.send();
+  });
 
-  }
-  xhr.send();
-});
+  year10.addEventListener("click",()=>{
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET','http://127.0.0.1:5000/search?time=10y&stock='+stockName.textContent,true);
+    xhr.onload= function(){
+      if(this.status == 200){
+        let information = JSON.parse(this.responseText);
+        newmychart.data.labels=JSON.parse(information[1]);
+        newmychart.data.datasets[0].data=JSON.parse(information[0]);
+        newmychart.update();
+      }
 
-year10.addEventListener("click",()=>{
-  let xhr = new XMLHttpRequest();
-  xhr.open('GET','http://127.0.0.1:5000/search?time=10y&stock='+stockName.textContent,true);
-  xhr.onload= function(){
-    if(this.status == 200){
-      let information = JSON.parse(this.responseText);
-      newmychart.data.labels=JSON.parse(information[1]);
-      newmychart.data.datasets[0].data=JSON.parse(information[0]);
-      newmychart.update();
     }
-
-  }
-  xhr.send();
-});
-
-
-
-
+    xhr.send();
+  });
 </script>
+
 <script type="text/javascript"
     src="{{ url_for('static', filename='stock.js')}}">
 </script> 

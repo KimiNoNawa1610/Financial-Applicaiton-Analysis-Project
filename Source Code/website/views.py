@@ -11,14 +11,40 @@ from .userform import UserForm
 from flask_mail import Mail, Message
 from . import mail
 import yfinance as yf
-import random
+from newsapi import NewsApiClient
 
 views = Blueprint('views',__name__)
 
 #home page
 @views.route('/', methods=['GET','POST'])
 def home():
-    return  render_template("home.html",form =SearchForm(), user=current_user)
+    newsapi = NewsApiClient(api_key="a63384d0482844b3bee4612ea884705c")
+
+    #get the source of the news
+    headlines =  newsapi.get_top_headlines(category="business")
+
+    #get the list of articles
+    articles = headlines['articles']
+
+    # get information for each articles
+    news = []
+    desc = []
+    img = []
+    p_date = []
+    url = []
+
+    for i in range (len(articles)):
+        article=articles[i]
+
+        news.append(article['title'])
+        desc.append(article['description'])
+        img.append(article['urlToImage'])
+        p_date.append(article['publishedAt'])
+        url.append(article['url'])
+
+        contents =zip(news, desc,img,p_date,url)
+
+    return  render_template("home.html",form =SearchForm(), user=current_user, contents=contents)
 
 #profile
 @views.route('/profile', methods=['GET','POST'])
@@ -107,7 +133,7 @@ def message():
         email = request.form.get('email')
         name = request.form.get('name')
         message = request.form.get('message')
-        msg = Message(subject = f'Mail from {name}', body = f'{message}', sender = email, recipients = ['ropofo6438@yks247.com'])
+        msg = Message(subject = f'Mail from {name}', body = f'{message}', sender = email, recipients = ['fiaaonline@gmail.com'])
         mail.send(msg)
         flash("Thank you for contact us.", category = "success")
         flash("Your message was sent. We will contact you soon.", category = 'error')
@@ -144,10 +170,6 @@ def search():
             dates.append(i.strftime('%Y-%m-%d %X'))
         dates = dates
         return json.dumps([json.dumps(prices),json.dumps(dates)])
-
-
-        
-
 
 def getStockPrice(stock):
     msft = yf.Ticker(stock)

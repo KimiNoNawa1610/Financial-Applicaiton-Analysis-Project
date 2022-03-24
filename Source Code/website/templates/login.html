@@ -2,46 +2,36 @@
 
 {% block title %}Login{% endblock %}<!--Override the default name from the base.html template-->
 
-{% block content %} <form method="POST">
-
-    <h3 align="center">
-
-        Login
-
-    </h3>
-
-    <!--Email-->
-    <div class="form-group">
-
-        <label for="email">Email Address</label>
-
-        <input 
-        type="email" 
-        class="form-control" 
-        id="email" name="email" 
-        placeholder="Please enter your email"
-        />
-
-
+{% block content %} 
+<form method="POST">
+  <div class="w3-container w3-light-grey" style="padding:128px 16px" id="login">
+    <h3 class="w3-center">LOGIN</h3>
+    <div style="margin-top:48px">
+        <!--Email-->
+        <div class="form-group">
+          <label for="email"><b>Email Address:</b></label>
+          <input 
+            type="email" 
+            class="w3-input w3-border" 
+            id="email" name="email" 
+            placeholder="Please enter your email"
+          />
+        </div>
+        <!--Password-->
+        <div class="form-group">
+          <label for="password"><b>Password:</b></label>
+          <input 
+            type="text" 
+            class="w3-input w3-border" 
+            id="password" name="password" 
+            placeholder="Please enter your password"
+          />
+        </div>
+        <p>
+          <!--Submit Button-->
+          <button type="submit" class="w3-button w3-black">LOGIN</button>
+        </p>
     </div>
-
-    <!--Password-->
-    <div class="form-group">
-
-        <label for="password">Password</label>
-
-        <input 
-        type="text" 
-        class="form-control" 
-        id="password" name="password" 
-        placeholder="Please enter your password"
-        />
-
-
-    </div>
-
-    <br />
-
-    <!--Submit Button-->
-    <button type="submit" class="btn btn-primary">Login</button>
+  </div>
+</form>
 {% endblock %}

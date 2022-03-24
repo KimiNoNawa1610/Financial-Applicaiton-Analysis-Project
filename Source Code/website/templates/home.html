@@ -4,38 +4,7 @@
 
 {% block content %} 
 
-<div class= "graphs" >
-    <div id="Dow">
-         <canvas id="dowChart"></canvas>
-    </div>
-    <div>
-         <canvas id="nasdaqChart"></canvas>
-    </div>
-    <div>
-         <canvas id="SP500Chart"></canvas>
-    </div>
-
-</div>
-
-<img src="{{url_for('static', filename='images/giphy.gif')}}" style="width: 100%; display: block;
-margin-left: auto;
-margin-right: auto;
-padding-top: 20px;"/>
-
-
-<figure class="text-center" style="font-family: 'Times New Roman', Times, serif; padding-top: 20px;">
-    <blockquote class="blockquote" >
-        <i>I will tell you how to become rich. Close the doors. Be fearful when others are greedy. Be greedy when others are fearful.</i>
-    </blockquote>
-    <figcaption class="blockquote-footer">
-        <cite title="Source Title" style="color: black;">Warren Buffett</cite>
-    </figcaption>
-</figure>
-
-
-
 <style>
-
     .grid-container{
         display: grid;
     }
@@ -43,8 +12,140 @@ padding-top: 20px;"/>
         display:flex;
     }
 
+    .newsfeet{
+        height: 550px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #9596a3;
+    }
 
+    .slider{
+        position: relative;
+        background-color: #000116;
+        width: 800px;
+        min-height: 500px;
+        margin: 20px;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+
+    .slider .slide{
+        position: absolute;
+        width: 100%;
+        height:100%;
+
+
+    }
+
+    .slider .slide img{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .slider .slide .info{
+        position: absolute;
+        color: #222;
+        background-color: rgba(255,255,255,0.3);
+        width: 75%;
+        margin-top: 50px;
+        margin-left: 50px;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 5px 25px rgb(1 1 1/5%);
+
+    }
+
+    .slider .slide .info .h2{
+        font-size: 2em;
+        font-weight: 800;
+    }
+
+    .slider .slide .info .p{
+        font: 1em;
+        font-weight: 400;
+    }
+
+    .navigation{
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    slider:hover .navigation{
+        opacity: 1;
+    }
+
+    .prev-btn .next-btn{
+        z-index: 999;
+        font-size: 2em;
+        color:#222;
+        background-color: rgba(255,255,255,0.8);
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .prev-btn
+    .graphs{
+        position: absolute;
+        padding-top: 1000px;
+    }
 </style>
+
+<!--full-height image -->
+<div class="w3-display-container w3-grayscale-min">
+    <img src="../static/images/cover.png" style="width:100%">
+    <div class="w3-display-left w3-text-white" style="padding:48px">
+        <span class="w3-jumbo w3-hide-medium w3-hide-small">Financial Investment Analysis Application</span><br>
+        <span class="w3-xxlarge w3-hide-large">Financial Investment Analysis Applications</span>
+    </div> 
+    <div class="w3-display-bottomleft w3-text-grey w3-large" style="padding:24px 48px">
+        <i class="fa fa-facebook-official w3-hover-opacity"></i>
+        <i class="fa fa-instagram w3-hover-opacity"></i>
+        <i class="fa fa-twitter w3-hover-opacity"></i>
+        <i class="fa fa-linkedin w3-hover-opacity"></i>
+    </div>
+</div>
+
+<!--graph-->
+<div class= "graphs" >
+    <div id="Dow">
+         <canvas id="dowChart"></canvas>
+    </div>
+    <div id="Nas">
+         <canvas id="nasdaqChart"></canvas>
+    </div>
+    <div id="SP">
+         <canvas id="SP500Chart"></canvas>
+    </div>
+</div>
+
+<h4 align="center" style="margin-top: 20px;"> <b>LASTEST MARKET NEWS</b></h4>
+
+<div class=" newsfeet">
+    <div class="slider">
+        {% for title, desc,img,p_date,url in contents %}
+        <div class="slide">
+            <img src = "{{img}}">
+            <div class="info">
+                <h2>{{title}}</h2>
+                <p>{{desc}}<br><a href="{{url}}">READ MORE</a></p>
+                
+            </div>
+        </div>
+        {% endfor %}
+        <div class="navigation">
+            <i class="fas fa-chevron-left prev-btn"></i>
+            <i class="fas fa-chevron-right next-btn"></i>
+        </div>
+    </div>
+</div>
+
 <script>
     let xhr = new XMLHttpRequest();
     xhr.open('GET','http://127.0.0.1:5000/search?time=3mo&stock=Dow',true);

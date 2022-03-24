@@ -6,61 +6,45 @@
 <!--Update information form-->
 {% block content %} 
 
-<form method="POST">
-
-    <h3 align="center">
-
-        Update Profile
-
-    </h3>
-
-    <!--Email-->
-    <div class="form-group">
-
-        <label for="email">Email Address</label>
-
+<div class="w3-container w3-light-grey" style="padding:128px 16px" id="update">
+  <form method="POST">
+    <h3 class="w3-center">UPDATE PROFILE</h3>
+    <div style="margin-top:48px">
+      <!--Email-->
+      <div class="form-group">
+        <label for="email"><b>Email Address:</b></label>
         <input 
-        type="email" 
-        class="form-control" 
-        id="email" name="email" 
-        placeholder="Please enter your email"
+          type="email" 
+          class="w3-input w3-border" 
+          id="email" name="email" 
+          placeholder="Please enter your email"
         />
-
-
-    </div>
-
-    <!--First Name-->
-    <div class="form-group">
-
-        <label for="firstname">First Name</label>
-
+      </div>
+      <!--First Name-->
+      <div class="form-group">
+        <label for="firstname"><b>First Name:</b></label>
         <input 
         type="text" 
-        class="form-control" 
+        class="w3-input w3-border" 
         id="firstname" name="firstname" 
         placeholder="Please enter your first name"
         />
-
-
-    </div>
-
-    <!--Last Name-->
-    <div class="form-group">
-
-        <label for="lastname">Last Name</label>
-
-        <input 
+      </div>
+      <!--Last Name-->
+      <div class="form-group">
+        <label for="lastname"><b>Last Name:</b></label>
+        <input
         type="text" 
-        class="form-control" 
+        class="w3-input w3-border" 
         id="lastname" name="lastname" 
         placeholder="Please enter your last name"
         />
-
-
+      </div>
+      <p>
+        <!--Submit Button-->
+        <button type="submit" class="w3-button w3-black">UPDATE</button>
+      </p>
     </div>
-
-    <!--Submit Button-->
-    <button type="submit" class="btn btn-primary">Submit</button>
-
-</form>
+  </form>
+</div>
 {% endblock %}
