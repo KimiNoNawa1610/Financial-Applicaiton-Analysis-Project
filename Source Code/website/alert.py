@@ -1,11 +1,12 @@
+from flask_login import current_user
+from . import db
+from .models import Stock, User, UserStock
+from flask import flash, request
 import yfinance as yf
 import time
 import json
 import smtplib
-from flask_login import  login_required, current_user
-from . import db
-from .models import Stock, User, UserStock
-from flask import flash, request
+
 
 searched = 'aapl'
 
