@@ -1,9 +1,11 @@
 import yfinance as yf
 import time
+import json
 import smtplib
 from flask_login import  login_required, current_user
 from . import db
 from .models import Stock, User, UserStock
+from flask import flash, request
 
 searched = 'aapl'
 
@@ -15,13 +17,22 @@ def getStockPrice1d(stock):
 
 # print(getStockPrice1d("TSLA"))
 
+stock_test = 'aapl'
+target_price_test = 100
 
-target_price = 100
-
-new_price_target = UserStock(name = stock, price = str(getStockPrice1d(stock)),user_id = current_user.id)
+new_price_target = UserStock(name = stock_test, target_price = target_price_test, user_id = current_user.id)
 db.session.add(new_price_target)
 db.session.commit()
-flash("new Stock added!", category = "success")
+flash("target price added", category = "success")
+
+stock = json.loads(request.data)
+stockId = stock['stockId']
+stock = Stock.query.get(stockId)
+UserStock = json.loads(request.data)
+if (stock):
+    if (UserStock.user_id == current_user.id and UserStock.stock_id == stock):
+        targetPrice = UserStock['targetPrice']
+        target_price = UserStock.query.get(targetPrice)
 
 def checkStock(searched):
     alertPrice = getStockPrice1d(searched)
@@ -29,7 +40,6 @@ def checkStock(searched):
     if alertValue < target_price: #modify number for user options in seconds
         #send email if price goes under 100, this number is abitrary for testing
         send_email()
-
 
 def send_email():
     server = smtplib.SMTP('smtp.gmail.com', 587)
