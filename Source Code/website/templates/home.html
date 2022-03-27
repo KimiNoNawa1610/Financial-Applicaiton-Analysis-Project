@@ -148,7 +148,7 @@
 
 <script>
     let xhr = new XMLHttpRequest();
-    xhr.open('GET','http://127.0.0.1:5000/search?time=3mo&stock=Dow',true);
+    xhr.open('GET','http://127.0.0.1:5000/search?time=3mo&stock=^DJI',true);
     xhr.onload= function(){
     if(this.status == 200){
         let information = JSON.parse(this.responseText);
@@ -162,7 +162,7 @@
     const data = {
     labels: dates,
     datasets: [{
-    label: 'My First dataset',
+    label: 'Dow Jones',
     backgroundColor: 'rgb(255, 99, 132)',
     borderColor: 'rgb(255, 99, 132)',
     data:price,
@@ -198,7 +198,7 @@ var newmychart = new Chart(ctx,config);
 
     //nasdaq
 let xhrnas = new XMLHttpRequest();
-    xhrnas.open('GET','http://127.0.0.1:5000/search?time=3mo&stock=Dow',true);
+    xhrnas.open('GET','http://127.0.0.1:5000/search?time=3mo&stock=^IXIC',true);
     xhrnas.onload= function(){
     if(this.status == 200){
         let information = JSON.parse(this.responseText);
@@ -212,7 +212,7 @@ let xhrnas = new XMLHttpRequest();
     const data = {
     labels: dates,
     datasets: [{
-    label: 'My First dataset',
+    label: 'Nasdaq',
     backgroundColor: 'rgb(255, 99, 132)',
     borderColor: 'rgb(255, 99, 132)',
     data:price,
@@ -247,53 +247,62 @@ var nasychart = new Chart(ctx,config);
     xhrnas.send();
     //sp500
 let xhrsp = new XMLHttpRequest();
-    xhrsp.open('GET','http://127.0.0.1:5000/search?time=3mo&stock=Dow',true);
+    xhrsp.open('GET','http://127.0.0.1:5000/search?time=3mo&stock=^GSPC',true);
     xhrsp.onload= function(){
-    if(this.status == 200){
-        let information = JSON.parse(this.responseText);
-        let dates=JSON.parse(information[1]);
-        let price =JSON.parse(information[0]);
-        var ctx = document.getElementById("SP500Chart").getContext("2d");
+        if(this.status == 200){
+            let information = JSON.parse(this.responseText);
+            let dates=JSON.parse(information[1]);
+            let price =JSON.parse(information[0]);
+            var ctx = document.getElementById("SP500Chart").getContext("2d");
     // Gradient fill
     let gradient = ctx.createLinearGradient(0,0,0,400);
     gradient.addColorStop(0,'rgba(58,123,213,1)');
     gradient.addColorStop(1,'rgba(0,210,255,0.3)');
+    // get the data
     const data = {
-    labels: dates,
-    datasets: [{
-    label: 'My First dataset',
-    backgroundColor: 'rgb(255, 99, 132)',
-    borderColor: 'rgb(255, 99, 132)',
-    data:price,
-    fill : true,
-    backgroundColor : gradient
-    }]
+        labels: dates,
+        datasets: [{
+            label: 'sp500',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data:price,
+            fill : true,
+            backgroundColor : gradient
+        }]
     };
     const config = {
         type: 'line',
         data: data,
         options: {
-        elements: {
-        point:{
-            radius : 0
-        }
-        },
-    scales :{
-        x:{
-        ticks:{
-            display : false
-            }
-        }
-
+            elements: {
+                point:{
+                    radius : 0
+                }
+            },
+        scales :{
+            x:{
+            ticks:{
+                display : false
+                }
+            } 
         } 
-    }
-};
+        }
+    };
 
 
 var spychart = new Chart(ctx,config);
+        }       
+    }
+xhrsp.send();
 
-    }}
-    xhrsp.send();
+function getStockdata(){
+
+console.log("hello how are you")
+
+}
+
+
+
 </script>
 
 {% endblock %}

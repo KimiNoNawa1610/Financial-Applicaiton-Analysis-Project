@@ -34,12 +34,9 @@
     <h2 class="w3-center">{{Info["longName"]}} Information</h2>
   </div>
   <ul class="w3-ul">
+    <li><b>Day High:</b> {{Info["dayHigh"]}}</li>
     <li><b>Sector:</b> {{Info["sector"]}} </li>
     <li><b>Industry:</b> {{Info["industry"]}}</li>
-    <li><b>City:</b> {{Info["city"]}} </li>
-    <li><b>State:</b> {{Info["state"]}}</li>
-    <li><b>Country:</b> {{Info["country"]}}</li>
-    <li><b>Website:</b> {{Info["website"]}}</li>
     <li><b>Current Ration:</b> {{Info["currentRatio"]}}
     <li><b>Debt to Equity:</b> {{Info["debtToEquity"]}} </li>
     <li><b>Return on Equity:</b> {{Info["returnOnEquity"]}}</li>
@@ -74,8 +71,11 @@
     <li><b>Five Year Avg Dividend Yield:</b> {{Info["fiveYearAvgDividendYield"]}}</li>
     <li><b>Fifty Two Week Low:</b> {{Info["fiftyTwoWeekLow"]}}  </li>
     <li><b>Dividend Yield:</b> {{Info["dividendYield"]}}</li>
-    <li><b>Day High:</b> {{Info["dayHigh"]}}</li>
     <li><b>Logo Url:</b> {{Info["logo_url"]}}</li>
+    <li><b>City:</b> {{Info["city"]}} </li>
+    <li><b>State:</b> {{Info["state"]}}</li>
+    <li><b>Country:</b> {{Info["country"]}}</li>
+    <li><b>Website:</b> {{Info["website"]}}</li>
   <ul>
 </div>
 
@@ -86,18 +86,20 @@
   let income = JSON.parse({{ money | tojson }})
   var ctx = document.getElementById("myChart").getContext("2d");
   // Gradient fill
-  let gradient = ctx.createLinearGradient(0,0,0,400);
-  gradient.addColorStop(0,'rgba(58,123,213,1)');
-  gradient.addColorStop(1,'rgba(0,210,255,0.3)');
+  //let gradient = ctx.createLinearGradient(0,0,0,400);
+  //gradient.addColorStop(0,'rgba(58,123,213,1)');
+  //gradient.addColorStop(1,'rgba(0,210,255,0.3)');
+  colors = determineColor(income)
+  console.log(income.length)
+  console.log(colors.length)
   const data = {
     labels: bottom,
     datasets: [{
       label: 'My First dataset',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
+      borderColor: colors,
       data:income,
-      fill : true,
-      backgroundColor : gradient
+      fill : false,
+      pointBorderColor: colors,
     }]
   };
   const config = {
@@ -120,6 +122,20 @@
     }
   };
 
+  function determineColor(price){
+    let colors=[]
+    for(i=0;i<price.length;i++){
+      if ( price[0] > price[i] ){
+        colors.push("#880808")
+      }
+      else{
+        colors.push("#bae755")
+      }
+    }
+    return colors
+
+  }
+
   var newmychart = new Chart(ctx,config);
 
   let stockName=document.getElementById("symbol");
@@ -130,79 +146,61 @@
   let year10=document.getElementById("year10");
 
   mo3.addEventListener("click",()=>{
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET','http://127.0.0.1:5000/search?time=3mo&stock='+stockName.textContent,true);
-    xhr.onload= function(){
-      if(this.status == 200){
-        let information = JSON.parse(this.responseText);
-        newmychart.data.labels=JSON.parse(information[1]);
-        newmychart.data.datasets[0].data=JSON.parse(information[0]);
-        newmychart.update();
-      }
-
-    }
-    xhr.send();
+    datas = getdata('3mo')
+    newmychart.data.labels=datas[0]
+    newmychart.data.datasets[0].data=datas[1]
+    newmychart.update();
   });
 
   mo6.addEventListener("click",()=>{
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET','http://127.0.0.1:5000/search?time=6mo&stock='+stockName.textContent,true);
-    xhr.onload= function(){
-      if(this.status == 200){
-        let information = JSON.parse(this.responseText);
-        newmychart.data.labels=JSON.parse(information[1]);
-        newmychart.data.datasets[0].data=JSON.parse(information[0]);
-        newmychart.update();
-      }
-
-    }
-    xhr.send();
+    datas = getdata('6mo')
+    newmychart.data.labels=datas[0]
+    newmychart.data.datasets[0].data=datas[1]
+    newmychart.update();
   });
 
   year.addEventListener("click",()=>{
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET','http://127.0.0.1:5000/search?time=1y&stock='+stockName.textContent,true);
-    xhr.onload= function(){
-      if(this.status == 200){
-        let information = JSON.parse(this.responseText);
-        newmychart.data.labels=JSON.parse(information[1]);
-        newmychart.data.datasets[0].data=JSON.parse(information[0]);
-        newmychart.update();
-      }
-
-    }
-    xhr.send();
+    datas = getdata('1y')
+    newmychart.data.labels=datas[0]
+    newmychart.data.datasets[0].data=datas[1]
+    newmychart.update();
   });
 
   year5.addEventListener("click",()=>{
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET','http://127.0.0.1:5000/search?time=5y&stock='+stockName.textContent,true);
-    xhr.onload= function(){
-      if(this.status == 200){
-        let information = JSON.parse(this.responseText);
-        newmychart.data.labels=JSON.parse(information[1]);
-        newmychart.data.datasets[0].data=JSON.parse(information[0]);
-        newmychart.update();
-      }
-
-    }
-    xhr.send();
+    datas = getdata('5y')
+    newmychart.data.labels=datas[0]
+    newmychart.data.datasets[0].data=datas[1]
+    newmychart.update();
   });
 
   year10.addEventListener("click",()=>{
+    datas = getdata('10y')
+    newmychart.data.labels=datas[0]
+    newmychart.data.datasets[0].data=datas[1]
+    newmychart.update();
+  });
+
+  function getdata(time){
     let xhr = new XMLHttpRequest();
-    xhr.open('GET','http://127.0.0.1:5000/search?time=10y&stock='+stockName.textContent,true);
+    let date
+    let price
+    xhr.open('GET','http://127.0.0.1:5000/search?time='+time+'&stock='+stockName.textContent,false);
     xhr.onload= function(){
       if(this.status == 200){
         let information = JSON.parse(this.responseText);
-        newmychart.data.labels=JSON.parse(information[1]);
-        newmychart.data.datasets[0].data=JSON.parse(information[0]);
-        newmychart.update();
+        date = information["dates"]
+        price = information["prices"]
       }
 
     }
     xhr.send();
-  });
+
+    return [date,price]
+  }
+
+  fucntion modify( chart){
+    
+  }
 </script>
 
 <script type="text/javascript"
