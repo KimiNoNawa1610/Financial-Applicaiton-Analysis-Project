@@ -4,19 +4,37 @@
 
 {% block content %} 
 
+<style>
+    .item1 { grid-area: header; }
+    .item2 { grid-area: news; }
+    .item3 { grid-area: gain; }
+    .item4 { grid-area: loose; }
+    .grid-container {
+        display: grid;
+        grid-template-areas:
+            'header header header header header header'
+            'news news news gain gain gain'
+            'news news news loose loose loose';
+        gap: 10px;
+        background-color: #b1c1ce;
+        padding: 10px;
+        }
+
+        .grid-container > div {
+            background-color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 20px 0;
+            font-size: 30px;
+            
+            }
+</style>
+
 <!--full-height image -->
-<div class="w3-container" style="padding-top:128px">
-    <div class="w3-display-container w3-grayscale-min">
-        <img src="../static/images/cover.png" style="width:100%">
-        <div class="w3-display-left w3-text-white" style="padding:48px">
-            <span class="w3-jumbo w3-hide-medium w3-hide-small">Financial Investment Analysis Application</span><br>
-            <span class="w3-xxlarge w3-hide-large">Financial Investment Analysis Applications</span>
-        </div> 
-    </div>
+<div class="grid-container" style="padding-top:20px">
     <!-- GRAPHS -->
-    <div class="w3-row-padding">
+    <div class="w3-row-padding item1">
         <div class="w3-center w3-padding-64">
-            <h3><b>GRAPHS</b></h4>
+            <h3><b>DAILY MARKET CHARTS</b></h4>
         </div>
         <div class="w3-third w3-margin-bottom">
             <div class="w3-border w3-center">
@@ -39,19 +57,19 @@
                </div>
             </div>
         </div>
+    
     </div>
     
-    <div class="w3-row-padding">
+    <div class="w3-row-padding item2">
         <!-- NEW Slideshow -->
-        <div class="w3-center w3-padding-64">
-            <h3><b>LATEST MARKET NEWS</b></h3>
-        </div>
+        
         <!-- Slideshow -->
-        <div class="w3-container w3-center">
+        <div class="w3-container">
+            <h3 class="w3-padding-48"><b>LATEST MARKET NEWS</b></h3>
             {% for title, desc,img,p_date,url in contents %}
-            <div class="w3-display-container mySlides">
-                <img src ="{{img}}" style="width:100%">
-                <div class="w3-black w3-container w3-padding-16">
+            <div class="w3-display-container mySlides" >
+                <img src ="{{img}}" style=" width: 820px; height: 560px;">
+                <div class="w3-black w3-container w3-padding-12" style=" width: 820px; max-height: 350px; font-size: 1.2vw;" >
                     <h4>{{title}}</h4>
                     <p>{{desc}}</p>
                     <p><a href="{{url}}">READ MORE</a></p>
@@ -59,11 +77,20 @@
             </div>
             {% endfor %}
             <!-- Slideshow next/previous buttons -->
-            <div class="w3-container w3-dark-grey w3-padding w3-xlarge">
+            <div class="w3-container w3-dark-grey w3-padding w3-xlarge" style=" width: 820px;">
                 <div class="w3-left" onclick="plusDivs(-1)"><i class="fa fa-arrow-circle-left w3-hover-text-teal"></i></div>
                 <div class="w3-right" onclick="plusDivs(1)"><i class="fa fa-arrow-circle-right w3-hover-text-teal"></i></div>
             </div>
         </div>
+    </div>
+
+    <!--Daily stock graph table-->
+    <div class="w3-row-padding item3">
+        <h3 class="w3-padding-64"><b>HIGHEST PERCENTAGE GAIN STOCKS</b></h3>
+    </div>
+
+    <div class="w3-row-padding item4">
+        <h3 class="w3-padding-64"><b>HIGHEST PERCENTAGE LOOSE STOCKS</b></h3>
     </div>
     
     
