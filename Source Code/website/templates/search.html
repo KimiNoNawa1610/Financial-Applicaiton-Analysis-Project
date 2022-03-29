@@ -77,6 +77,10 @@
     <li><b>Country:</b> {{Info["country"]}}</li>
     <li><b>Website:</b> {{Info["website"]}}</li>
   <ul>
+  <!-- graph on who owns the stock-->
+  <div class="conatainer" style="width:900px;">
+        <canvas id="ownershipGraph"></canvas>
+  <div>
 </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
@@ -84,43 +88,7 @@
 <script>
   let bottom = JSON.parse({{ dates | tojson }})
   let income = JSON.parse({{ money | tojson }})
-  var ctx = document.getElementById("myChart").getContext("2d");
-  // Gradient fill
-  //let gradient = ctx.createLinearGradient(0,0,0,400);
-  //gradient.addColorStop(0,'rgba(58,123,213,1)');
-  //gradient.addColorStop(1,'rgba(0,210,255,0.3)');
-  colors = determineColor(income)
-  console.log(income.length)
-  console.log(colors.length)
-  const data = {
-    labels: bottom,
-    datasets: [{
-      label: 'My First dataset',
-      borderColor: colors,
-      data:income,
-      fill : false,
-      pointBorderColor: colors,
-    }]
-  };
-  const config = {
-    type: 'line',
-    data: data,
-    options: {
-      elements: {
-        point:{
-          radius : 0
-        }
-      },
-      scales :{
-        x:{
-          ticks:{
-            display : false
-          }
-        }
 
-      } 
-    }
-  };
 
   function determineColor(price){
     let colors=[]
@@ -133,10 +101,11 @@
       }
     }
     return colors
-
   }
 
   var newmychart = new Chart(ctx,config);
+  let owners = document.getElementById("ownershipGraph");
+
 
   let stockName=document.getElementById("symbol");
   let mo3=document.getElementById("mo3");
@@ -144,6 +113,8 @@
   let year=document.getElementById("year");
   let year5=document.getElementById("year5");
   let year10=document.getElementById("year10");
+  
+
 
   mo3.addEventListener("click",()=>{
     datas = getdata('3mo')
@@ -180,6 +151,41 @@
     newmychart.update();
   });
 
+  function stockGraph(){
+      var ctx = document.getElementById("myChart").getContext("2d");
+  colors = determineColor(income)
+  const data = {
+    labels: bottom,
+    datasets: [{
+      label: 'My First dataset',
+      borderColor: colors,
+      data:income,
+      fill : false,
+      pointBorderColor: colors,
+    }]
+  };
+  const config = {
+    type: 'line',
+    data: data,
+    options: {
+      elements: {
+        point:{
+          radius : 0
+        }
+      },
+      scales :{
+        x:{
+          ticks:{
+            display : false
+          }
+        }
+
+      } 
+    }
+  };
+
+  }
+
   function getdata(time){
     let xhr = new XMLHttpRequest();
     let date
@@ -198,9 +204,8 @@
     return [date,price]
   }
 
-  fucntion modify( chart){
-    
-  }
+
+
 </script>
 
 <script type="text/javascript"
