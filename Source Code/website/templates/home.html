@@ -65,24 +65,31 @@
         
         <!-- Slideshow -->
         <div class="w3-container">
-            <h3 class="w3-padding-48"><b>LATEST MARKET NEWS</b></h3>
+            
             {% for title, desc,img,p_date,url in contents %}
             <div class="w3-display-container mySlides" >
-                <img src ="{{img}}" style=" width: 820px; height: 560px;">
-                <div class="w3-black w3-container w3-padding-12" style=" width: 820px; max-height: 350px; font-size: 1.2vw;" >
-                    <h4>{{title}}</h4>
-                    <p>{{desc}}</p>
-                    <p><a href="{{url}}">READ MORE</a></p>
+                <div class="w3-container" align="center">
+                    <h3 align= "center" class="w3-padding-24"><b>LATEST MARKET NEWS</b></h3>
+                    <img src ="{{img}}" style=" width: 1020px; height: 560px;">
+                    <div class="w3-black w3-container" style=" width: 1020px; height: 280px; font-size: 1.2vw;" >
+                        <h4>{{title}}</h4>
+                        <p>{{desc}}</p>
+                        <p><a href="{{url}}">READ MORE</a></p>
+                    </div>
                 </div>
+                
+                
             </div>
             {% endfor %}
-            <!-- Slideshow next/previous buttons -->
-            <div class="w3-container w3-dark-grey w3-padding w3-xlarge" style=" width: 820px;">
-                <div class="w3-left" onclick="plusDivs(-1)"><i class="fa fa-arrow-circle-left w3-hover-text-teal"></i></div>
-                <div class="w3-right" onclick="plusDivs(1)"><i class="fa fa-arrow-circle-right w3-hover-text-teal"></i></div>
-            </div>
+            <div class="w3-left previous" onclick="plusDivs(-1)"><i class="fa fa-arrow-circle-left w3-hover-text-teal"></i></div>
+            <div class="w3-right next" onclick="plusDivs(1)"><i class="fa fa-arrow-circle-right w3-hover-text-teal"></i></div>
         </div>
     </div>
+
+    <!-- Slideshow next/previous buttons -->
+    
+    
+
 
     <!--Daily stock graph table-->
     <div class="w3-row-padding item3">
