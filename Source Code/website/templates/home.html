@@ -151,9 +151,10 @@
       x[slideIndex-1].style.display = "block";  
       dots[slideIndex-1].className += " w3-white";
     }
+</script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</script>
+
     
 
 <script>
@@ -163,8 +164,6 @@ let dow = createGraph("3mo","^DJI","dowChart")
 
 //nasdaq
 let nasdaq = createGraph("3mo","^IXIC","nasdaqChart")
-
-
 
 
 //sp500 "^GSPC"
@@ -189,8 +188,12 @@ function createGraph(time,stock,place){
         data:information[1],
         fill : true,
         backgroundColor : gradient
+    
     }]  
-    };
+    
+};
+
+
 const config = {
     type: 'line',
     data: data,
@@ -209,7 +212,8 @@ const config = {
         } 
         }
     };
-return new Chart(ctx,config);
+
+    return new Chart(ctx,config);
 
 }
 
