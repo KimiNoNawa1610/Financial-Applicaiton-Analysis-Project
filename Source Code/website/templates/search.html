@@ -174,10 +174,18 @@
     newmychart.update();
   });
 
+<<<<<<< HEAD
   function stockGraph(x_axis,y_axis){
     let ctx = document.getElementById("myChart").getContext("2d");
     const data = {
     labels: x_axis,
+=======
+  function stockGraph(){
+  let ctx = document.getElementById("myChart").getContext("2d");
+  colors = determineColor(income)
+  const data = {
+    labels: bottom,
+>>>>>>> b1e46beb6a510b8acdd4ac00f9c07eaf93bc223e
     datasets: [{
       label: 'My First Dataset',
       data: y_axis,
