@@ -154,38 +154,45 @@ def search():
     form =SearchForm()
     if (form.validate_on_submit()):
         searched = form.search.data
-        price = getStockPrice(searched)
-        dates= getdates(searched)
-        values= price
+        stats = stockInfo(searched,"1d")
+        values= stats[0]
+        dates=stats[1]
         Info = information(searched)
-        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info)
+        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info[0],recomend=Info[1])
     else:
-        stockName = yf.Ticker(request.args.get('stock'))
-        hist=stockName.history(period=request.args.get('time'))
-        price=hist["Open"].tolist()
-        prices=price
+        info = stockInfo(request.args.get('stock'),request.args.get('time'))
         # GETTING THE DATES
-        dates=[]
-        for i in hist.index:
-            dates.append(i.strftime('%Y-%m-%d %X'))
-        dates = dates
+        prices=info[0]
+        dates = info[1]
         data={"dates":dates,"prices":prices}
         return json.dumps(data)
-        #return json.dumps([json.dumps(prices),json.dumps(dates)])
 
-def getStockPrice(stock):
-    msft = yf.Ticker(stock)
-    information = yf.download(tickers=stock, period='1d', interval='1m')
-    return information['Open'].tolist()
-
-def getdates(stock):
-    msft = yf.Ticker(stock)
-    information = yf.download(tickers=stock, period='1d', interval='1m')
+def stockInfo(stock,time):
+    information=''
+    if time=='1d':
+        information = yf.download(tickers=stock, period=time, interval='1m')
+    elif time=='3mo'or time=='6mo':
+        information = yf.download(tickers=stock, period=time, interval='1h')
+    elif time=='1y':
+        information = yf.download(tickers=stock, period=time, interval='1d')
+    else:
+        information = yf.download(tickers=stock, period=time, interval='1wk')
+    information=information.dropna()
+    price=information['Open'].tolist()
     dates=[]
     for i in information.index:
         dates.append(i.strftime('%Y-%m-%d %X'))
-    return dates
+    return[price,dates]
 
 def information(stock):
-    msft = yf.Ticker(stock)
-    return msft.info
+    ticker= yf.Ticker(stock)
+    information=ticker.recommendations.tail(5)
+    dates=[]
+    for i in information.index:
+        dates.append(i.strftime('%Y-%m-%d %X'))
+    firms= information['Firm'].tolist()
+    grade=information['To Grade'].tolist()
+    return [ticker.info,{'dates':dates,'firms':firms,'grades':grade}]
+
+
+

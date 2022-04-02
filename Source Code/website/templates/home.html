@@ -144,24 +144,52 @@
       x[slideIndex-1].style.display = "block";  
       dots[slideIndex-1].className += " w3-white";
     }
+</script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</script>
     
 
 <script>
 // dow graph
-let dow = createGraph("3mo","^DJI","dowChart")
+let dow = createGraph("1d","^DJI","dowChart")
 
 
 //nasdaq
-let nasdaq = createGraph("3mo","^IXIC","nasdaqChart")
+let nasdaq = createGraph("1d","^IXIC","nasdaqChart")
 
 
 
 
 //sp500 "^GSPC"
-let sp500 = createGraph("3mo","^GSPC","SP500Chart")
+let sp500 = createGraph("1d","^GSPC","SP500Chart")
+// getting live
+let counter=0
+id =setInterval(update,6000)
+function update(){
+    let dowd=getdata('1d','^DJI')
+    let nasdaqd=getdata('1d','^IXIC')
+    let sp500d=getdata('1d','^GSPC')
+    if(dow.data.datasets[0].data.length==dowd[1].length){
+        counter = counter+1
+    }
+    else{
+        counter=0
+    }
+    if (counter==2)
+    {
+        clearInterval(id)
+    }
+    dow.data.labels=dowd[0]
+    dow.data.datasets[0].data=dowd[1]
+    dow.update()
+    sp500.data.labels=sp500d[0]
+    sp500.data.datasets[0].data=sp500d[1]
+    sp500.update()
+    nasdaq.data.labels=nasdaqd[0]
+    nasdaq.data.datasets[0].data=nasdaqd[1]
+    nasdaq.update()
+
+}
 
 
 
@@ -176,7 +204,7 @@ function createGraph(time,stock,place){
     const data = {
     labels: information[0],
     datasets: [{
-        label: 'sp500',
+        label: stock,
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
         data:information[1],

@@ -20,6 +20,51 @@
         <button id="year10" class="w3-button w3-black">10 year</button>
   </div>
 </div>
+<div>
+  <table>
+    <th>Date</th>
+    <th>Firm</th>
+    <th>Recomendation</th>
+  {% for i in range(5)%}
+    <tr>
+      <td>{{recomend['dates'][i]}}</td>
+      <td>{{recomend['firms'][i]}}</td>
+      <td>{{recomend['grades'][i]}} </td>
+    </tr>
+  {% endfor %}
+  </table>
+</div>
+
+<div>
+  <h1>Price history</h1>
+  <p> 52 Week High</p>
+  <p>{{Info['fiftyTwoWeekHigh']}}</p>
+  <p>52 week Low</p>
+  <p>{{Info['fiftyTwoWeekLow']}}</p>
+  <p>50 day average</p>
+  <p>{{Info['fiftyDayAverage']}}</p>
+  <p> 200 day average</p>
+  <p>{{Info['twoHundredDayAverage']}}</p>
+</div>
+
+
+<div>
+  <h1>value measures</h1>
+  <p>Market cap</p>
+  <p>{{Info['marketCap']}}</p>
+  <p>Trailing P/E</p>
+  <p>{{Info['trailingPE']}}<p>
+  <p>forward P/E </p>
+  <p>{{Info['forwardPE']}}</p>
+  <p>Price to sales in the last 12 months</p>
+  <p>{{Info['priceToSalesTrailing12Months']}}<p>
+  <p>Price to book value</p>
+  <p>{{Info['priceToBook']}}<p>
+  <p></p>
+</div>
+
+
+
 
 <!--About the company-->
 <div class="w3-container" style="margin-top:64px">
@@ -29,58 +74,7 @@
   <p> {{Info["longBusinessSummary"]}}</p>
 </div>
 <!--Information-->
-<div class="w3-container w3-center" style="margin-top:64px">
-  <div class="text-light w3-black">
-    <h2 class="w3-center">{{Info["longName"]}} Information</h2>
-  </div>
-  <ul class="w3-ul">
-    <li><b>Day High:</b> {{Info["dayHigh"]}}</li>
-    <li><b>Sector:</b> {{Info["sector"]}} </li>
-    <li><b>Industry:</b> {{Info["industry"]}}</li>
-    <li><b>Current Ration:</b> {{Info["currentRatio"]}}
-    <li><b>Debt to Equity:</b> {{Info["debtToEquity"]}} </li>
-    <li><b>Return on Equity:</b> {{Info["returnOnEquity"]}}</li>
-    <li><b>Quick Ratio:</b> {{Info["quickRatio"]}} </li>
-    <li><b>Forward Eps:</b> {{Info["forwardEps"]}} </li>
-    <li><b>Book Value:</b> {{Info["bookValue"]}}</li>
-    <li><b>Trailing Eps:</b> {{Info["trailingEps"]}}</li>
-    <li><b>Last Dividend Value:</b> {{Info["lastDividendValue"]}} </li>
-    <li><b>Price to Book:</b> {{Info["priceToBook"]}} </li>
-    <li><b>ield:</b>Y {{Info["yield"]}}</li>
-    <li><b>Last Dividend Date:</b> {{Info["lastDividendDate"]}}</li>
-    <li><b>Price to Sales Trailing 12 Months:</b> {{Info["priceToSalesTrailing12Months"]}}</li>
-    <li><b>Forward PE:</b> {{Info["forwardPE"]}}</li>
-    <li><b>Ytd Return:</b> {{Info["ytdReturn"]}}</li>
-    <li><b>Five Year Average Return:</b> {{Info["fiveYearAverageReturn"]}}</li>
-    <li><b>Two Hundred Day Average:</b> {{Info["twoHundredDayAverage"]}} </li>
-    <li><b>Trailing Annual Dividend Yield:</b> {{Info["trailingAnnualDividendYield"]}} </li>
-    <li><b>Payout Ratio:</b> {{Info["payoutRatio"]}}</li>
-    <li><b>Volume 24Hrs:</b> {{Info["volume24Hr"]}}</li>
-    <li><b>Regular Market Day High:</b> {{Info["regularMarketDayHigh"]}}</li>
-    <li><b>Fifty Day Average:</b> {{Info["fiftyDayAverage"]}} </li>
-    <li><b>Trailing Annual Dividend Rate:</b> {{Info["trailingAnnualDividendRate"]}} </li>
-    <li><b>Dividend Rate:</b> {{Info["dividendRate"]}} </li>
-    <li><b>Ex Dividend Date:</b> {{Info["exDividendDate"]}} </li>
-    <li><b>Regular Market Day Low:</b>{{Info["regularMarketDayLow"]}}</li>
-    <li><b>Trailing PE:</b> {{Info["trailingPE"]}} </li>
-    <li><b>Regular Market Volume:</b> {{Info["regularMarketVolume"]}}
-    <li><b>Market Cap:</b> {{Info["marketCap"]}} </li>
-    <li><b>Day Low:</b> {{Info["dayLow"]}} </li>
-    <li><b>Volume:</b> {{Info["volume"]}}</li>
-    <li><b>Fifty Two Week High:</b> {{Info["fiftyTwoWeekHigh"]}}</li>
-    <li><b>Five Year Avg Dividend Yield:</b> {{Info["fiveYearAvgDividendYield"]}}</li>
-    <li><b>Fifty Two Week Low:</b> {{Info["fiftyTwoWeekLow"]}}  </li>
-    <li><b>Dividend Yield:</b> {{Info["dividendYield"]}}</li>
-    <li><b>Logo Url:</b> {{Info["logo_url"]}}</li>
-    <li><b>City:</b> {{Info["city"]}} </li>
-    <li><b>State:</b> {{Info["state"]}}</li>
-    <li><b>Country:</b> {{Info["country"]}}</li>
-    <li><b>Website:</b> {{Info["website"]}}</li>
-  <ul>
-  <!-- graph on who owns the stock-->
-  <div class="conatainer" style="width:900px;">
-        <canvas id="ownershipGraph"></canvas>
-  <div>
+
 </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
@@ -88,7 +82,7 @@
 <script>
   let bottom = JSON.parse({{ dates | tojson }})
   let income = JSON.parse({{ money | tojson }})
-
+  let newmychart=stockGraph(bottom,income)
 
   function determineColor(price){
     let colors=[]
@@ -103,96 +97,110 @@
     return colors
   }
 
-  var newmychart = new Chart(ctx,config);
-  let owners = document.getElementById("ownershipGraph");
 
-
-  let stockName=document.getElementById("symbol");
+  let stockName=document.getElementById("symbol").textContent;
+  let day=document.getElementById("day");
   let mo3=document.getElementById("mo3");
   let mo6=document.getElementById("mo6");
   let year=document.getElementById("year");
   let year5=document.getElementById("year5");
   let year10=document.getElementById("year10");
-  
+  let id =setInterval(write,6000)
 
+  let keepGoing=true
+  let counter=0
+  day.addEventListener("click",()=>{
+    keepGoing=true
+    write()
+    id =setInterval(write,6000)
+  });
+
+  function write(){
+    if(keepGoing){
+    datas = getdata(stockName,'1d')
+    if (newmychart.data.datasets[0].data.length==datas[1].length){
+      counter=counter +1
+    }
+    if (counter==2)
+    {
+      console.log("finish")
+      clearInterval(id)
+      counter =0
+    }
+    newmychart.data.labels=datas[0]
+    newmychart.data.datasets[0].data=datas[1]
+    newmychart.update()
+    }
+  }
 
   mo3.addEventListener("click",()=>{
-    datas = getdata('3mo')
+    keepGoing=false
+    datas = getdata(stockName,'3mo')
     newmychart.data.labels=datas[0]
     newmychart.data.datasets[0].data=datas[1]
     newmychart.update();
   });
 
   mo6.addEventListener("click",()=>{
-    datas = getdata('6mo')
+    keepGoing=false
+    datas = getdata(stockName,'6mo')
     newmychart.data.labels=datas[0]
     newmychart.data.datasets[0].data=datas[1]
     newmychart.update();
   });
 
   year.addEventListener("click",()=>{
-    datas = getdata('1y')
+    keepGoing=false
+    datas = getdata(stockName,'1y')
     newmychart.data.labels=datas[0]
     newmychart.data.datasets[0].data=datas[1]
     newmychart.update();
   });
 
   year5.addEventListener("click",()=>{
-    datas = getdata('5y')
+    keepGoing=false
+    datas = getdata(stockName,'5y')
     newmychart.data.labels=datas[0]
     newmychart.data.datasets[0].data=datas[1]
     newmychart.update();
   });
 
   year10.addEventListener("click",()=>{
-    datas = getdata('10y')
+    keepGoing=false
+    datas = getdata(stockName,'10y')
+    console.log(datas[0])
     newmychart.data.labels=datas[0]
     newmychart.data.datasets[0].data=datas[1]
     newmychart.update();
   });
 
-  function stockGraph(){
-      var ctx = document.getElementById("myChart").getContext("2d");
-  colors = determineColor(income)
-  const data = {
-    labels: bottom,
+  function stockGraph(x_axis,y_axis){
+    let ctx = document.getElementById("myChart").getContext("2d");
+    const data = {
+    labels: x_axis,
     datasets: [{
-      label: 'My First dataset',
-      borderColor: colors,
-      data:income,
-      fill : false,
-      pointBorderColor: colors,
-    }]
-  };
-  const config = {
-    type: 'line',
-    data: data,
-    options: {
-      elements: {
-        point:{
-          radius : 0
-        }
-      },
-      scales :{
-        x:{
-          ticks:{
-            display : false
-          }
-        }
+      label: 'My First Dataset',
+      data: y_axis,
+      fill: false,
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
+      }]
+    };
+    const config = {
+      type: 'line',
+      data: data,
+    };
+    return new Chart(ctx,config)
+}
 
-      } 
-    }
-  };
-
-  }
-
-  function getdata(time){
+  function getdata(stock,time){
     let xhr = new XMLHttpRequest();
     let date
     let price
-    xhr.open('GET','http://127.0.0.1:5000/search?time='+time+'&stock='+stockName.textContent,false);
+    xhr.open('GET','http://127.0.0.1:5000/search?time='+time+'&stock='+stock,false);
     xhr.onload= function(){
       if(this.status == 200){
+        console.log("we are here")
         let information = JSON.parse(this.responseText);
         date = information["dates"]
         price = information["prices"]
