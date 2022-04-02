@@ -117,11 +117,12 @@ def updateProfile(id):
 @views.route('/delete/<int:id>', methods = ['GET','POST'])
 def delete(id):
     try:
-        Stock.query.filter_by(user_id=id).delete()
         User.query.filter_by(id=id).delete()
         db.session.commit()
+        print("We have deleted your account")
         flash("We have deleted your account", category = "success")
     except:
+        print("There is an ERROR!!!")
         flash("There is an ERROR!!!. We cannot delete your account. Please try again", category = "error")
     
     return redirect(url_for('views.home'))
