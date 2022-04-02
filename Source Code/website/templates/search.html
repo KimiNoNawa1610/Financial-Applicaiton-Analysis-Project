@@ -19,61 +19,71 @@
         <button id="year5" class="w3-button w3-black">5 years</button>
         <button id="year10" class="w3-button w3-black">10 year</button>
   </div>
+
 </div>
-<div>
-  <table>
-    <th>Date</th>
-    <th>Firm</th>
-    <th>Recomendation</th>
-  {% for i in range(5)%}
-    <tr>
-      <td>{{recomend['dates'][i]}}</td>
-      <td>{{recomend['firms'][i]}}</td>
-      <td>{{recomend['grades'][i]}} </td>
-    </tr>
-  {% endfor %}
-  </table>
-</div>
-
-<div>
-  <h1>Price history</h1>
-  <p> 52 Week High</p>
-  <p>{{Info['fiftyTwoWeekHigh']}}</p>
-  <p>52 week Low</p>
-  <p>{{Info['fiftyTwoWeekLow']}}</p>
-  <p>50 day average</p>
-  <p>{{Info['fiftyDayAverage']}}</p>
-  <p> 200 day average</p>
-  <p>{{Info['twoHundredDayAverage']}}</p>
-</div>
-
-
-<div>
-  <h1>value measures</h1>
-  <p>Market cap</p>
-  <p>{{Info['marketCap']}}</p>
-  <p>Trailing P/E</p>
-  <p>{{Info['trailingPE']}}<p>
-  <p>forward P/E </p>
-  <p>{{Info['forwardPE']}}</p>
-  <p>Price to sales in the last 12 months</p>
-  <p>{{Info['priceToSalesTrailing12Months']}}<p>
-  <p>Price to book value</p>
-  <p>{{Info['priceToBook']}}<p>
-  <p></p>
-</div>
-
-
-
 
 <!--About the company-->
 <div class="w3-container" style="margin-top:64px">
   <div class="text-light w3-black">
     <h2 class="w3-center">About {{Info["longName"]}}</h2>
   </div>
-  <p> {{Info["longBusinessSummary"]}}</p>
+  <p style=" text-indent: 1.2vw;">{{Info["longBusinessSummary"]}}</p>
 </div>
+
+<div>
+
+  <div class="text-light w3-black">
+    <h2 class="w3-center">Financial Info</h2>
+  </div>
+  <table style="text-align:center" align="center">
+    <th >Date</th>
+    <th>Firm</th>
+    <th>Recomendation</th>
+    {% for i in range(5)%}
+      <tr>
+        <td style="padding:0 15px 0 15px;">{{recomend['dates'][i]}}</td>
+        <td style="padding:0 15px 0 15px;">{{recomend['firms'][i]}}</td>
+        <td style="padding:0 15px 0 15px;">{{recomend['grades'][i]}} </td>
+      </tr>
+    {% endfor %}
+  </table>
+
+</div>
+
+<div>
+  <div class="text-light w3-black">
+    <h2 class="w3-center">Price History</h2>
+  </div>
+  <div align="center">
+    <p><b> 52 Week High: </b>{{Info['fiftyTwoWeekHigh']}}</p>
+    <p><b>52 week Low: </b>{{Info['fiftyTwoWeekLow']}}</p>
+    <p><b>50 day average: </b>{{Info['fiftyDayAverage']}}</p>
+    <p><b>200 day average: </b>{{Info['twoHundredDayAverage']}}</p>
+
+  </di>
+  
+</div>
+
+
+<div>
+  <div class="text-light w3-black">
+    <h2 class="w3-center">Value Measures</h2>
+  </div>
+  <div align="center">
+    <p><b>Market cap: </b>{{Info['marketCap']}}</p>
+    <p><b>Trailing P/E: </b>{{Info['trailingPE']}}<p>
+    <p><b>Forward P/E: </b>{{Info['forwardPE']}}</p>
+    <p><b>Price to sales in the last 12 months: </b>{{Info['priceToSalesTrailing12Months']}}<p>
+    <p><b>Price to book value: </b>{{Info['priceToBook']}}<p>
+  </div>
+</div>
+
+
+
+
+
 <!--Information-->
+
 
 </div>
 
@@ -215,9 +225,5 @@
 
 
 </script>
-
-<script type="text/javascript"
-    src="{{ url_for('static', filename='stock.js')}}">
-</script> 
 
 {% endblock %}
