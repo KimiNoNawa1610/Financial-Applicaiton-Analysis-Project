@@ -23,13 +23,11 @@ class User(db.Model, UserMixin):
 class UserStock(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
     stock_id = db.Column(db.Integer, db.ForeignKey('stock.id'), primary_key = True)
-    price = db.Column(db.Integer, db.ForeignKey('stock.price'), primary_key = True)
-    alert_act = db.Column(db.Boolean()) #boolean datatype for tracking
+    alert_act = db.Column(db.Boolean(),default=False) #boolean datatype for tracking
     date = db.Column(db.DateTime(timezone = True), default = func.now())
-    total = db.Column(db.Integer) # calculated column needed /total
-    price_traget = db.Column(db.Integer)
-    rating = db.Column(db.Integer)
-    number_of_stock = db.Column(db.Integer) #calculated column?
+    price_traget = db.Column(db.Integer,default=10000000)
+    rating = db.Column(db.Integer,default=0)
+    number_of_stock = db.Column(db.Integer) #calculated column
 
 class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
