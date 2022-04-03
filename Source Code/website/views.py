@@ -2,7 +2,7 @@
 from unicodedata import category
 from flask import Blueprint, jsonify, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import  login_required, current_user
-from .models import Stock, User
+from .models import Stock, User, UserStock
 from . import db
 from .fy import getStockPrice1d, getCurrentPrice
 from .searchform import SearchForm
@@ -50,28 +50,55 @@ def home():
 @views.route('/profile', methods=['GET','POST'])
 @login_required
 def profile(): #this function will run everytime we access the view's route
+    id= db.session.query(User.id).filter(User.email==current_user.email)
+
+    uss=UserStock.query.filter(UserStock.user_id==id).all()#user owned stock
+
+
     if(request.method == "POST"):
+
         stock = request.form.get('stock')
 
         stock = stock.lstrip()
 
-        if(stock):
-            if(Stock.query.filter_by(name = stock).first()):
-                flash(stock + " is already existed in your stock list", category = "error")
+        stock=stock.split(",")
 
-            elif (len(stock)<0):
+        stockName=stock[0].lower()
+
+        quantity=stock[1].lstrip()
+
+        if(stock):
+            if(db.session.query(UserStock.stock_id).filter(Stock.name == stockName).first()):
+                print(stockName + " is already existed in your profile")
+                flash(stockName + " is already existed in your profile", category = "error")
+
+            elif (len(stockName)<0):
                 flash("stock name is too short!", category = "error")
 
             else:
-                new_stock = Stock(name = stock, price = str(getStockPrice1d(stock)),user_id = current_user.id)
-                db.session.add(new_stock)
-                db.session.commit()
-                flash("new Stock added!", category = "success")
-                return  render_template("profile.html", form = SearchForm(), currentprice = getStockPrice1d(stock), user = current_user)# return the html file that we want to render to the website
-        else:
-            return  render_template("profile.html", form = SearchForm(), user = current_user)# return the html file that we want to render to the website
+                #if the stock is not in the stock database, add the stock to the stocks table first
+                if(Stock.query.filter_by(name=stockName).first()):
+                    print("Stock already in")
+                else:
+                    new_stock = Stock(name = stockName, price = str(getStockPrice1d(stockName)))
+                    db.session.add(new_stock)
+                    db.session.commit()
 
-    return  render_template("profile.html", form = SearchForm(), user = current_user)# return the html file that we want to render to the website
+                q = db.session.query(Stock.id, Stock.price).filter(Stock.name == stockName).first()
+                
+                print(current_user.email)
+                new_UserStock=UserStock(user_id=id, stock_id=q[0],number_of_stock=quantity)
+                db.session.add(new_UserStock)
+                db.session.commit()
+
+                uss=UserStock.query.filter(UserStock.user_id==id).all()#user owned stock
+
+                flash("new Stock added!", category = "success")
+                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock)# return the html file that we want to render to the website
+        else:
+            return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock)# return the html file that we want to render to the website
+
+    return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock)# return the html file that we want to render to the website
 
 # delete stock name
 @views.route('delete-stock', methods=['POST'])
