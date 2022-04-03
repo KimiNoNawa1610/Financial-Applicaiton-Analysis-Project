@@ -60,9 +60,14 @@ def profile(): #this function will run everytime we access the view's route
 
         stock=stock.split(",")
 
+        if(len(stock)==1):
+            quantity=1
+        else:
+            quantity=stock[1].lstrip()
+
         stockName=stock[0].lower()
 
-        quantity=stock[1].lstrip()
+        
 
         if(stock):
             if(Stock.query.filter_by(name=stockName).first()):
