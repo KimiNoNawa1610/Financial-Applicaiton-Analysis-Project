@@ -7,7 +7,7 @@ from sqlalchemy.sql import func
 class Stock(db.Model): 
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(50), unique = True)
-    price = db.Column(db.String(50))
+    price = db.Column(db.BigInteger())
     
 
 #user object (table)
@@ -25,13 +25,12 @@ class UserStock(db.Model):
     stock_id = db.Column(db.Integer, db.ForeignKey('stock.id'), primary_key = True)
     alert_act = db.Column(db.Boolean(),default=False) #boolean datatype for tracking
     date = db.Column(db.DateTime(timezone = True), default = func.now())
-    price_traget = db.Column(db.Integer,default=10000000)
+    price_traget = db.Column(db.BigInteger(),default=10000000)
     rating = db.Column(db.Integer,default=0)
     number_of_stock = db.Column(db.Integer) #calculated column
 
 class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
     stock_id = db.Column(db.Integer, db.ForeignKey('stock.id'), primary_key = True)
-    price = db.Column(db.Integer, db.ForeignKey('stock.price'), primary_key = False)
     date = db.Column(db.DateTime(timezone = True), default = func.now(), primary_key = True)
     comment = db.Column(db.String(500))
