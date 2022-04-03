@@ -50,13 +50,10 @@ def home():
 @views.route('/profile', methods=['GET','POST'])
 @login_required
 def profile(): #this function will run everytime we access the view's route
-    id= db.session.query(User.id).filter(User.email==current_user.email)
 
-    uss=UserStock.query.filter(UserStock.user_id==id).all()#user owned stock
-
+    uss=UserStock.query.filter(UserStock.user_id==current_user.id).all()#user owned stock
 
     if(request.method == "POST"):
-
         stock = request.form.get('stock')
 
         stock = stock.lstrip()
@@ -68,7 +65,14 @@ def profile(): #this function will run everytime we access the view's route
         quantity=stock[1].lstrip()
 
         if(stock):
-            if(db.session.query(UserStock.stock_id).filter(Stock.name == stockName).first()):
+            if(Stock.query.filter_by(name=stockName).first()):
+                    print("Stock already in")
+            else:
+                new_stock = Stock(name = stockName, price = str(getStockPrice1d(stockName)))
+                db.session.add(new_stock)
+                db.session.commit()
+            
+            if(UserStock.query.filter(UserStock.user_id==current_user.id, UserStock.stock_id==Stock.query.filter(Stock.name==stockName).first().id).first()):
                 print(stockName + " is already existed in your profile")
                 flash(stockName + " is already existed in your profile", category = "error")
 
@@ -77,21 +81,14 @@ def profile(): #this function will run everytime we access the view's route
 
             else:
                 #if the stock is not in the stock database, add the stock to the stocks table first
-                if(Stock.query.filter_by(name=stockName).first()):
-                    print("Stock already in")
-                else:
-                    new_stock = Stock(name = stockName, price = str(getStockPrice1d(stockName)))
-                    db.session.add(new_stock)
-                    db.session.commit()
-
+                
                 q = db.session.query(Stock.id, Stock.price).filter(Stock.name == stockName).first()
                 
-                print(current_user.email)
-                new_UserStock=UserStock(user_id=id, stock_id=q[0],number_of_stock=quantity)
+                new_UserStock=UserStock(user_id=current_user.id, stock_id=q[0],number_of_stock=quantity)
                 db.session.add(new_UserStock)
                 db.session.commit()
 
-                uss=UserStock.query.filter(UserStock.user_id==id).all()#user owned stock
+                uss=UserStock.query.filter(UserStock.user_id==current_user.id).all()#user owned stock
 
                 flash("new Stock added!", category = "success")
                 return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock)# return the html file that we want to render to the website
@@ -104,13 +101,12 @@ def profile(): #this function will run everytime we access the view's route
 @views.route('delete-stock', methods=['POST'])
 def delete_stock():
     stock = json.loads(request.data)
-    stockId = stock['stockId']
-    stock = Stock.query.get(stockId)
+    stockId = stock['stock_id']
+    stock = UserStock.query.filter(UserStock.user_id==current_user.id, UserStock.stock_id==stockId).first()
     if (stock):
-        if (stock.user_id == current_user.id):
-            flash(stock.name + " stock is successfully removed from your watchlist")
-            db.session.delete(stock)
-            db.session.commit()
+        flash(Stock.query.filter(Stock.id==stockId).first().name + " stock is successfully removed from your watchlist")
+        db.session.delete(stock)
+        db.session.commit()
     return jsonify({})
 
 
