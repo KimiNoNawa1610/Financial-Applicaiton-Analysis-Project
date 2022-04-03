@@ -42,6 +42,7 @@
     </div>
     <!--User Watchlist-->
     <div class="watchlist">
+      <b style="color:green;">To add a stock, please enter stock ticket name, follow by a comma with the number of stocks you have</b>
       <!--Display user's owned stocks-->
       <ul class = "list-group list-group-flush" id="stocks" style="background-color: aliceblue;">
         <h3 class="w3-center">STOCK(S) WATCHLIST</h3>
@@ -51,16 +52,18 @@
               <th></th>
               <th style="text-align:center">NAME</th>
               <th style="text-align:center">BOUGHT PRICE</th>
+              <th style="text-align:center">QUANTITY</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-              {% for stock in user.stocks %}
+              {% for us in uss %}
               <tr>
                 <td></td>
-                <td style="text-align:center">{{stock.name}}</td>
-                <td style="text-align:center">$ {{stock.price}}</td>
-                <td><button type="button" class="close" onCLick = "deleteStock({{ stock.id }})">
+                <td style="text-align:center">{{Stock.query.filter(Stock.id==us.stock_id).first().name}}</td>
+                <td style="text-align:center">$ {{Stock.query.filter(Stock.id==us.stock_id).first().price}}</td>
+                <td style="text-align:center">{{us.number_of_stock}}</td>
+                <td><button type="button" class="close" onCLick = "deleteStock({{ us.stock_id }})">
                   <span aria-hidden="true">
                     &times;
                   </span>
