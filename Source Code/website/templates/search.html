@@ -55,10 +55,10 @@
     <h2 class="w3-center">Price History</h2>
   </div>
   <div align="center">
-    <p><b> 52 Week High: </b>{{Info['fiftyTwoWeekHigh']}}</p>
-    <p><b>52 week Low: </b>{{Info['fiftyTwoWeekLow']}}</p>
-    <p><b>50 day average: </b>{{Info['fiftyDayAverage']}}</p>
-    <p><b>200 day average: </b>{{Info['twoHundredDayAverage']}}</p>
+    <p><b> 52 Week High: </b>{{"$%.2f"|format(Info['fiftyTwoWeekHigh'])}}</p>
+    <p><b>52 week Low: </b>{{"$%.2f"|format(Info['fiftyTwoWeekLow'])}}</p>
+    <p><b>50 day average: </b>{{"$%.2f"|format(Info['fiftyDayAverage'])}}</p>
+    <p><b>200 day average: </b>{{"$%.2f"|format(Info['twoHundredDayAverage'])}}</p>
 
   </di>
   
@@ -70,11 +70,11 @@
     <h2 class="w3-center">Value Measures</h2>
   </div>
   <div align="center">
-    <p><b>Market cap: </b>{{Info['marketCap']}}</p>
-    <p><b>Trailing P/E: </b>{{Info['trailingPE']}}<p>
-    <p><b>Forward P/E: </b>{{Info['forwardPE']}}</p>
-    <p><b>Price to sales in the last 12 months: </b>{{Info['priceToSalesTrailing12Months']}}<p>
-    <p><b>Price to book value: </b>{{Info['priceToBook']}}<p>
+    <p><b>Market cap: </b>{{"${:,.2f}".format(Info['marketCap'])}}</p>
+    <p><b>Trailing P/E: </b>{{"%.2f"|format(Info['trailingPE'])}}<p>
+    <p><b>Forward P/E: </b>{{"%.2f"|format(Info['forwardPE'])}}</p>
+    <p><b>Price to sales in the last 12 months: </b>{{"%.2f"|format(Info['priceToSalesTrailing12Months'])}}<p>
+    <p><b>Price to book value: </b>{{"%.2f"|format(Info['priceToBook'])}}<p>
   </div>
 </div>
 
@@ -110,6 +110,7 @@
   let year=document.getElementById("year");
   let year5=document.getElementById("year5");
   let year10=document.getElementById("year10");
+  let currentPrice=document.getElementById("dayHigh");
   let id =setInterval(write,6000)
 
   let keepGoing=true
@@ -135,6 +136,7 @@
     newmychart.data.labels=datas[0]
     newmychart.data.datasets[0].data=datas[1]
     newmychart.update()
+    currentPrice.innerHTML=datas[1][datas[1].length-1].toFixed(2).toString();
     }
   }
 
@@ -194,7 +196,7 @@
     const config = {
       type: 'line',
       data: data,
-    };
+    }; 
     return new Chart(ctx,config)
 }
 

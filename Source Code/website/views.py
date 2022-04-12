@@ -199,7 +199,7 @@ def search():
 def stockInfo(stock,time):
     information=''
     if time=='1d':
-        information = yf.download(tickers=stock, period=time, interval='1m')
+        information = yf.download(tickers=stock, period=time, interval='2m')
     elif time=='3mo'or time=='6mo':
         information = yf.download(tickers=stock, period=time, interval='1h')
     elif time=='1y':
