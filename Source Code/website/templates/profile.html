@@ -54,7 +54,7 @@
               <th style="text-align:center">BOUGHT PRICE</th>
               <th style="text-align:center">QUANTITY</th>
               <th style="text-align:center">TOTAL</th>
-              <th style="text-align:center">ALARM</th>>
+              <th style="text-align:center">ALARM</th>
               <th></th>
             </tr>
           </thead>
@@ -74,8 +74,12 @@
                 </button></td>
               </tr>
           {% endfor %}
+          
           </tbody>
+          
+
         </table>
+        <tr>Total Investment:{{total}}</tr>
       </ul>
       <!--Allow user to add what stock(s) they are investing in-->
       <form method="POST">

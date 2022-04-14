@@ -53,6 +53,11 @@ def profile(): #this function will run everytime we access the view's route
 
     uss=UserStock.query.filter(UserStock.user_id==current_user.id).all()#user owned stock
 
+    total=0
+    for us in uss:
+        total+=int(us.number_of_stock)*Stock.query.filter(Stock.id==us.stock_id).first().price
+
+
     if(request.method == "POST"):
         stock = request.form.get('stock')
 
@@ -66,8 +71,6 @@ def profile(): #this function will run everytime we access the view's route
             quantity=stock[1].lstrip()
 
         stockName=stock[0].lower()
-
-        
 
         if(stock):
             if(Stock.query.filter_by(name=stockName).first()):
@@ -95,12 +98,17 @@ def profile(): #this function will run everytime we access the view's route
 
                 uss=UserStock.query.filter(UserStock.user_id==current_user.id).all()#user owned stock
 
-                flash("new Stock added!", category = "success")
-                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock)# return the html file that we want to render to the website
-        else:
-            return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock)# return the html file that we want to render to the website
+                total=0
+                for us in uss:
+                    total+=int(us.number_of_stock)*Stock.query.filter(Stock.id==us.stock_id).first().price
 
-    return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock)# return the html file that we want to render to the website
+                flash("new Stock added!", category = "success")
+                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total)# return the html file that we want to render to the website
+        else:
+            return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total)# return the html file that we want to render to the website
+
+    return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total)# return the html file that we want to render to the website
+
 
 # delete stock name
 @views.route('delete-stock', methods=['POST'])
