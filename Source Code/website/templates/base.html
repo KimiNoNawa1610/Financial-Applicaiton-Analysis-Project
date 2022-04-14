@@ -246,6 +246,16 @@
   </script> 
 
   <script>
+
+    //enable Password view
+    function myFunction(element) {
+      if (element.type == "password") {
+        element.type = "text";
+      } else {
+        element.type = "password";
+      }
+    }
+    
     // Toggle between showing and hiding the sidebar when clicking the menu icon
     var mySidebar = document.getElementById("mySidebar");
     
