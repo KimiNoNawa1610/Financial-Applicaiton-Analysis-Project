@@ -6,3 +6,4 @@ function deleteStock(stock_id){
         window.location.href = "/profile"
     })
 }
+
