@@ -54,6 +54,7 @@
               <th style="text-align:center">BOUGHT PRICE</th>
               <th style="text-align:center">QUANTITY</th>
               <th style="text-align:center">TOTAL</th>
+              <th style="text-align:center">ALARM</th>>
               <th></th>
             </tr>
           </thead>
@@ -65,6 +66,7 @@
                 <td style="text-align:center">$ {{Stock.query.filter(Stock.id==us.stock_id).first().price}}</td>
                 <td style="text-align:center">{{us.number_of_stock}}</td>
                 <td style="text-align:center">${{us.number_of_stock*Stock.query.filter(Stock.id==us.stock_id).first().price}}</td>
+                <td style="text-align:center"><input type="checkbox" name="alarm"><input type="text" name="alram_price"></td>
                 <td><button type="button" class="close" onCLick = "deleteStock({{ us.stock_id }})">
                   <span aria-hidden="true">
                     &times;
