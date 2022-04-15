@@ -70,18 +70,28 @@ def profile(): #this function will run everytime we access the view's route
 
         stock=stock.split(",")
 
+        stockName=stock[0].lower()
+        price_of_stock = getStockPrice1d(stockName)
+
         if(len(stock)==1):
             quantity=1
-        else:
+        elif(len(stock)==2):
             quantity=stock[1].lstrip()
-
-        stockName=stock[0].lower()
+        elif(len(stock)==3):
+            quantity=stock[1].lstrip()
+            price_of_stock = stock[2].lstrip()
+        else:
+            flash("Input error!! Please try again", category = "error")
+            redirect(url_for('views.profile'))
 
         if(stock):
             if(Stock.query.filter_by(name=stockName).first()):
-                    print("Stock already in")
+                old_stock = Stock.query.filter_by(name=stockName).first()
+                old_stock.price = str(price_of_stock)
+                db.session.commit()
+
             else:
-                new_stock = Stock(name = stockName, price = str(getStockPrice1d(stockName)))
+                new_stock = Stock(name = stockName, price = str(price_of_stock))
                 db.session.add(new_stock)
                 db.session.commit()
             
@@ -90,7 +100,7 @@ def profile(): #this function will run everytime we access the view's route
                 #flash(stockName + " is already existed in your profile", category = "error")
                 q = db.session.query(Stock.id, Stock.price).filter(Stock.name == stockName).first()
                 stock_to_update = UserStock.query.filter(UserStock.user_id==current_user.id,UserStock.stock_id==q[0]).first()
-                stock_to_update.number_of_stock+=quantity
+                stock_to_update.number_of_stock=int(stock_to_update.number_of_stock)+int(quantity)
                 db.session.commit()
 
                 total=0
