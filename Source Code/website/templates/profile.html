@@ -17,79 +17,61 @@
   }
 </style>
 
-<div class="w3-container" style="padding:128px 16px" id="profile">
-  <div class="grid-container">
-    <!--User information-->
-    <div class="profile-infor">
-      <div class="card">
-        <div class="card-body">
-          <h4>WELCOME TO YOUR PROFILE!</h4>
-          <ul class="list-group list-group-flush">
-          <li class="list-group-item"><b>First name:</b> {{user.firstname}}</li>
-          <li class="list-group-item"><b>Last name:</b> {{user.lastname}}</li>
-          <li class="list-group-item"><b>Email:</b> {{user.email}}</li>
-          </ul>
-        </div>
-      </div>
-      <div align="center">
-        <form action="{{url_for('views.updateProfile',id=user.id)}}">
-          <button type="submit" class="w3-button w3-green">UPDATE PROFILE</button>
-        </form>
-        <form action="{{url_for('views.delete',id=user.id)}}">
-          <button type="submit" class="w3-button w3-red">DELETE PROFILE</button>
-        </form>
-      </div>
-    </div>
-    <!--User Watchlist-->
-    <div class="watchlist">
-      <b style="color:green;">To add a stock, please enter stock ticket name, follow by a comma with the number of stocks you have</b>
-      <!--Display user's owned stocks-->
-      <ul class = "list-group list-group-flush" id="stocks" style="background-color: aliceblue;">
-        <h3 class="w3-center">STOCK(S) WATCHLIST</h3>
-        <table id="data" class="table table-striped">
-          <thead>
-            <tr>
-              <th></th>
-              <th style="text-align:center">NAME</th>
-              <th style="text-align:center">BOUGHT PRICE</th>
-              <th style="text-align:center">QUANTITY</th>
-              <th style="text-align:center">TOTAL</th>
-              <th style="text-align:center">ALARM</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-              {% for us in uss %}
-              <tr>
-                <td></td>
-                <td style="text-align:center">{{Stock.query.filter(Stock.id==us.stock_id).first().name}}</td>
-                <td style="text-align:center">$ {{Stock.query.filter(Stock.id==us.stock_id).first().price}}</td>
-                <td style="text-align:center">{{us.number_of_stock}}</td>
-                <td style="text-align:center">${{us.number_of_stock*Stock.query.filter(Stock.id==us.stock_id).first().price}}</td>
-                <td style="text-align:center"><input type="checkbox" name="alarm"><input type="text" name="alram_price"></td>
-                <td><button type="button" class="close" onCLick = "deleteStock({{ us.stock_id }})">
-                  <span aria-hidden="true">
-                    &times;
-                  </span>
-                </button></td>
-              </tr>
-          {% endfor %}
-          
-          </tbody>
-          
-
-        </table>
-        <tr>Total Investment:{{total}}</tr>
-      </ul>
-      <!--Allow user to add what stock(s) they are investing in-->
+<div class="w3-third w3-padding-64" id="profile">
+  <div class="w3-container w3-round">
+    <h3 class="w3-center">MY PROFILE</h3>
+    <hr>
+    <p><b>First name:</b> {{user.firstname}}</p>
+    <p><b>Last name:</b> {{user.lastname}}</p>
+    <p><b>Email:</b> {{user.email}}</p>
+  </div>
+  <div class="w3-center">
+    <form action="{{url_for('views.updateProfile',id=user.id)}}">
+      <button type="submit" class="w3-button w3-green">UPDATE PROFILE<i class="fa fa-pencil w3-margin-left"></i></button>
+    </form>
+    <form action="{{url_for('views.delete',id=user.id)}}">
+      <button type="submit" class="w3-button w3-red">DELETE PROFILE<i class="fa fa-trash w3-margin-left"></i></button>
+    </form>
+  </div>
+</div>
+<div class="w3-twothird w3-padding-64" id="watchlist">
+  <div class="w3-container">
+    <h3 class="w3-center">STOCK(S) WATCHLIST</h3>
+    <hr>
+    <table class="w3-table w3-striped w3-gray w3-round">
+      <tr>
+        <th></th>
+        <th style="text-align:center">NAME</th>
+        <th style="text-align:center">BOUGHT PRICE</th>
+        <th style="text-align:center">QUANTITY</th>
+        <th style="text-align:center">TOTAL</th>
+        <th style="text-align:center">ALARM</th>
+        <th></th>
+      </tr>
+      {% for us in uss %}
+      <tr>
+        <td></td>
+        <td style="text-align:center">{{Stock.query.filter(Stock.id==us.stock_id).first().name}}</td>
+        <td style="text-align:center">$ {{Stock.query.filter(Stock.id==us.stock_id).first().price}}</td>
+        <td style="text-align:center">{{us.number_of_stock}}</td>
+        <td style="text-align:center">${{us.number_of_stock*Stock.query.filter(Stock.id==us.stock_id).first().price}}</td>
+        <td style="text-align:center"><input type="checkbox" name="alarm"><input type="text" name="alram_price"></td>
+        <td><button type="button" class="close" onCLick = "deleteStock({{us.stock_id}})">
+          <span aria-hidden="true">
+            &times;
+          </span>
+        </button></td>
+      </tr>
+      {% endfor %}
+    </table>
+    <!--Allow user to add what stock(s) they are investing in-->
+    <div class="w3-center">
+      <h5><b>Total Investment: ${{total}}</b></h5>
       <form method="POST">
         <textarea rows="1"  name="stock" id="stock" class="form-control"></textarea>
-        <div align="center">
-          <button type = "submit" class = "w3-button w3-black">
-            ADD STOCK
-          </button>
-        </div>
+        <button type = "submit" class = "w3-button w3-black">ADD STOCK</button>
       </form>
+      <p style="color:green;">To add a stock, please follow this format: <b>symbol, amount</b></p>
     </div>
   </div>
 </div>
