@@ -5,12 +5,13 @@
 <!--Basic user sign up information form-->
 {% block content %}
 
-<form method="POST">
-  <div class="w3-container" style="padding:128px 16px" id="signup">
-    <h3 class="w3-center">SIGN UP</h3>
-    <div style="margin-top:48px">
+<!-- Page content -->
+<div class="w3-content" style="max-width:1100px">
+  <div class="w3-container w3-padding-64" id="signup">
+    <h1 class="w3-center">SIGN UP</h1><br>
+    <form method="POST">
       <!--Email-->
-      <div class="form-group">
+      <p>
         <label for="email"><b>Email Address:</b></label>
         <input 
         type="email" 
@@ -18,9 +19,9 @@
         id="email" name="email" 
         placeholder="Please enter your email"
         />
-      </div>
+      </p>
       <!--First Name-->
-      <div class="form-group">
+      <p>
         <label for="firstname"><b>First Name:</b></label>
         <input 
         type="text" 
@@ -28,9 +29,9 @@
         id="firstname" name="firstname" 
         placeholder="Please enter your first name"
         />
-      </div>
+      </p>
       <!--Last Name-->
-      <div class="form-group">
+      <p>
           <label for="lastname"><b>Last Name:</b></label>
           <input 
           type="text" 
@@ -38,9 +39,9 @@
           id="lastname" name="lastname" 
           placeholder="Please enter your last name"
           />
-      </div>
+      </p>
       <!--Password-->
-      <div class="form-group">
+      <p>
           <label for="password"><b>Password:</b></label>
           <input 
           type="password" 
@@ -48,11 +49,10 @@
           id="password" name="password" 
           placeholder="Please enter your password"
           />
-          <input type="checkbox" onclick="myFunction(password)">Show Password
-      </div>
-      
+          <input type="checkbox" onclick="myFunction(password)"> Show Password
+      </p>
       <!--Confirm Password-->
-      <div class="form-group">
+      <p>
           <label for="checkpassword"><b>Re-enter Password:</b></label>
           <input 
           type="password" 
@@ -60,19 +60,13 @@
           id="checkpassword" name="checkpassword" 
           placeholder="Please confirm your password"
           />
-          <input type="checkbox" onclick="myFunction(checkpassword)">Show Check Password
-      </div>
-      
+          <input type="checkbox" onclick="myFunction(checkpassword)"> Show Check Password
+      </p>
       <p>
         <!--Submit Button-->
         <button type="submit" class="w3-button w3-black">SIGN UP</button>
       </p>
-    </div>
+    </form>
   </div>
-</form>
-
-<script>
-  
-</script>
-
+</div>
 {% endblock %}
