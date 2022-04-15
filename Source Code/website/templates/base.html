@@ -17,6 +17,10 @@
       font-family: "Raleway", sans-serif
     }
 
+    body {
+    overflow-x: scroll; /* Show horizontal scrollbar */
+    }
+
     .mySlides {display:none}
     .w3-tag, .fa {cursor:pointer}
     .w3-tag {height:15px;width:15px;padding:0;margin-top:6px}   
@@ -46,8 +50,8 @@
         <!-- Search form-->
         <form class="searchForm w3-bar-item form-inline" action="{{url_for('views.search')}}" method="POST">
           {{ form.hidden_tag() }}
-          <input type="search" placeholder="Search.." name="search">
-          <button type="submit"  class="w3-black"><i class="fa fa-search"></i></button>
+          <input type="search" placeholder="Search..." name="search">
+          <button type="submit" class="w3-black"><i class="fa fa-search"></i></button>
         </form>
       </div>
       <!-- Hide right-floated links on small screens and replace them with a menu icon -->

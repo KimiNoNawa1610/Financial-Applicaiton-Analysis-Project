@@ -68,10 +68,20 @@
     <div class="w3-center">
       <h5><b>Total Investment: ${{total}}</b></h5>
       <form method="POST">
-        <textarea rows="1"  name="stock" id="stock" class="form-control"></textarea>
-        <button type = "submit" class = "w3-button w3-black">ADD STOCK</button>
+        <p>
+          <input 
+            type="text" 
+            class="w3-input w3-border" 
+            name="stock" id="stock"
+            placeholder="symbol, amount">
+          </input>
+        </p>
+        <p>
+          <button type="submit" class="w3-button w3-black">
+            ADD STOCK<i class="fa fa-arrow-right w3-margin-left"></i>
+          </button>
+        </p>
       </form>
-      <p style="color:green;">To add a stock, please follow this format: <b>symbol, amount</b></p>
     </div>
   </div>
 </div>
