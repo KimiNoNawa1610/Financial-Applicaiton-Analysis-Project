@@ -12,6 +12,8 @@ from flask_mail import Mail, Message
 from . import mail
 import yfinance as yf
 from newsapi import NewsApiClient
+from nsetools import Nse
+import time
 
 views = Blueprint('views',__name__)
 
@@ -43,6 +45,9 @@ def home():
         url.append(article['url'])
 
         contents =zip(news, desc,img,p_date,url)
+
+    #Get most gain/ most 
+    
 
     return  render_template("home.html",form =SearchForm(), user=current_user, contents=contents)
 
@@ -82,7 +87,18 @@ def profile(): #this function will run everytime we access the view's route
             
             if(UserStock.query.filter(UserStock.user_id==current_user.id, UserStock.stock_id==Stock.query.filter(Stock.name==stockName).first().id).first()):
                 print(stockName + " is already existed in your profile")
-                flash(stockName + " is already existed in your profile", category = "error")
+                #flash(stockName + " is already existed in your profile", category = "error")
+                q = db.session.query(Stock.id, Stock.price).filter(Stock.name == stockName).first()
+                stock_to_update = UserStock.query.filter(UserStock.user_id==current_user.id,UserStock.stock_id==q[0]).first()
+                stock_to_update.number_of_stock+=quantity
+                db.session.commit()
+
+                total=0
+                for us in uss:
+                    total+=int(us.number_of_stock)*Stock.query.filter(Stock.id==us.stock_id).first().price
+
+                flash("Stock updated!", category = "success")
+                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total)# return the html file that we want to render to the website
 
             elif (len(stockName)<0):
                 flash("stock name is too short!", category = "error")
@@ -153,6 +169,9 @@ def updateProfile(id):
 @views.route('/delete/<int:id>', methods = ['GET','POST'])
 def delete(id):
     try:
+        userStocks=UserStock.query.filter(UserStock.user_id==current_user.id).all()
+        for stock in userStocks:
+            db.session.delete(stock)
         User.query.filter_by(id=id).delete()
         db.session.commit()
         print("We have deleted your account")
