@@ -12,6 +12,8 @@ from flask_mail import Mail, Message
 from . import mail
 import yfinance as yf
 from newsapi import NewsApiClient
+from nsetools import Nse
+import time
 
 views = Blueprint('views',__name__)
 
@@ -44,6 +46,9 @@ def home():
 
         contents =zip(news, desc,img,p_date,url)
 
+    #Get most gain/ most 
+    
+
     return  render_template("home.html",form =SearchForm(), user=current_user, contents=contents)
 
 #profile
@@ -65,24 +70,45 @@ def profile(): #this function will run everytime we access the view's route
 
         stock=stock.split(",")
 
+        stockName=stock[0].lower()
+        price_of_stock = getStockPrice1d(stockName)
+
         if(len(stock)==1):
             quantity=1
-        else:
+        elif(len(stock)==2):
             quantity=stock[1].lstrip()
-
-        stockName=stock[0].lower()
+        elif(len(stock)==3):
+            quantity=stock[1].lstrip()
+            price_of_stock = stock[2].lstrip()
+        else:
+            flash("Input error!! Please try again", category = "error")
+            redirect(url_for('views.profile'))
 
         if(stock):
             if(Stock.query.filter_by(name=stockName).first()):
-                    print("Stock already in")
+                old_stock = Stock.query.filter_by(name=stockName).first()
+                old_stock.price = str(price_of_stock)
+                db.session.commit()
+
             else:
-                new_stock = Stock(name = stockName, price = str(getStockPrice1d(stockName)))
+                new_stock = Stock(name = stockName, price = str(price_of_stock))
                 db.session.add(new_stock)
                 db.session.commit()
             
             if(UserStock.query.filter(UserStock.user_id==current_user.id, UserStock.stock_id==Stock.query.filter(Stock.name==stockName).first().id).first()):
                 print(stockName + " is already existed in your profile")
-                flash(stockName + " is already existed in your profile", category = "error")
+                #flash(stockName + " is already existed in your profile", category = "error")
+                q = db.session.query(Stock.id, Stock.price).filter(Stock.name == stockName).first()
+                stock_to_update = UserStock.query.filter(UserStock.user_id==current_user.id,UserStock.stock_id==q[0]).first()
+                stock_to_update.number_of_stock=int(stock_to_update.number_of_stock)+int(quantity)
+                db.session.commit()
+
+                total=0
+                for us in uss:
+                    total+=int(us.number_of_stock)*Stock.query.filter(Stock.id==us.stock_id).first().price
+
+                flash("Stock updated!", category = "success")
+                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total)# return the html file that we want to render to the website
 
             elif (len(stockName)<0):
                 flash("stock name is too short!", category = "error")
@@ -153,6 +179,9 @@ def updateProfile(id):
 @views.route('/delete/<int:id>', methods = ['GET','POST'])
 def delete(id):
     try:
+        userStocks=UserStock.query.filter(UserStock.user_id==current_user.id).all()
+        for stock in userStocks:
+            db.session.delete(stock)
         User.query.filter_by(id=id).delete()
         db.session.commit()
         print("We have deleted your account")
