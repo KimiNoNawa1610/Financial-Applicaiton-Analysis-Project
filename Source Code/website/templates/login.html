@@ -3,36 +3,34 @@
 {% block title %}Login{% endblock %}<!--Override the default name from the base.html template-->
 
 {% block content %}
-<div class="w3-content" style="max-width:1100px">
-  <div class="w3-container w3-padding-64" id="login">
-    <h1 class="w3-center">LOGIN</h1><br>
-    <form method="POST">
-      <!--Email-->
-      <p>
-        <label for="email"><b>Email Address:</b></label>
-        <input 
-          type="email" 
-          class="w3-input w3-border" 
-          id="email" name="email" 
-          placeholder="Please enter your email"
-        />
-      </p>
-      <!--Password-->
-      <p>
-        <label for="password"><b>Password:</b></label>
-        <input 
-          type="password" 
-          class="w3-input w3-border" 
-          id="password" name="password" 
-          placeholder="Please enter your password"
-        />
-        <input type="checkbox" onclick="myFunction(password)"> Show Password
-      </p>
-      <p>
-        <!--Submit Button-->
-        <button type="submit" class="w3-button w3-black">LOGIN</button>
-      </p>
-    </form>
-  </div>
+<div class="w3-container w3-padding-64" id="login">
+  <h1 class="w3-center">LOGIN</h1><br>
+  <form method="POST">
+    <!--Email-->
+    <p>
+      <label for="email"><b>Email Address:</b></label>
+      <input 
+        type="email" 
+        class="w3-input w3-border" 
+        id="email" name="email" 
+        placeholder="Please enter your email"
+      />
+    </p>
+    <!--Password-->
+    <p>
+      <label for="password"><b>Password:</b></label>
+      <input 
+        type="password" 
+        class="w3-input w3-border" 
+        id="password" name="password" 
+        placeholder="Please enter your password"
+      />
+      <input type="checkbox" onclick="myFunction(password)"> Show Password
+    </p>
+    <p>
+      <!--Submit Button-->
+      <button type="submit" class="w3-button w3-black">LOGIN</button>
+    </p>
+  </form>
 </div>
 {% endblock %}

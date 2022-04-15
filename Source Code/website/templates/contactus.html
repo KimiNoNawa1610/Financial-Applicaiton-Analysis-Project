@@ -10,73 +10,69 @@
     <h1 class="w3-xlarge" style="color:white;font-family:Playfair Display;"">Financial Investment Application Analysis</h1>
   </div>
 </div>
-<!-- Page content -->
-<div class="w3-content" style="max-width:1100px">
-  
-  <!-- About Section -->
-  <div class="w3-row w3-padding-64" id="about">
-    <div class="w3-padding-large">
-      <h1 class="w3-center">ABOUT FIAA</h1><br>
-      <p class="w3-large w3-center">FIAA is a user-friendly website that gathers stock information from Yahoo Finance, 
-        analyzes stocks, and provides better financial stock reports using artificial intelligence and machine learning 
-        algorithms. Our goal is to help new stock traders reduce investment risks by giving them suggestions on when 
-        to buy or sell a stock and how to invest in the long-term and short-term. Moreover, we have been implementing 
-        a new feature that does not exist on other platforms: stock prediction.</p>
-      <p class="w3-large w3-text-grey w3-hide-medium w3-center">However, it is essential to keep in mind that accurate 
-        stock prediction is extremely challenging because we cannot anticipate all changes over time. 
-        Therefore, the stock prediction feature is not always 100% accurate.</p>
-    </div>
+<!-- About Section -->
+<div class="w3-row w3-padding-64" id="about">
+  <div class="w3-padding-large">
+    <h1 class="w3-center">ABOUT FIAA</h1><br>
+    <p class="w3-large w3-center">FIAA is a user-friendly website that gathers stock information from Yahoo Finance, 
+      analyzes stocks, and provides better financial stock reports using artificial intelligence and machine learning 
+      algorithms. Our goal is to help new stock traders reduce investment risks by giving them suggestions on when 
+      to buy or sell a stock and how to invest in the long-term and short-term. Moreover, we have been implementing 
+      a new feature that does not exist on other platforms: stock prediction.</p>
+    <p class="w3-large w3-text-grey w3-hide-medium w3-center">However, it is essential to keep in mind that accurate 
+      stock prediction is extremely challenging because we cannot anticipate all changes over time. 
+      Therefore, the stock prediction feature is not always 100% accurate.</p>
   </div>
-  
-  <hr>
-  
-  <div class="w3-container w3-padding-64" id="contact">
-    <h1 class="w3-center">CONTACT US</h1>
-    <p class="w3-center w3-large">Let's get in touch. Send us a message!</p>
-    <div style="margin-top:48px">
-      <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right"></i> California, US</p>
-      <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +00 151515</p>
-      <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: fiaaonline@gmail.com</p>
-      <br>
-      <form method="POST">
-        <!--Name-->
-        <p>
-          <label for="name"><b>Name:</b></label>
-          <input 
-            type="text" 
-            class="w3-input w3-border" 
-            id="name" name="name" 
-            placeholder="Please enter your name"
+</div>
+
+<hr>
+
+<div class="w3-container w3-padding-64" id="contact">
+  <h1 class="w3-center">CONTACT US</h1>
+  <p class="w3-center w3-large">Let's get in touch. Send us a message!</p>
+  <div style="margin-top:48px">
+    <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right"></i> California, US</p>
+    <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: +00 151515</p>
+    <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: fiaaonline@gmail.com</p>
+    <br>
+    <form method="POST">
+      <!--Name-->
+      <p>
+        <label for="name"><b>Name:</b></label>
+        <input 
+          type="text" 
+          class="w3-input w3-border" 
+          id="name" name="name" 
+          placeholder="Please enter your name"
+        />
+      </p>
+      <!--Email-->
+      <p>
+        <label for="email"><b>Email Address:</b></label>
+        <input 
+          type="email" 
+          class="w3-input w3-border" 
+          id="email" name="email" 
+          placeholder="Please enter your email"
+        />
+      </p>
+      <!--message-->
+      <p>
+        <label for="message"><b>Message:</b></label>
+        <input
+          type="text" 
+          class="w3-input w3-border" 
+          id="message" name="message" 
+          placeholder="Please enter your message"
           />
-        </p>
-        <!--Email-->
-        <p>
-          <label for="email"><b>Email Address:</b></label>
-          <input 
-            type="email" 
-            class="w3-input w3-border" 
-            id="email" name="email" 
-            placeholder="Please enter your email"
-          />
-        </p>
-        <!--message-->
-        <p>
-          <label for="message"><b>Message:</b></label>
-          <input
-            type="text" 
-            class="w3-input w3-border" 
-            id="message" name="message" 
-            placeholder="Please enter your message"
-            />
-        </p>
-        <p>
-          <!--Submit Button-->
-          <button type="submit" class="w3-button w3-black">
-            <i class="fa fa-paper-plane"></i> SEND MESSAGE
-          </button>
-        </p>
-      </form>
-    </div>
+      </p>
+      <p>
+        <!--Submit Button-->
+        <button type="submit" class="w3-button w3-black">
+          <i class="fa fa-paper-plane"></i> SEND MESSAGE
+        </button>
+      </p>
+    </form>
   </div>
 </div>
 {% endblock %}
