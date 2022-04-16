@@ -6,9 +6,11 @@ import yfinance as yf
 import time
 import json
 import smtplib
+from threading import *
 
 
-searched = 'aapl'
+# searched = 'aapl'
+# change the searched to match the stock that is being applied to the profile
 
 
 def getStockPrice1d(stock):
@@ -63,7 +65,15 @@ def send_email():
 #less secure apps allowed to recieve emails from
 #otherwise gmail will block it
 
-while(True):
-    checkStock(searched)
-    # time.sleep(10)
-    # 1800 is 30 minutes
+def thread_1():                
+    while(True):
+        checkStock(searched)
+        time.sleep(1800)
+        # 1800 is 30 minutes
+ 
+# creating a thread T
+T = Thread(daemon = True, target=thread_1)
+ 
+# starting of thread T
+T.start()                      
+
