@@ -14,6 +14,16 @@ import yfinance as yf
 from newsapi import NewsApiClient
 from nsetools import Nse
 import time
+# for stock prediction
+import pandas as pd
+import datetime as dt
+import numpy as np
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import LSTM
+from sklearn.preprocessing import MinMaxScaler
+
+
 
 views = Blueprint('views',__name__)
 
@@ -224,7 +234,8 @@ def search():
         values= stats[0]
         dates=stats[1]
         Info = information(searched)
-        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info[0],recomend=Info[1])
+        future=machinelearningPrediction(searched)
+        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info[0],recomend=Info[1],prediction=json.dumps(future))
     else:
         info = stockInfo(request.args.get('stock'),request.args.get('time'))
         # GETTING THE DATES
@@ -259,6 +270,84 @@ def information(stock):
     firms= information['Firm'].tolist()
     grade=information['To Grade'].tolist()
     return [ticker.info,{'dates':dates,'firms':firms,'grades':grade}]
+
+
+def create_dataset(dataset,time_step=1):
+    dataX,dataY=[],[]
+    for i in range(len(dataset)-time_step): 
+        a=dataset[i:(i+time_step),0] 
+        dataX.append(a)
+        dataY.append(dataset[i+time_step,0])
+    return np.array(dataX),np.array(dataY)
+
+def machinelearningPrediction(stock):
+    today = dt.date.today()
+    yesterday = today - dt.timedelta(days = 1)
+    start=yesterday-dt.timedelta(days=500)
+    start=start.strftime("%Y-%m-%d")
+    yesterday=yesterday.strftime("%Y-%m-%d")
+    # load data
+    data=yf.download(stock,start=start,end=yesterday)
+    df1=data.reset_index()['Close']
+    #transform the data
+    scaler = MinMaxScaler(feature_range=(0,1))
+    df1=scaler.fit_transform(np.array(df1).reshape(-1,1))
+    #splitting dataset into train and test 
+    training_size=int(len(df1)*0.65)
+    test_size = len(df1)-training_size
+    train_data,test_data=df1[0:training_size,:],df1[training_size:len(df1),:1]
+    #reshape into x=t,t+1,t+2,t+3 and Y=t+4
+    time_step=30
+    x_train,y_train=create_dataset(train_data,time_step)
+    x_test,y_test=create_dataset(test_data,time_step)
+    # reshape input to be [samples,time steps,features] which is required by lstm
+    x_train = x_train.reshape(x_train.shape[0],x_train.shape[1],1)
+    x_test = x_test.reshape(x_test.shape[0],x_test.shape[1],1)
+    #creatin model
+    model=Sequential()
+    #input shape the one we are passing in 
+    model.add(LSTM(50,return_sequences=True,input_shape=(time_step,1)))
+    model.add(LSTM(50,return_sequences=True))
+    model.add(LSTM(50))
+    model.add(Dense(1))
+    model.compile(loss='mean_squared_error',optimizer='adam')
+    model.fit(x_train,y_train,validation_data=(x_test,y_test),epochs=30,batch_size=10,verbose=1)
+    # getting what we want
+    x_input=test_data[len(test_data)-time_step:].reshape(1,-1)
+    temp_input=list(x_input)
+    temp_input=temp_input[0].tolist()
+    lst_output=[]
+    n_steps=time_step
+    i=0
+    while(i<30):
+        if(len(temp_input)>time_step):
+            #print(temp_input)
+            x_input=np.array(temp_input[1:])
+            print("{} day input {}".format(i,x_input))
+            x_input=x_input.reshape(1,-1)
+            x_input = x_input.reshape((1, n_steps, 1))
+            #print(x_input)
+            yhat = model.predict(x_input, verbose=0)
+            print("{} day output {}".format(i,yhat))
+            temp_input.extend(yhat[0].tolist())
+            temp_input=temp_input[1:]
+            #print(temp_input)
+            lst_output.extend(yhat.tolist())
+            i=i+1
+        else:
+            x_input = x_input.reshape((1, n_steps,1))
+            yhat = model.predict(x_input, verbose=0)
+            print(yhat[0])
+            temp_input.extend(yhat[0].tolist())
+            print(len(temp_input))
+            lst_output.extend(yhat.tolist())
+            i=i+1
+    past=(scaler.inverse_transform(df1[len(df1)-time_step:])).tolist()
+    future=(scaler.inverse_transform(lst_output)).tolist()
+    answer=past+future
+    return answer
+    
+    
 
 
 

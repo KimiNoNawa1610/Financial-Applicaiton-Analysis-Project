@@ -86,10 +86,12 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  let prediction= JSON.parse({{prediction| tojson}})
   let bottom = JSON.parse({{ dates | tojson }})
   let income = JSON.parse({{ money | tojson }})
-  let newmychart=stockGraph(bottom,income)
-
+  let ctx = document.getElementById("myChart").getContext("2d");
+  let newmychart=stockGraph(bottom,income,ctx)
+  console.log(prediction)
   function determineColor(price){
     let colors=[]
     for(i=0;i<price.length;i++){
@@ -181,8 +183,7 @@
     newmychart.update();
   });
 
-  function stockGraph(x_axis,y_axis){
-    let ctx = document.getElementById("myChart").getContext("2d");
+  function stockGraph(x_axis,y_axis,ctx){
     const data = {
     labels: x_axis,
     datasets: [{
@@ -218,6 +219,8 @@
 
     return [date,price]
   }
+
+  
 
 
 
