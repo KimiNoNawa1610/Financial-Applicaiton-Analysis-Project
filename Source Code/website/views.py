@@ -244,6 +244,10 @@ def search():
         data={"dates":dates,"prices":prices}
         return json.dumps(data)
 
+@views.route('/prediction',methods=["GET"])
+def prediction():
+    return machinelearningPrediction()
+
 def stockInfo(stock,time):
     information=''
     if time=='1d':
@@ -342,9 +346,13 @@ def machinelearningPrediction(stock):
             print(len(temp_input))
             lst_output.extend(yhat.tolist())
             i=i+1
-    past=(scaler.inverse_transform(df1[len(df1)-time_step:])).tolist()
-    future=(scaler.inverse_transform(lst_output)).tolist()
-    answer=past+future
+    answer=[]
+    past=(scaler.inverse_transform(df1[len(df1)-time_step:]))
+    future=(scaler.inverse_transform(lst_output))
+    for price in past:
+        answer.append(price[0])
+    for price in future:
+        answer.append(price[0])
     return answer
     
     

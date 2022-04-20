@@ -78,7 +78,10 @@
   </div>
 </div>
 
-<!--Information-->
+<!--prediction-->
+<div class="conatainer" style="width:900px;">
+        <canvas id="predictionChart"></canvas>
+</div>
 
 
 </div>
@@ -90,8 +93,9 @@
   let bottom = JSON.parse({{ dates | tojson }})
   let income = JSON.parse({{ money | tojson }})
   let ctx = document.getElementById("myChart").getContext("2d");
+  let predictLocation = document.getElementById("predictionChart").getContext("2d");
   let newmychart=stockGraph(bottom,income,ctx)
-  console.log(prediction)
+  let predictChart=stockGraph([],prediction,predictLocation)
   function determineColor(price){
     let colors=[]
     for(i=0;i<price.length;i++){
@@ -131,7 +135,6 @@
     }
     if (counter==2)
     {
-      console.log("finish")
       clearInterval(id)
       counter =0
     }
@@ -177,20 +180,33 @@
   year10.addEventListener("click",()=>{
     keepGoing=false
     datas = getdata(stockName,'10y')
-    console.log(datas[0])
     newmychart.data.labels=datas[0]
     newmychart.data.datasets[0].data=datas[1]
     newmychart.update();
   });
 
   function stockGraph(x_axis,y_axis,ctx){
+    if(x_axis.length==0){
+      for(let count=0;count<y_axis.length;count++){
+        x_axis.push(count)
+      }
+    }
+    console.log(x_axis)
+    console.log(y_axis)
+    colors=[]
+    for(let counter=0;counter<=30;counter++){
+      colors.push('rgb(205,218,34)')
+    }
+    for(let counter=0;counter<=30;counter++){
+      colors.push('rgb(218,101,34)')
+    }
     const data = {
     labels: x_axis,
     datasets: [{
       label: 'My First Dataset',
       data: y_axis,
       fill: false,
-      borderColor: 'rgb(75, 192, 192)',
+      borderColor: colors,
       tension: 0.1
       }]
     };
@@ -208,7 +224,6 @@
     xhr.open('GET','http://127.0.0.1:5000/search?time='+time+'&stock='+stock,false);
     xhr.onload= function(){
       if(this.status == 200){
-        console.log("we are here")
         let information = JSON.parse(this.responseText);
         date = information["dates"]
         price = information["prices"]
@@ -219,6 +234,25 @@
 
     return [date,price]
   }
+
+  //let askPre= new XMLHttpRequest();
+  //let preDate
+  //let prePrice
+  //askPre.open('GET','http://127.0.0.1:500/prediction?stock='stock,true);
+  //xhr.onload=function(){
+  //  if(this.status == 200){
+  //    let information = JSON.parse(this.responseText);
+        
+
+  //  }
+  //}
+
+  //let id =setInterval(write,6000)
+
+ // function updategraph(){
+
+  //}
+
 
   
 
