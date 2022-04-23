@@ -70,11 +70,26 @@
     <h2 class="w3-center">Value Measures</h2>
   </div>
   <div align="center">
-    <p><b>Market cap: </b>{{"${:,.2f}".format(Info['marketCap'])}}</p>
-    <p><b>Trailing P/E: </b>{{"%.2f"|format(Info['trailingPE'])}}<p>
-    <p><b>Forward P/E: </b>{{"%.2f"|format(Info['forwardPE'])}}</p>
-    <p><b>Price to sales in the last 12 months: </b>{{"%.2f"|format(Info['priceToSalesTrailing12Months'])}}<p>
-    <p><b>Price to book value: </b>{{"%.2f"|format(Info['priceToBook'])}}<p>
+    <p class="tooltip"><b>Market cap: </b>
+      <span class="tooltiptext">The total value of all a company's shares of stock.</span>
+      {{"${:,.2f}".format(Info['marketCap'])}}
+    </p>
+    <p class="tooltip"><b>Trailing P/E: </b>
+      <span class="tooltiptext">The trailing P/E ratio measures the EPS (Earnings Per Share) of a stock for the previous 12 months.</span>
+      {{"%.2f"|format(Info['trailingPE'])}}
+    </p>
+    <p class="tooltip"><b>Forward P/E: </b>
+      <span class="tooltiptext">The forward P/E ratio forecasts the future projected EPS (Earnings Per Share) of a stock.</span>
+      {{"%.2f"|format(Info['forwardPE'])}}
+    </p>
+    <p class="tooltip"><b>Price to sales in the last 12 months: </b>
+      <span class="tooltiptext">The price-to-sales ratio compares a company's stock price to its revenues.</span>
+      {{"%.2f"|format(Info['priceToSalesTrailing12Months'])}}
+    </p>
+    <p class="tooltip"><b>Price to book value: </b>
+      <span class="tooltiptext">The price-to-book ratio measures the market capitalization of a company relative to its book value of equity.</span>
+      {{"%.2f"|format(Info['priceToBook'])}}
+    </p>
   </div>
 </div>
 
