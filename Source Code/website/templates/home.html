@@ -249,7 +249,7 @@ function getdata(time, stock){
     let xhr = new XMLHttpRequest();
     let date
     let price
-    xhr.open('GET','http://127.0.0.1:5000/search?time='+time+'&stock='+stock,false);
+    xhr.open('GET','http://127.0.0.1:5000/prices?time='+time+'&stock='+stock,false);
     xhr.onload= function(){
     if(this.status == 200){
         let information = JSON.parse(this.responseText);

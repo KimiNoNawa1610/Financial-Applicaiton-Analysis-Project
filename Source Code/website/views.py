@@ -234,19 +234,28 @@ def search():
         values= stats[0]
         dates=stats[1]
         Info = information(searched)
-        future=machinelearningPrediction(searched)
-        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info[0],recomend=Info[1],prediction=json.dumps(future))
+        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info[0],recomend=Info[1])
     else:
-        info = stockInfo(request.args.get('stock'),request.args.get('time'))
-        # GETTING THE DATES
-        prices=info[0]
-        dates = info[1]
-        data={"dates":dates,"prices":prices}
-        return json.dumps(data)
+        searched = request.args.get('stock')
+        stats = stockInfo(searched,"1d")
+        values= stats[0]
+        dates=stats[1]
+        Info = information(searched)
+        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info[0],recomend=Info[1])
 
-@views.route('/prediction',methods=["GET"])
+@views.route('/prices',methods=["GET","POST"])
+def prices():
+    info = stockInfo(request.args.get('stock'),request.args.get('time'))
+    # GETTING THE DATES
+    prices=info[0]
+    dates = info[1]
+    data={"dates":dates,"prices":prices}
+    return json.dumps(data)
+
+
+@views.route('/prediction',methods=["GET","POST"])
 def prediction():
-    return machinelearningPrediction()
+    return json.dumps(machinelearningPrediction(request.args.get('stock')))
 
 def stockInfo(stock,time):
     information=''
@@ -292,7 +301,7 @@ def machinelearningPrediction(stock):
     yesterday=yesterday.strftime("%Y-%m-%d")
     # load data
     data=yf.download(stock,start=start,end=yesterday)
-    df1=data.reset_index()['Close']
+    df1=data.reset_index()['Adj Close']
     #transform the data
     scaler = MinMaxScaler(feature_range=(0,1))
     df1=scaler.fit_transform(np.array(df1).reshape(-1,1))

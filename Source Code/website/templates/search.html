@@ -22,6 +22,9 @@
 
 </div>
 
+<button class="fa fa-clone" id="Copy"></button>
+
+
 <!--About the company-->
 <div class="w3-container" style="margin-top:64px">
   <div class="text-light w3-black">
@@ -89,13 +92,18 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  let prediction= JSON.parse({{prediction| tojson}})
+
+
+
+
+
+
+
   let bottom = JSON.parse({{ dates | tojson }})
   let income = JSON.parse({{ money | tojson }})
   let ctx = document.getElementById("myChart").getContext("2d");
   let predictLocation = document.getElementById("predictionChart").getContext("2d");
   let newmychart=stockGraph(bottom,income,ctx)
-  let predictChart=stockGraph([],prediction,predictLocation)
   function determineColor(price){
     let colors=[]
     for(i=0;i<price.length;i++){
@@ -110,6 +118,18 @@
   }
 
   let stockName=document.getElementById("symbol").textContent;
+  
+  document.getElementById("Copy").addEventListener('click',function(){
+    let url = window.location.href;
+    url = url +"?time=1d&stock="+stockName+"&num="+1
+    console.log(url)
+    let inputElement = document.createElement('input')
+    inputElement.setAttribute('value',url)
+    document.body.appendChild(inputElement)
+    inputElement.select()
+    document.execCommand('copy')
+    inputElement.parentNode.removeChild(inputElement)
+  });
   let day=document.getElementById("day");
   let mo3=document.getElementById("mo3");
   let mo6=document.getElementById("mo6");
@@ -191,8 +211,6 @@
         x_axis.push(count)
       }
     }
-    console.log(x_axis)
-    console.log(y_axis)
     colors=[]
     for(let counter=0;counter<=30;counter++){
       colors.push('rgb(205,218,34)')
@@ -221,7 +239,7 @@
     let xhr = new XMLHttpRequest();
     let date
     let price
-    xhr.open('GET','http://127.0.0.1:5000/search?time='+time+'&stock='+stock,false);
+    xhr.open('GET','http://127.0.0.1:5000/prices?time='+time+'&stock='+stock,false);
     xhr.onload= function(){
       if(this.status == 200){
         let information = JSON.parse(this.responseText);
@@ -234,25 +252,29 @@
 
     return [date,price]
   }
+//////////////////////////////
+  let askPre= new XMLHttpRequest();
+  var preDates=[]
+  var prePrice=[]
+  askPre.open('GET','http://127.0.0.1:5000/prediction?stock='+stockName,true);
+  askPre.onload=function(){
+    if(this.status == 200){
+      prePrice= JSON.parse(this.responseText);
+      
+    }
+  }
+  askPre.send()
 
-  //let askPre= new XMLHttpRequest();
-  //let preDate
-  //let prePrice
-  //askPre.open('GET','http://127.0.0.1:500/prediction?stock='stock,true);
-  //xhr.onload=function(){
-  //  if(this.status == 200){
-  //    let information = JSON.parse(this.responseText);
-        
+  var predictionID=setInterval(createPrediction,2000)
+  function createPrediction(){
+    if(prePrice.length!=0){
+      console.log("hello")
+      stockGraph([],prePrice,predictLocation)
+      clearInterval(predictionID)
+    }
+  }
 
-  //  }
-  //}
-
-  //let id =setInterval(write,6000)
-
- // function updategraph(){
-
-  //}
-
+  
 
   
 
