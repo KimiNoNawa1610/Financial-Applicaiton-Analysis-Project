@@ -18,110 +18,81 @@
         gap: 10px;
         background-color: #b1c1ce;
         padding: 10px;
-        }
+    }
 
-        .grid-container > div {
-            background-color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            padding: 20px 0;
-            font-size: 30px;
-            
-            }
+    .grid-container > div {
+        background-color: rgba(255, 255, 255, 0.8);
+        text-align: center;
+        padding: 20px 0;
+        font-size: 30px;
+    }
 </style>
 
-<!--full-height image -->
-<div class="grid-container" style="padding-top:20px">
-    <!-- GRAPHS -->
-    <div class="w3-row-padding item1">
-        <div class="w3-center w3-padding-64">
-            <h3><b>DAILY MARKET CHARTS</b></h4>
-        </div>
-        <div class="w3-third w3-margin-bottom">
-            <div class="w3-border w3-center">
-                <div id="Dow">
-                    <canvas id="dowChart"></canvas>
-               </div>
-            </div>
-        </div>
-        <div class="w3-third w3-margin-bottom">
-            <div class="w3-border w3-center">
-                <div id="Dow">
-                    <canvas id="nasdaqChart"></canvas>
-               </div>
-            </div>
-        </div>
-        <div class="w3-third w3-margin-bottom">
-            <div class="w3-border w3-center">
-                <div id="Dow">
-                    <canvas id="SP500Chart"></canvas>
-               </div>
-            </div>
-        </div>
-    
-    </div>
-    
-    <div class="w3-row-padding item2">
-        <!-- NEW Slideshow -->
-        
-        <!-- Slideshow -->
-        <div class="w3-container">
-            
-            {% for title, desc,img,p_date,url in contents %}
-            <div class="w3-display-container mySlides" >
-                <div class="w3-container" align="center">
-                    <h3 align= "center" class="w3-padding-24"><b>LATEST MARKET NEWS</b></h3>
-                    <img src ="{{img}}" style=" width: 820px; height: 360px;">
-                    <div class="w3-black w3-container" style=" width: 820px; height: 180px; font-size: 1.2vw;" >
-                        <h4>{{title}}</h4>
-                        <p>{{desc}}</p>
-                        <p><a href="{{url}}">READ MORE</a></p>
-                    </div>
-                </div>
-                
-                
-            </div>
-            {% endfor %}
-            <div class="w3-left previous" onclick="plusDivs(-1)"><i class="fa fa-arrow-circle-left w3-hover-text-teal"></i></div>
-            <div class="w3-right next" onclick="plusDivs(1)"><i class="fa fa-arrow-circle-right w3-hover-text-teal"></i></div>
-        </div>
-    </div>
 
-    <!-- Slideshow next/previous buttons -->
-    
-    
-
-
-    <!--Daily stock graph table-->
-    <div class="w3-row-padding item3">
-        <h3 class="w3-padding-64"><b>HIGHEST PERCENTAGE GAIN STOCKS</b></h3>
+<!-- GRAPHS -->
+<div class="w3-row-padding">
+    <div class="w3-center w3-padding-64">
+        <h3><b>DAILY MARKET CHARTS</b></h3>
     </div>
-
-    <div class="w3-row-padding item4">
-        <h3 class="w3-padding-64"><b>HIGHEST PERCENTAGE LOOSE STOCKS</b></h3>
-    </div>
-    
-    
-    <!-- OLD NEWSFEED
-    <div class=" newsfeet">
-        <div class="slider">
-            {% for title, desc,img,p_date,url in contents %}
-            <div class="slide">
-                <img src = "{{img}}">
-                <div class="info">
-                    <h2>{{title}}</h2>
-                    <p>{{desc}}<br><a href="{{url}}">READ MORE</a></p>
-                    
-                </div>
-            </div>
-            {% endfor %}
-            <div class="navigation">
-                <i class="fas fa-chevron-left prev-btn"></i>
-                <i class="fas fa-chevron-right next-btn"></i>
+    <div class="w3-third w3-margin-bottom">
+        <div class="w3-border w3-center">
+            <div id="Dow">
+                <canvas id="dowChart"></canvas>
             </div>
         </div>
     </div>
-    -->
+    <div class="w3-third w3-margin-bottom">
+        <div class="w3-border w3-center">
+            <div id="Dow">
+                <canvas id="nasdaqChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="w3-third w3-margin-bottom">
+        <div class="w3-border w3-center">
+            <div id="Dow">
+                <canvas id="SP500Chart"></canvas>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="w3-row-padding">
+    <!-- Slideshow -->
+    <div class="w3-twothird slideshow-container">
+        <div class="w3-center w3-padding-64">
+            <h3><b>LATEST MARKET NEWS</b></h3>
+        </div>
+        {% for title, desc,img,p_date,url in contents %}
+        <div class = "mySlides fade">
+            <img src ="{{img}}" style = "width:100%">
+            <div class = "w3-black w3-container">
+                <h5>{{title}}</h5>
+                <p>{{desc}}</p>
+                <p><a href="{{url}}">READ MORE</a></p>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- Slideshow next/previous buttons -->
+        <div class="w3-left previous" onclick="plusDivs(-1)"><i class="fa fa-arrow-circle-left w3-hover-text-teal"></i></div>
+        <div class="w3-right next" onclick="plusDivs(1)"><i class="fa fa-arrow-circle-right w3-hover-text-teal"></i></div>
+    </div>
+    <div class="w3-third w3-container">
+        <!--Daily stock graph table-->
+        <div class="w3-center w3-padding-64">
+            <h5><b>HIGHEST PERCENTAGE GAIN STOCKS</b></h5>
+        </div>
+        <div class="w3-center w3-padding-64">
+            <h5><b>HIGHEST PERCENTAGE LOOSE STOCKS</b></h5>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 
 <script>
     // Slideshow
