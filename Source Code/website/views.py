@@ -106,7 +106,7 @@ def profile(): #this function will run everytime we access the view's route
                 db.session.commit()
             
             if(UserStock.query.filter(UserStock.user_id==current_user.id, UserStock.stock_id==Stock.query.filter(Stock.name==stockName).first().id).first()):
-                print(stockName + " is already existed in your profile")
+                flash(stockName + " is already existed in your profile")
                 #flash(stockName + " is already existed in your profile", category = "error")
                 q = db.session.query(Stock.id, Stock.price).filter(Stock.name == stockName).first()
                 stock_to_update = UserStock.query.filter(UserStock.user_id==current_user.id,UserStock.stock_id==q[0]).first()
