@@ -7,13 +7,13 @@ from . import db
 from .fy import getStockPrice1d, getCurrentPrice
 from .searchform import SearchForm
 import json
-from .userform import UserForm
+from .userform import UserForm, StockForm
 from flask_mail import Mail, Message
 from . import mail
 import yfinance as yf
 from newsapi import NewsApiClient
-from nsetools import Nse
 import time
+from .alert import thread_1
 # for stock prediction
 import pandas as pd
 import datetime as dt
@@ -23,7 +23,7 @@ from keras.layers import Dense
 from keras.layers import LSTM
 from sklearn.preprocessing import MinMaxScaler
 from yahoo_fin import stock_info as si
-
+from threading import *
 
 
 views = Blueprint('views',__name__)
@@ -61,6 +61,30 @@ def home():
     
 
     return  render_template("home.html",form =SearchForm(), user=current_user, contents=contents)
+#alert
+@views.route('/alert/<int:id>', methods = ['GET','POST'])
+def alert(id):
+    form = StockForm()
+    if request.method == "POST":
+        stockname = request.form['stockname']
+        stockprice = request.form['stockprice']
+        email = request.form['email']
+        if(stockname.replace(" ","") and stockprice.replace(" ","") and email.replace(" ","")):
+            try:
+                # creating a thread T
+                T = Thread(daemon = True, target=thread_1, args=[stockname,float(stockprice),email])
+                
+                # starting of thread T
+                T.start()    
+
+                return redirect(url_for('views.profile'))
+
+            except:
+                flash("Some information you enter is incorrect, please try again!",category="error")
+                return render_template("alert.html", form = form, user = current_user)
+    else:
+        return render_template("alert.html", form = form, user = current_user)
+        
 
 #profile
 @views.route('/profile', methods=['GET','POST'])

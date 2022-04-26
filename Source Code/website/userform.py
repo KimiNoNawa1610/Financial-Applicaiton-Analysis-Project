@@ -8,3 +8,9 @@ class UserForm(FlaskForm):
     lastname = StringField('lastname',validators=[DataRequired()])
     email = StringField('email',validators=[DataRequired()])
     submit = SubmitField("Submit")
+
+class StockForm(FlaskForm):
+    stockname = StringField('stockname',validators=[DataRequired()])
+    stockprice = StringField('stockprice',validators=[DataRequired()])
+    email = StringField('email',validators=[DataRequired()])
+    submit = SubmitField("Submit")
