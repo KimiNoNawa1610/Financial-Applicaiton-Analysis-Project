@@ -45,7 +45,6 @@
         <th style="text-align:center">BOUGHT PRICE</th>
         <th style="text-align:center">QUANTITY</th>
         <th style="text-align:center">TOTAL</th>
-        <th style="text-align:center">ALARM</th>
         <th></th>
       </tr>
       {% for us in uss %}
@@ -55,7 +54,6 @@
         <td style="text-align:center">$ {{Stock.query.filter(Stock.id==us.stock_id).first().price}}</td>
         <td style="text-align:center">{{us.number_of_stock}}</td>
         <td style="text-align:center">${{us.number_of_stock*Stock.query.filter(Stock.id==us.stock_id).first().price}}</td>
-        <td style="text-align:center"><input type="checkbox" name="alarm"><input type="text" name="alram_price"></td>
         <td><button type="button" class="close" onCLick = "deleteStock({{us.stock_id}})">
           <span aria-hidden="true">
             &times;
@@ -82,8 +80,16 @@
           </button>
         </p>
       </form>
+      <form action="{{url_for('views.alert',id=user.id)}}">
+        <button type="submit" class="w3-button w3-black">ADD STOCK ALERT<i class="fa fa-bell w3-margin-left"></i></button>
+      </form>
     </div>
+    
   </div>
+  
 </div>
+
+
+
 {% endblock %}
 
