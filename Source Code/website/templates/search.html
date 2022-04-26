@@ -3,13 +3,24 @@
 {% block title %}Search{% endblock %}<!--Override the default name from the base.html template-->
 
 {% block content %}
+<style>
+  table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: 3px solid purple;
+}
+table, th, td {
+  border: 1px solid black;
+}
+</style>
 
 <div class="w3-container" style="margin-top:128px" id="search">
   <div class="text-light w3-black">
-    <h1 class="w3-center">{{Info["longName"]}}</h1>
+    <h1 class="w3-center">{{Info.get("longName","Does not have a name")}}</h1>
   </div>
-  <p class="w3-wide">Symbol: <span id="symbol">{{Info["symbol"]}}</span></p>
-  <p class="w3-wide">Current Price: $<span id="dayHigh">{{Info["currentPrice"]}}</span></p>  
+  <p class="w3-wide">Symbol: <span id="symbol">{{Info.get("symbol","does not have a name")}}</span></p>
+  <p class="w3-wide">Current Price: $<span id="dayHigh">{{Info.get("currentPrice","can't get current price")}}</span></p>  
   <div class="conatainer" style="width:900px;">
         <canvas id="myChart"></canvas>
         <button id="day" class="w3-button w3-black">1 day</button>
@@ -28,9 +39,9 @@
 <!--About the company-->
 <div class="w3-container" style="margin-top:64px">
   <div class="text-light w3-black">
-    <h2 class="w3-center">About {{Info["longName"]}}</h2>
+    <h2 class="w3-center">About {{Info.get("longName","cant get long name")}}</h2>
   </div>
-  <p style=" text-indent: 1.2vw;">{{Info["longBusinessSummary"]}}</p>
+  <p style=" text-indent: 1.2vw;">{{Info.get("longBusinessSummary","Does not have a long")}}</p>
 </div>
 
 <div>
@@ -58,10 +69,10 @@
     <h2 class="w3-center">Price History</h2>
   </div>
   <div align="center">
-    <p><b> 52 Week High: </b>{{"$%.2f"|format(Info['fiftyTwoWeekHigh'])}}</p>
-    <p><b>52 week Low: </b>{{"$%.2f"|format(Info['fiftyTwoWeekLow'])}}</p>
-    <p><b>50 day average: </b>{{"$%.2f"|format(Info['fiftyDayAverage'])}}</p>
-    <p><b>200 day average: </b>{{"$%.2f"|format(Info['twoHundredDayAverage'])}}</p>
+    <p><b> 52 Week High: </b>{{Info['fiftyTwoWeekHigh']}}</p>
+    <p><b>52 week Low: </b>{{Info['fiftyTwoWeekLow']}}</p>
+    <p><b>50 day average: </b>{{Info['fiftyDayAverage']}}</p>
+    <p><b>200 day average: </b>{{Info['twoHundredDayAverage']}}</p>
 
   </di>
   
@@ -75,27 +86,65 @@
   <div align="center">
     <p class="tooltip"><b>Market cap: </b>
       <span class="tooltiptext">The total value of all a company's shares of stock.</span>
-      {{"${:,.2f}".format(Info['marketCap'])}}
+      {{Info['marketCap']}}
     </p>
     <p class="tooltip"><b>Trailing P/E: </b>
       <span class="tooltiptext">The trailing P/E ratio measures the EPS (Earnings Per Share) of a stock for the previous 12 months.</span>
-      {{"%.2f"|format(Info['trailingPE'])}}
+      {{Info['trailingPE']}}
     </p>
     <p class="tooltip"><b>Forward P/E: </b>
       <span class="tooltiptext">The forward P/E ratio forecasts the future projected EPS (Earnings Per Share) of a stock.</span>
-      {{"%.2f"|format(Info['forwardPE'])}}
+      {{Info['forwardPE']}}
     </p>
     <p class="tooltip"><b>Price to sales in the last 12 months: </b>
       <span class="tooltiptext">The price-to-sales ratio compares a company's stock price to its revenues.</span>
-      {{"%.2f"|format(Info['priceToSalesTrailing12Months'])}}
+      {{Info['priceToSalesTrailing12Months']}}
     </p>
     <p class="tooltip"><b>Price to book value: </b>
       <span class="tooltiptext">The price-to-book ratio measures the market capitalization of a company relative to its book value of equity.</span>
-      {{"%.2f"|format(Info['priceToBook'])}}
+      {{Info['priceToBook']}}
     </p>
   </div>
 </div>
+<div>
+  <label>stock:</label>
+  <input type="text" id="stockadd">
+  <button id="add"> add row</button>
+</div>
+<div>
+  <table id='comparing'>
+    <thead>
+      <tr>
+        <th> Symbol</th>
+        <th> current Price </th>
+        <th> price to book value </th>
+        <th> Trailing price to sales</th>
+        <th> return on assets</th>
+        <th> return on equity</th>
+        <th> revenue growth </th>
+        <th> trailing earnings per share</th>
+        <th> trailing PE</th>
+        <th> delete button<th>
+      </tr>
+    <thead>
+    <tbody id="body">
+      <tr>
+        <td>{{Info['symbol']}}</td>
+        <td>{{Info['currentPrice']}}</td>
+        <td>{{Info['priceToBook']}}</td>
+        <td>{{Info['priceToSalesTrailing12Months']}}</td>
+        <td>{{Info['returnOnAssets']}}</td>
+        <td>{{Info['returnOnEquity']}}</td>
+        <td>{{Info['revenueGrowth']}}</td>
+        <td>{{Info['trailingEps']}}</td>
+        <td>{{Info['trailingPE']}}</td>
+        <td><td>
+      </tr>
+  </tbody>
+</table>
+</div>
 
+<Button id="prediction">GET STOCK PREDICTION </button>
 <!--prediction-->
 <div class="conatainer" style="width:900px;">
         <canvas id="predictionChart"></canvas>
@@ -284,16 +333,73 @@
   function createPrediction(){
     if(prePrice.length!=0){
       console.log("hello")
-      stockGraph([],prePrice,predictLocation)
       clearInterval(predictionID)
     }
   }
 
-  
+  let preGraph = document.getElementById("prediction")
+  preGraph.addEventListener("click",()=>{
+    if(prePrice.length==0){
 
-  
+    }
+    else{
+      stockGraph([],prePrice,predictLocation)
+      preGraph.remove()
+    }
+  })
+
+let table = document.getElementById("comparing")
+let tableBody=document.getElementById("body")
+let addrow=document.getElementById("add")
+let stocktext= document.getElementById("stockadd")
 
 
+addrow.addEventListener('click',()=>{
+
+  let newcom=null
+  console.log(stocktext.value)
+  newcom=getinfo(stocktext.value)
+  stocktext.value=' '
+  if(Object.keys(newcom).lenght===0){
+    return
+  }
+  let template=`<tr>
+                  <td>${newcom['symbol']}</td>
+                  <td>${newcom['currentPrice']}</td>
+                  <td>${newcom['priceToBook']}</td>
+                  <td>${newcom['priceToSalesTrailing12Months']}</td>
+                  <td>${newcom['returnOnAssets']}</td>
+                  <td>${newcom['returnOnEquity']}</td>
+                  <td>${newcom['revenueGrowth']}</td>
+                  <td>${newcom['trailingEps']}</td>
+                  <td>${newcom['trailingPE']}</td>
+                  <td><button class ="deleteBtn">Delete</button></td>
+                </tr>`;
+  tableBody.innerHTML += template;
+});
+table.addEventListener('click',(e)=>{
+  if(!e.target.classList.contains('deleteBtn')){
+    return;
+  }
+  const btn = e.target;
+  btn.closest("tr").remove();
+});
+
+function getinfo(stock){
+  console.log('we are inside')
+    let xhr = new XMLHttpRequest();
+    let information
+    xhr.open('GET','http://127.0.0.1:5000/compare?stock='+stock,false);
+    xhr.onload= function(){
+      if(this.status == 200){
+        information = JSON.parse(this.responseText);
+      }
+
+    }
+    xhr.send();
+    console.log(information)
+    return information
+  }
 
 </script>
 

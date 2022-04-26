@@ -22,6 +22,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 from sklearn.preprocessing import MinMaxScaler
+from yahoo_fin import stock_info as si
 
 
 
@@ -227,21 +228,25 @@ dates=[]
 #search
 @views.route('/search', methods=["GET","POST"])
 def search():
-    form =SearchForm()
+    form = SearchForm()
     if (form.validate_on_submit()):
         searched = form.search.data
         stats = stockInfo(searched,"1d")
+        if stats==-1:
+            return redirect(url_for('views.home'))
         values= stats[0]
         dates=stats[1]
-        Info = information(searched)
-        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info[0],recomend=Info[1])
+        recomendation = information(searched)
+        info = getGeneralInfo(searched)
+        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=info,recomend=recomendation)
     else:
         searched = request.args.get('stock')
         stats = stockInfo(searched,"1d")
         values= stats[0]
         dates=stats[1]
-        Info = information(searched)
-        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=Info[0],recomend=Info[1])
+        recomendation= information(searched)
+        info = getGeneralInfo(searched)
+        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=info,recomend=recomendation)
 
 @views.route('/prices',methods=["GET","POST"])
 def prices():
@@ -257,8 +262,16 @@ def prices():
 def prediction():
     return json.dumps(machinelearningPrediction(request.args.get('stock')))
 
+@views.route('/compare',methods=["GET","POST"])
+def compare():
+    try:
+        stock = request.args.get('stock')
+        ticker = getGeneralInfo(stock)
+    except:
+        return json.dumps({})
+    return json.dumps(ticker)
+
 def stockInfo(stock,time):
-    information=''
     if time=='1d':
         information = yf.download(tickers=stock, period=time, interval='2m')
     elif time=='3mo'or time=='6mo':
@@ -267,6 +280,8 @@ def stockInfo(stock,time):
         information = yf.download(tickers=stock, period=time, interval='1d')
     else:
         information = yf.download(tickers=stock, period=time, interval='1wk')
+    if information.empty :
+        return -1
     information=information.dropna()
     price=information['Open'].tolist()
     dates=[]
@@ -276,13 +291,38 @@ def stockInfo(stock,time):
 
 def information(stock):
     ticker= yf.Ticker(stock)
+    if ticker.recommendations.empty :
+        return {'dates':[],'firms':[],'grades':[]}
     information=ticker.recommendations.tail(5)
     dates=[]
     for i in information.index:
         dates.append(i.strftime('%Y-%m-%d %X'))
     firms= information['Firm'].tolist()
     grade=information['To Grade'].tolist()
-    return [ticker.info,{'dates':dates,'firms':firms,'grades':grade}]
+    return {'dates':dates,'firms':firms,'grades':grade}
+
+def getGeneralInfo(stock):
+    information= yf.Ticker(stock).info
+    words=['longName','symbol','longBusinessSumary']
+    decimals=['currentPrice','fiftyTwoWeekHigh','fiftyTwoWeekLow','fiftyDayAverage','twoHundredDayAverage','trailingPE','forwardPE',
+    'priceToSalesTrailing12Months','priceToBook','returnOnAssets','returnOnEquity','revenueGrowth','trailingEps']
+    numbers=['marketCap']
+    for word in words:
+        if word not in information:
+            information[word]='N/A'
+    for decimal in decimals:
+        if decimal not in information:
+            information[decimal]='N/A'
+        elif information[decimal]==None:
+            information[decimal]='N/A'
+        else:
+            information[decimal]=round(information[decimal],2)
+    for number in numbers:
+        if number not in information:
+            information[number]='N/A'
+        else:
+            information[number]=f"{information[number]:,}"
+    return information
 
 
 def create_dataset(dataset,time_step=1):
@@ -336,7 +376,7 @@ def machinelearningPrediction(stock):
         if(len(temp_input)>time_step):
             #print(temp_input)
             x_input=np.array(temp_input[1:])
-            print("{} day input {}".format(i,x_input))
+            #print("{} day input {}".format(i,x_input))
             x_input=x_input.reshape(1,-1)
             x_input = x_input.reshape((1, n_steps, 1))
             #print(x_input)
@@ -350,9 +390,9 @@ def machinelearningPrediction(stock):
         else:
             x_input = x_input.reshape((1, n_steps,1))
             yhat = model.predict(x_input, verbose=0)
-            print(yhat[0])
+            #print(yhat[0])
             temp_input.extend(yhat[0].tolist())
-            print(len(temp_input))
+            #print(len(temp_input))
             lst_output.extend(yhat.tolist())
             i=i+1
     answer=[]

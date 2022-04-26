@@ -69,6 +69,48 @@
 
   <!--Override if the child have a different title name-->
   <title>{% block title %}HOME{% endblock %}</title>
+  {% with messages = get_flashed_messages(with_categories = true) %}
+
+  {% if messages %}
+
+  {% for category, message in messages %}
+
+  <!--check if error message-->
+
+  {% if category == 'error' %}
+
+  <div class="alert alert-danger alert-dismissable fade show" role="alert">
+
+    {{ message }}
+
+    <button type="button" class="close" data-dismiss="alert">
+
+      <span aria-hidden="true">&times;</span>
+
+    </button>
+
+  </div>
+
+  <!--else, normal message-->
+
+  {% else%}
+
+
+  <div class="alert alert-success alert-dismissable fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  {% endif %}
+
+  {% endfor %}
+
+  {% endif %}
+
+  {% endwith%}
+
 </head>
 
 <body>
@@ -123,48 +165,7 @@
 
   <!--message output function for all templates-->
 
-  {% with messages = get_flashed_messages(with_categories = true) %}
-
-  {% if messages %}
-
-  {% for category, message in messages %}
-
-  <!--check if error message-->
-
-  {% if category == 'error' %}
-
-  <div class="alert alert-danger alert-dismissable fade show" role="alert">
-
-    {{ message }}
-
-    <button type="button" class="close" data-dismiss="alert">
-
-      <span aria-hidden="true">&times;</span>
-
-    </button>
-
-  </div>
-
-  <!--else, normal message-->
-
-  {% else%}
-
-
-  <div class="alert alert-success alert-dismissable fade show" role="alert">
-    {{ message }}
-    <button type="button" class="close" data-dismiss="alert">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-
-  {% endif %}
-
-  {% endfor %}
-
-  {% endif %}
-
-  {% endwith%}
-
+  
   <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
     {% block content %} {% endblock %}
   </div>
