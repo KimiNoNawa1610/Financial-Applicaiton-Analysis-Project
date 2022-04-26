@@ -65,6 +65,31 @@
     .tooltip:hover .tooltiptext {
       visibility: visible;
     }
+
+    .alert {
+      padding: 20px;
+      background-color: #f44336;
+      color: white;
+    }
+
+    .alert.success {
+      background-color: #04AA6D;
+    }
+
+    .closebtn {
+      margin-left: 15px;
+      color: white;
+      font-weight: bold;
+      float: right;
+      font-size: 22px;
+      line-height: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .closebtn:hover {
+      color: black;
+    }
   </style>
 
   <!--Override if the child have a different title name-->
@@ -114,75 +139,95 @@
 </head>
 
 <body>
-
-  <!-- Navbar (sit on top) -->
-  <div class="w3-top">
-    <div class="w3-bar w3-white w3-card" id="myNavbar">
-      <a href="/" class="w3-bar-item w3-button w3-wide">FIAA</a>
-      <!-- Right-sided navbar links -->
-      <div class="w3-right w3-hide-small w3-hide-medium">
-        {% if user.is_authenticated %} 
-        <a href="/profile" class="w3-bar-item w3-button" id="profile">PROFILE</a>
-        <a href="/logout" class="w3-bar-item w3-button" id="logout">LOGOUT</a>
-        {% else %}
-        <a href="/signup" class="w3-bar-item w3-button" id="signup">SIGN UP</a>
-        <a href="/login" class="w3-bar-item w3-button" id="login">LOGIN</a>
-        {% endif %}
-        <a href="/contactus" class="w3-bar-item w3-button" id="message">ABOUT US</a>
-        <!-- Search form-->
-        <form class="searchForm w3-bar-item form-inline" action="{{url_for('views.search')}}" method="POST">
-          {{ form.hidden_tag() }}
-          <input type="search" placeholder="Search..." name="search">
-          <button type="submit" class="w3-black"><i class="fa fa-search"></i></button>
-        </form>
+  <div class="container" style="min-height:100% width:80%">
+    <!-- Navbar (sit on top) -->
+    <div class="w3-top">
+      <div class="w3-bar w3-white w3-card" id="myNavbar">
+        <a href="/" class="w3-bar-item w3-button w3-wide">FIAA</a>
+        <!-- Right-sided navbar links -->
+        <div class="w3-right w3-hide-small w3-hide-medium">
+          {% if user.is_authenticated %} 
+          <a href="/profile" class="w3-bar-item w3-button" id="profile">PROFILE</a>
+          <a href="/logout" class="w3-bar-item w3-button" id="logout">LOGOUT</a>
+          {% else %}
+          <a href="/signup" class="w3-bar-item w3-button" id="signup">SIGN UP</a>
+          <a href="/login" class="w3-bar-item w3-button" id="login">LOGIN</a>
+          {% endif %}
+          <a href="/contactus" class="w3-bar-item w3-button" id="message">ABOUT US</a>
+          <!-- Search form-->
+          <form class="searchForm w3-bar-item form-inline" action="{{url_for('views.search')}}" method="POST">
+            {{ form.hidden_tag() }}
+            <input type="search" placeholder="Search..." name="search">
+            <button type="submit" class="w3-black"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+        <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large" onclick="w3_open()">
+          <i class="fa fa-bars"></i>
+        </a>
       </div>
-      <!-- Hide right-floated links on small screens and replace them with a menu icon -->
-      <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large" onclick="w3_open()">
-        <i class="fa fa-bars"></i>
-      </a>
     </div>
+    
+    <!-- Sidebar on small screens when clicking the menu icon -->
+    <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-large" style="display:none" id="mySidebar">
+      <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+      <a href="/" onclick="w3_close()" class="w3-bar-item w3-button" id="home">HOME</a>
+      {% if user.is_authenticated %} 
+      <a href="/profile" onclick="w3_close()" class="w3-bar-item w3-button" id="profile">PROFILE</a>
+      <a href="/logout" onclick="w3_close()" class="w3-bar-item w3-button" id="logout">LOGOUT</a>
+      {% else %}
+      <a href="/signup" onclick="w3_close()" class="w3-bar-item w3-button" id="signup">SIGN UP</a>
+      <a href="/login" onclick="w3_close()" class="w3-bar-item w3-button" id="login">LOGIN</a>
+      {% endif %}
+      <a href="/contactus" onclick="w3_close()" class="w3-bar-item w3-button" id="message">ABOUT US</a>
+      <!-- Search form-->
+      <form class="searchForm w3-bar-item form-inline " action="{{url_for('views.search')}}" method="POST">
+        {{ form.hidden_tag() }}
+        <input type="search" placeholder="Search.." name="search">
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
+    </nav>
+
+    <!--message output function for all templates-->
+    {% with messages = get_flashed_messages(with_categories = true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <!--check if error message-->
+          {% if category == 'error' %}
+          <div class="alert w3-top" role="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{message}}
+          </div>
+          <!--else, normal message-->
+          {% else%}
+          <div class="alert success w3-top" role="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{message}}
+          </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith%}
+    
+    <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+      {% block content %} {% endblock %}
+    </div>
+
+    <!--Trading Platform-->
+    <footer class="w3-center w3-grey w3-padding-32">
+      <a href="/" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the home page</a>
+      <p><b>Recommended Trading Platforms</b></p>
+      <p>
+        <a href="https://www.webull.com/">
+          <img src="{{url_for('static', filename='images/webull.png')}}" align="center" width="200" />
+        </a>
+        <a href="https://robinhood.com/">
+          <img src="{{url_for('static', filename='images/Robinhood.png')}}" align="center" width="200"/>
+        </a>
+      </p>
+    </footer>
   </div>
-  
-  <!-- Sidebar on small screens when clicking the menu icon -->
-  <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-large" style="display:none" id="mySidebar">
-    <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
-    <a href="/" onclick="w3_close()" class="w3-bar-item w3-button" id="home">HOME</a>
-    {% if user.is_authenticated %} 
-    <a href="/profile" onclick="w3_close()" class="w3-bar-item w3-button" id="profile">PROFILE</a>
-    <a href="/logout" onclick="w3_close()" class="w3-bar-item w3-button" id="logout">LOGOUT</a>
-    {% else %}
-    <a href="/signup" onclick="w3_close()" class="w3-bar-item w3-button" id="signup">SIGN UP</a>
-    <a href="/login" onclick="w3_close()" class="w3-bar-item w3-button" id="login">LOGIN</a>
-    {% endif %}
-    <a href="/contactus" onclick="w3_close()" class="w3-bar-item w3-button" id="message">ABOUT US</a>
-    <!-- Search form-->
-    <form class="searchForm w3-bar-item form-inline " action="{{url_for('views.search')}}" method="POST">
-      {{ form.hidden_tag() }}
-      <input type="search" placeholder="Search.." name="search">
-      <button type="submit"><i class="fa fa-search"></i></button>
-    </form>
-  </nav>
 
-  <!--message output function for all templates-->
-
-  
-  <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
-    {% block content %} {% endblock %}
-  </div>
-
-  <!--Trading Platform-->
-  <footer class="w3-center w3-grey w3-padding-32">
-    <a href="/" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the home page</a>
-    <p><b>Recommended Trading Platforms</b></p>
-    <p>
-      <a href="https://www.webull.com/">
-        <img src="{{url_for('static', filename='images/webull.png')}}" align="center" width="200" />
-      </a>
-      <a href="https://robinhood.com/">
-        <img src="{{url_for('static', filename='images/Robinhood.png')}}" align="center" width="200"/>
-      </a>
-    </p>
-  </footer>
 
   <!--Javascript script for Bootstrap-->
   <script

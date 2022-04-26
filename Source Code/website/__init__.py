@@ -17,12 +17,12 @@ def create_app():
     app = Flask(__name__)
     
 
-    app.config['MAIL_SERVER']='smtp.gmail.com'
-    app.config['MAIL_PORT']=465
-    app.config['MAIL_USERNAME']='fiaaonline@gmail.com'
-    app.config['MAIL_PASSWORD']='VoxSolaris2022!'
-    app.config['MAIL_USE_TLS']=False
-    app.config['MAIL_USE_SSL']= True
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USERNAME'] = 'fiaaonline@gmail.com'
+    app.config['MAIL_PASSWORD'] = 'VoxSolaris2022!'
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
 
     app.config['SECRET_KEY'] = '2022BrokeAF***COVID' #seret key to protect cache and private data of the website
 
