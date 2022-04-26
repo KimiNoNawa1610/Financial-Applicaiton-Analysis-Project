@@ -1,0 +1,48 @@
+{% extends "base.html" %}<!--extends the base.html template-->
+
+{% block title %}Update Profile{% endblock %}<!--Override the default name from the base.html template-->
+
+
+<!--alert information form-->
+{% block content %} 
+<div class="w3-container w3-padding-64" id="alert">
+  <h1 class="w3-center">SET STOCK ALERT</h1><br>
+  <form method="POST">
+    
+    <!--Stock Name-->
+    <p>
+      <label for="stockname"><b>Stock Name:</b></label>
+      <input 
+      type="text" 
+      class="w3-input w3-border" 
+      id="stockname" name="stockname" 
+      placeholder="Please enter your stock name"
+      />
+    </p>
+    <!--Stock Price-->
+    <p>
+      <label for="stockprice"><b>Stock Price:</b></label>
+      <input
+      type="text" 
+      class="w3-input w3-border" 
+      id="stockprice" name="stockprice" 
+      placeholder="Please enter the price you want to get alert"
+      />
+    </p>
+    <!--Email-->
+    <p>
+      <label for="email"><b>Email Address:</b></label>
+      <input 
+        type="email" 
+        class="w3-input w3-border" 
+        id="email" name="email" 
+        placeholder="Please enter your email"
+      />
+    </p>
+    <p>
+      <!--Submit Button-->
+      <button type="submit" class="w3-button w3-black">SUBMIT</button>
+    </p>
+  </form>
+</div>
+{% endblock %}
