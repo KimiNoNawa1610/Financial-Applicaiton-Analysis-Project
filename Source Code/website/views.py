@@ -15,6 +15,9 @@ from newsapi import NewsApiClient
 import time
 from .alert import thread_1
 # for stock prediction
+import theano
+import os
+os.environ["KERAS_BACKEND"] = "theano"
 import pandas as pd
 import datetime as dt
 import numpy as np
@@ -24,6 +27,8 @@ from keras.layers import LSTM
 from sklearn.preprocessing import MinMaxScaler
 from yahoo_fin import stock_info as si
 from threading import *
+
+
 
 
 views = Blueprint('views',__name__)
@@ -297,7 +302,7 @@ def compare():
 
 def stockInfo(stock,time):
     if time=='1d':
-        information = yf.download(tickers=stock, period=time, interval='2m')
+        information = yf.download(tickers=stock, period=time, interval='5m')
     elif time=='3mo'or time=='6mo':
         information = yf.download(tickers=stock, period=time, interval='1h')
     elif time=='1y':

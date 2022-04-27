@@ -144,6 +144,18 @@ table, th, td {
 </table>
 </div>
 
+<!--comment-->
+<div>
+  <div class="text-light w3-black">
+    <h2 class="w3-center">Comment</h2>
+  </div>
+  <textarea name="comment" id="comment" cols="150" rows="10"></textarea>
+  <button id="commentBtn">submit</button>
+</div>
+
+<div id="comments">
+  </div>
+
 <Button id="prediction">GET STOCK PREDICTION </button>
 <!--prediction-->
 <div class="conatainer" style="width:900px;">
@@ -151,20 +163,26 @@ table, th, td {
 </div>
 
 
+
 </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-
-
-
-
-
-
-
   let bottom = JSON.parse({{ dates | tojson }})
   let income = JSON.parse({{ money | tojson }})
+
+  let addcomment= document.getElementById("commentBtn")
+  addcomment.addEventListener("click",()=>{
+    let wheretoadd=document.getElementById("comments")
+    let textComment=document.getElementById("comment")
+    textvalue=textComment.value
+    console.log(textvalue)
+    let template=`<h1> ${textvalue}</h1>`
+    wheretoadd.innerHTML += template;
+    textComment.value=""
+
+  })
   let ctx = document.getElementById("myChart").getContext("2d");
   let predictLocation = document.getElementById("predictionChart").getContext("2d");
   let newmychart=stockGraph(bottom,income,ctx)
