@@ -27,7 +27,7 @@ def send_email(email, searched, target_price):
     server.starttls()
     server.login('throwaway246abc@gmail.com', 'throwit246abc') #sender email
     subject = 'Price alert for '+searched
-    body = 'Price has of '+searched+' reached the of $'+target_price
+    body = 'Price has of '+searched+' reached the of $'+str(target_price)
     msg = f'subject: {subject} {body}'
 
     server.sendmail( #change email to use the user's email
@@ -48,7 +48,7 @@ def thread_1(searched,target_price, email):
         time.sleep(1800)
         # 1800 is 30 minutes
 
-T = Thread(daemon = True, target=thread_1, args=["appl",200,"vothanhnhan108@gmail.com"])
+T = Thread(daemon = True, target=thread_1, args=["aapl",200,"vothanhnhan108@gmail.com"])
                 
 # starting of thread T
 T.start()     

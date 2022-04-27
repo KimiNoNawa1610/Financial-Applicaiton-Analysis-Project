@@ -15,9 +15,6 @@ from newsapi import NewsApiClient
 import time
 from .alert import thread_1
 # for stock prediction
-import theano
-import os
-os.environ["KERAS_BACKEND"] = "theano"
 import pandas as pd
 import datetime as dt
 import numpy as np
