@@ -25,9 +25,6 @@ from sklearn.preprocessing import MinMaxScaler
 from yahoo_fin import stock_info as si
 from threading import *
 
-
-
-
 views = Blueprint('views',__name__)
 
 #home page
