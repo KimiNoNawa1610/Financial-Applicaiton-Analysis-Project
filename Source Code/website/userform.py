@@ -14,3 +14,8 @@ class StockForm(FlaskForm):
     stockprice = StringField('stockprice',validators=[DataRequired()])
     email = StringField('email',validators=[DataRequired()])
     submit = SubmitField("Submit")
+
+class CommentForm(FlaskForm):
+    comment = StringField('comment',validators=[DataRequired()])
+    email = StringField('email',validators=[DataRequired()])
+    submit = SubmitField("Submit")
