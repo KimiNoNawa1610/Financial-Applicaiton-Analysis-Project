@@ -8,7 +8,6 @@
   table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
-  border: 3px solid purple;
   }
   table, th, td {
     border: 1px solid black;
@@ -64,7 +63,7 @@
 </div>
 
 
-<div class="w3-row-padding" style="margin-top:32px">
+<div class="w3-row-padding">
   <!--Rating-->
   <div class="w3-twothird">
     <div class="rating-css">
@@ -89,32 +88,34 @@
 </div>
 
 <!--About the company-->
-<div class="w3-container" style="margin-top:32px">
+<div class="w3-container">
   <div class="text-light w3-black">
     <h2 class="w3-center">About {{Info.get("longName","cant get long name")}}</h2>
   </div>
   <p style="text-indent: 1.2vw;">{{Info.get("longBusinessSummary","Does not have a long")}}</p>
 </div>
 
-<div class="w3-container" style="margin-top:32px">
+<div class="w3-container">
   <div class="text-light w3-black">
     <h2 class="w3-center">Financial Info</h2>
   </div>
-  <table style="text-align:center" align="center">
-    <th >Date</th>
-    <th>Firm</th>
-    <th>Recomendation</th>
-    {% for i in range(5)%}
-      <tr>
-        <td style="padding:0 15px 0 15px;">{{recomend['dates'][i]}}</td>
-        <td style="padding:0 15px 0 15px;">{{recomend['firms'][i]}}</td>
-        <td style="padding:0 15px 0 15px;">{{recomend['grades'][i]}} </td>
-      </tr>
-    {% endfor %}
-  </table>
+  <div class="w3-container">
+    <table style="text-align:center" align="center">
+      <th >Date</th>
+      <th>Firm</th>
+      <th>Recomendation</th>
+      {% for i in range(5)%}
+        <tr>
+          <td style="padding:0 15px 0 15px;">{{recomend['dates'][i]}}</td>
+          <td style="padding:0 15px 0 15px;">{{recomend['firms'][i]}}</td>
+          <td style="padding:0 15px 0 15px;">{{recomend['grades'][i]}} </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
 </div>
 
-<div class="w3-container" style="margin-top:32px">
+<div class="w3-container">
   <div class="text-light w3-black">
     <h2 class="w3-center">Price History</h2>
   </div>
@@ -128,7 +129,7 @@
 </div>
 
 
-<div class="w3-container" style="margin-top:32px">
+<div class="w3-container">
   <div class="text-light w3-black">
     <h2 class="w3-center">Value Measures</h2>
   </div>
@@ -156,47 +157,52 @@
   </div>
 </div>
 
-<div class="w3-container" style="margin-top:32px">
-  <label>stock:</label>
-  <input type="text" id="stockadd">
-  <button class="w3-button w3-black" id="add"> add row</button>
+<div class="w3-container">
+  <div class="text-light w3-black">
+    <h2 class="w3-center">Stock Comparison</h2>
+  </div>
+
+  <div class="w3-container">
+    <label><b>Stock:</b></label>
+    <input type="text" id="stockadd">
+    <button class="w3-button w3-black" id="add">Add Stock</button>
+  </div>
+  
+  <div class="w3-container" style="margin-top:10px">
+    <table id='comparing'>
+      <tr>
+        <th>Symbol</th>
+        <th>Current Price</th>
+        <th>Price to Book Value</th>
+        <th>Trailing Price to Sale</th>
+        <th>Return on Assets</th>
+        <th>Return on Equity</th>
+        <th>Revenue Growth</th>
+        <th>Trailing Earnings Per Share</th>
+        <th>Trailing PE</th>
+      </tr>
+      <tbody id="body">
+        <tr>
+          <td>{{Info['symbol']}}</td>
+          <td>{{Info['currentPrice']}}</td>
+          <td>{{Info['priceToBook']}}</td>
+          <td>{{Info['priceToSalesTrailing12Months']}}</td>
+          <td>{{Info['returnOnAssets']}}</td>
+          <td>{{Info['returnOnEquity']}}</td>
+          <td>{{Info['revenueGrowth']}}</td>
+          <td>{{Info['trailingEps']}}</td>
+          <td>{{Info['trailingPE']}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<div class="w3-container" style="margin-top:32px">
-  <table id='comparing'>
-    <thead>
-      <tr>
-        <th> Symbol</th>
-        <th> current Price </th>
-        <th> price to book value </th>
-        <th> Trailing price to sales</th>
-        <th> return on assets</th>
-        <th> return on equity</th>
-        <th> revenue growth </th>
-        <th> trailing earnings per share</th>
-        <th> trailing PE</th>
-        <th> delete button<th>
-      </tr>
-    <thead>
-    <tbody id="body">
-      <tr>
-        <td>{{Info['symbol']}}</td>
-        <td>{{Info['currentPrice']}}</td>
-        <td>{{Info['priceToBook']}}</td>
-        <td>{{Info['priceToSalesTrailing12Months']}}</td>
-        <td>{{Info['returnOnAssets']}}</td>
-        <td>{{Info['returnOnEquity']}}</td>
-        <td>{{Info['revenueGrowth']}}</td>
-        <td>{{Info['trailingEps']}}</td>
-        <td>{{Info['trailingPE']}}</td>
-        <td><td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+
 
 <!--comment-->
-<div class="commentSection w3-container" style="margin-top:32px">
+<div class="commentSection w3-container">
   <div class="text-light w3-black">
     <h2 class="w3-center">Comment</h2>
   </div>
@@ -437,7 +443,7 @@ addrow.addEventListener('click',()=>{
                   <td>${newcom['revenueGrowth']}</td>
                   <td>${newcom['trailingEps']}</td>
                   <td>${newcom['trailingPE']}</td>
-                  <td><button class ="deleteBtn">Delete</button></td>
+                  <td><button class ="deleteBtn w3-black">Delete</button></td>
                 </tr>`;
   tableBody.innerHTML += template;
 });
