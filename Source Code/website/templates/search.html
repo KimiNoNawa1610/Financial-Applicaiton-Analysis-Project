@@ -202,16 +202,22 @@
 </div>
 
 <!--comment-->
-<div>
+<div class="commentSection">
   <div class="text-light w3-black">
     <h2 class="w3-center">Comment</h2>
   </div>
-  <textarea name="comment" id="comment" cols="150" rows="10"></textarea>
-  <button id="commentBtn">submit</button>
-</div>
-
-<div id="comments">
+  {% for comment in comments %}
+  <div style="border-style: solid; border-color: black; background-color: darkgrey;">
+    <h5><b>{{comment.email}}:</b> </h5>
+    <p> {{comment.comment}}</p>
   </div>
+  
+  {% endfor %}
+  <form action="{{url_for('views.addComment',stockName=Info['symbol'])}}">
+    <button id="commentBtn">Add Comment</button>
+  </form>
+  
+</div>
 
 <Button id="prediction">GET STOCK PREDICTION </button>
 <!--prediction-->
