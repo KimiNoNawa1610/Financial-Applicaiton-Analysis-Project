@@ -1,0 +1,37 @@
+{% extends "base.html" %}<!--extends the base.html template-->
+
+{% block title %}Update Profile{% endblock %}<!--Override the default name from the base.html template-->
+
+
+<!--alert information form-->
+{% block content %} 
+<div class="w3-container w3-padding-64" id="alert">
+  <h1 class="w3-center">ADD COMMENT</h1><br>
+  <form method="POST">
+    <!--Comment-->
+    <p>
+      <label for="comment"><b>Comment:</b></label>
+      <input
+      type="text" 
+      class="w3-input w3-border" 
+      id="comment" name="comment" 
+      placeholder="Please enter the price you want to get alert"
+      />
+    </p>
+    <!--Email-->
+    <p>
+      <label for="email"><b>Email Address:</b></label>
+      <input 
+        type="email" 
+        class="w3-input w3-border" 
+        id="email" name="email" 
+        placeholder="Please enter your email"
+      />
+    </p>
+    <p>
+      <!--Submit Button-->
+      <button type="submit" class="w3-button w3-black">SUBMIT</button>
+    </p>
+  </form>
+</div>
+{% endblock %}

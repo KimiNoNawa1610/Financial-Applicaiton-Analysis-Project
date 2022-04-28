@@ -13,22 +13,27 @@ def getStockPrice1d(stock):
     info = yf.Ticker(stock)
     return info.info['regularMarketPrice']
 
-# print(getStockPrice1d("TSLA"))
-
 def checkStock(searched,target_price, email):
+    alertValue = 0
     alertValue = getStockPrice1d(searched)
     if alertValue < target_price: #modify number for user options in seconds
         #send email if price goes under 100, this number is abitrary for testing
         send_email(email,searched,target_price)
 
 def send_email(email, searched, target_price):
+    alertValue = getStockPrice1d(searched)
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
     server.login('throwaway246abc@gmail.com', 'throwit246abc') #sender email
     subject = 'Price alert for '+searched
-    body = 'Price has of '+searched+' reached the of $'+target_price
-    msg = f'subject: {subject} {body}'
+    if alertValue < target_price:
+        body = f'Price of {searched} is less than ${str(target_price)}\nPrice: ${alertValue}'
+    elif alertValue > target_price:
+        body = f'Price of {searched} is greater than ${str(target_price)}\nPrice: ${alertValue}'
+    else:
+        body = f'Price of {searched} is equal to ${str(target_price)}\nPrice: ${alertValue}'
+    msg = f'subject: {subject} \n{body}'
 
     server.sendmail( #change email to use the user's email
         'throwaway246abc@gmail.com', #sender
@@ -44,14 +49,7 @@ def send_email(email, searched, target_price):
 
 def thread_1(searched,target_price, email):               
     while(True):
-        checkStock(searched,target_price, email)
+        send_email(email, searched, target_price)
         time.sleep(1800)
         # 1800 is 30 minutes
-
-T = Thread(daemon = True, target=thread_1, args=["appl",200,"vothanhnhan108@gmail.com"])
-                
-# starting of thread T
-T.start()     
- 
-                 
 

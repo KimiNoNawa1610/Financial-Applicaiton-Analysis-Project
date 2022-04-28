@@ -2,12 +2,12 @@
 from unicodedata import category
 from flask import Blueprint, jsonify, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import  login_required, current_user
-from .models import Stock, User, UserStock
+from .models import Stock, User, UserStock,Comment
 from . import db
 from .fy import getStockPrice1d, getCurrentPrice
 from .searchform import SearchForm
 import json
-from .userform import UserForm, StockForm
+from .userform import UserForm, StockForm, CommentForm
 from flask_mail import Mail, Message
 from . import mail
 import yfinance as yf
@@ -24,15 +24,32 @@ from keras.layers import LSTM
 from sklearn.preprocessing import MinMaxScaler
 from yahoo_fin import stock_info as si
 from threading import *
-
-
-
+import random
 
 views = Blueprint('views',__name__)
+
+#Get most gain
+def stockGain():
+    stockData = pd.read_csv('website\constituents.csv')
+
+    increasedStock = []
+    price = []
+    for i in range(15):
+        try:
+            stockInfo = yf.download(random.choice(stockData['Symbol']),period="1d")
+            if (stockInfo['Close'][0]>stockInfo['Open'][0]):
+                increasedStock.append(stockData['Symbol'][i])
+                price.append(float("{:.2f}".format(stockInfo['Close'][0])))
+        except:
+            pass
+    return zip(increasedStock,price)
 
 #home page
 @views.route('/', methods=['GET','POST'])
 def home():
+    
+    gainers = stockGain()
+
     newsapi = NewsApiClient(api_key="a63384d0482844b3bee4612ea884705c")
 
     #get the source of the news
@@ -57,12 +74,11 @@ def home():
         p_date.append(article['publishedAt'])
         url.append(article['url'])
 
-        contents =zip(news, desc,img,p_date,url)
-
-    #Get most gain/ most 
+    contents =zip(news, desc,img,p_date,url)
     
-
-    return  render_template("home.html",form =SearchForm(), user=current_user, contents=contents)
+    
+    
+    return  render_template("home.html",form =SearchForm(), user=current_user, contents=contents,gainers = gainers)
 #alert
 @views.route('/alert/<int:id>', methods = ['GET','POST'])
 def alert(id):
@@ -211,7 +227,20 @@ def updateProfile(id):
     else:
         return render_template("update.html", form = form, user = current_user, user_to_update = user_to_update)
 
-
+@views.route('/comment/<string:stockName>', methods = ['GET','POST'])
+def addComment(stockName):
+    form = CommentForm()
+    if request.method == "POST":
+        text = request.form['comment']
+        email = request.form['email']
+        newComment = Comment(email = email,stockName = stockName.lower(), comment=text)
+        db.session.add(newComment)
+        db.session.commit()
+        return redirect(url_for("views.search",stock=stockName))
+    else:
+        return render_template("comment.html", form = form, user = current_user)
+    #stockComment = Comment(stockName=stockName,comment=)
+    
 
 @views.route('/delete/<int:id>', methods = ['GET','POST'])
 def delete(id):
@@ -254,25 +283,33 @@ dates=[]
 #search
 @views.route('/search', methods=["GET","POST"])
 def search():
-    form = SearchForm()
-    if (form.validate_on_submit()):
-        searched = form.search.data
-        stats = stockInfo(searched,"1d")
-        if stats==-1:
-            return redirect(url_for('views.home'))
-        values= stats[0]
-        dates=stats[1]
-        recomendation = information(searched)
-        info = getGeneralInfo(searched)
-        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=info,recomend=recomendation)
-    else:
-        searched = request.args.get('stock')
-        stats = stockInfo(searched,"1d")
-        values= stats[0]
-        dates=stats[1]
-        recomendation= information(searched)
-        info = getGeneralInfo(searched)
-        return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=info,recomend=recomendation)
+    try:
+        form = SearchForm()
+        
+        if (form.validate_on_submit()):
+            searched = form.search.data
+            comments = Comment.query.filter(Comment.stockName==searched.lower()).all()
+            stats = stockInfo(searched,"1d")
+            if stats==-1:
+                return redirect(url_for('views.home'))
+            values= stats[0]
+            dates=stats[1]
+            recomendation = information(searched)
+            info = getGeneralInfo(searched)
+            return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=info,recomend=recomendation, comments=comments)
+        else:
+            searched = request.args.get('stock')
+            comments = Comment.query.filter(Comment.stockName==searched.lower()).all()
+            stats = stockInfo(searched,"1d")
+            values= stats[0]
+            dates=stats[1]
+            recomendation= information(searched)
+            info = getGeneralInfo(searched)
+            return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=info,recomend=recomendation, comments=comments)
+        
+    except:
+        flash("The stock you want is not available!!", category = 'error')
+        return redirect(url_for('views.home'))
 
 @views.route('/prices',methods=["GET","POST"])
 def prices():
@@ -430,6 +467,7 @@ def machinelearningPrediction(stock):
         answer.append(price[0])
     return answer
     
+
     
 
 

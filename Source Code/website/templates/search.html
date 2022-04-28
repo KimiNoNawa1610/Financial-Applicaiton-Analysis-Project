@@ -9,19 +9,39 @@
   width: 100%;
   border-collapse: collapse;
   border: 3px solid purple;
-}
-table, th, td {
-  border: 1px solid black;
-}
+  }
+  table, th, td {
+    border: 1px solid black;
+  }
+  /* rating */
+  .rating-css div {
+    color: #ffc700;
+    text-align: left;
+  }
+  .rating-css input {
+    display: none;
+  }
+  .rating-css input + label {
+    font-size: 60px;
+    cursor: pointer;
+  }
+  .rating-css input:checked + label ~ label {
+    color: #ccc;
+  }
+  .rating-css label:active {
+    transform: scale(0.8);
+    transition: 0.3s ease;
+  }
+  /* End of Star Rating */
 </style>
 
-<div class="w3-container" style="margin-top:128px" id="search">
+<div class="w3-container w3-center" style="margin-top:128px" id="search">
   <div class="text-light w3-black">
     <h1 class="w3-center">{{Info.get("longName","Does not have a name")}}</h1>
   </div>
   <p class="w3-wide">Symbol: <span id="symbol">{{Info.get("symbol","does not have a name")}}</span></p>
   <p class="w3-wide">Current Price: $<span id="dayHigh">{{Info.get("currentPrice","can't get current price")}}</span></p>  
-  <div class="conatainer" style="width:900px;">
+  <div class="w3-container" style="width:100%;">
         <canvas id="myChart"></canvas>
         <button id="day" class="w3-button w3-black">1 day</button>
         <button id="mo3" class="w3-button w3-black">3 months</button>
@@ -33,8 +53,29 @@ table, th, td {
 
 </div>
 
-<button class="fa fa-clone" id="Copy"></button>
-
+<div class="w3-row-padding" style="margin-top:16px">
+  <!--Rating-->
+  <div class="w3-twothird">
+    <div class="rating-css">
+      <div class="star-icon">
+        <input type="radio" value="1" name="product_rating" id="rating1">
+        <label for="rating1" class="fa fa-star"></label>
+        <input type="radio" value="2" name="product_rating" id="rating2">
+        <label for="rating2" class="fa fa-star"></label>
+        <input type="radio" value="3" name="product_rating" id="rating3">
+        <label for="rating3" class="fa fa-star"></label>
+        <input type="radio" value="4" name="product_rating" id="rating4">
+        <label for="rating4" class="fa fa-star"></label>
+        <input type="radio" value="5" name="product_rating" id="rating5">
+        <label for="rating5" class="fa fa-star"></label>
+      </div>
+    </div>
+  </div>
+  <!--Sharing-->
+  <div class="w3-third" style="margin-top:10px;">
+    <button class="w3-button w3-black" id="Copy">SHARE<i class="fa fa-clone w3-margin-left"></i></button>
+  </div>
+</div>
 
 <!--About the company-->
 <div class="w3-container" style="margin-top:64px">
@@ -145,16 +186,22 @@ table, th, td {
 </div>
 
 <!--comment-->
-<div>
+<div class="commentSection">
   <div class="text-light w3-black">
     <h2 class="w3-center">Comment</h2>
   </div>
-  <textarea name="comment" id="comment" cols="150" rows="10"></textarea>
-  <button id="commentBtn">submit</button>
-</div>
-
-<div id="comments">
+  {% for comment in comments %}
+  <div style="border-style: solid; border-color: black; background-color: darkgrey;">
+    <h5><b>{{comment.email}}:</b> </h5>
+    <p> {{comment.comment}}</p>
   </div>
+  
+  {% endfor %}
+  <form action="{{url_for('views.addComment',stockName=Info['symbol'])}}">
+    <button id="commentBtn">Add Comment</button>
+  </form>
+  
+</div>
 
 <Button id="prediction">GET STOCK PREDICTION </button>
 <!--prediction-->
@@ -334,7 +381,7 @@ table, th, td {
 
     return [date,price]
   }
-//////////////////////////////
+  
   let askPre= new XMLHttpRequest();
   var preDates=[]
   var prePrice=[]
@@ -418,7 +465,6 @@ function getinfo(stock){
     console.log(information)
     return information
   }
-
 </script>
 
 {% endblock %}
