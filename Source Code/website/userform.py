@@ -17,5 +17,6 @@ class StockForm(FlaskForm):
 
 class CommentForm(FlaskForm):
     comment = StringField('comment',validators=[DataRequired()])
+    rating = StringField('comment',validators=[DataRequired()])
     email = StringField('email',validators=[DataRequired()])
     submit = SubmitField("Submit")

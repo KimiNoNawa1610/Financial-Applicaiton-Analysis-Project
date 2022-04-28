@@ -102,7 +102,38 @@ def alert(id):
                 return render_template("alert.html", form = form, user = current_user)
     else:
         return render_template("alert.html", form = form, user = current_user)
-        
+
+
+def getStockesOwned(uss):
+    owned=[]
+    for us in uss:
+        a=Stock.query.filter(Stock.id==us.stock_id).first().name
+        owned.append(a)
+    return owned
+
+def getDividends(stocks):
+    dividendRates=[]
+    dividendYields=[]
+    dates=[]
+    total=0
+    for stock in stocks:
+        information=yf.Ticker(stock).info
+        try:
+            dividendRates.append(information["dividendRate"])
+            dividendYields.append(round(information["dividendYield"]*100,2))
+            total=total*+information["dividendRate"]
+        except:
+            dividendRates.append(0)
+            dividendYields.append(0)
+        try:
+            timestamp= dt.datetime.fromtimestamp(information["exDividendDate"])
+            dates.append(timestamp.strftime('%Y-%m-%d %H:%M:%S'))
+        except:
+            dates.append("N/A")
+    return {"dividendRates":dividendRates,"dividendYields":dividendYields,"dates":dates,"total":total}
+
+
+
 
 #profile
 @views.route('/profile', methods=['GET','POST'])
@@ -115,16 +146,21 @@ def profile(): #this function will run everytime we access the view's route
     for us in uss:
         total+=int(us.number_of_stock)*Stock.query.filter(Stock.id==us.stock_id).first().price
 
-
+    stocksOwned=getStockesOwned(uss)
+    dividendInfo= getDividends(stocksOwned)
+    dividendYield=round(dividendInfo["total"]/total,2)
     if(request.method == "POST"):
         stock = request.form.get('stock')
 
         stock = stock.lstrip()
 
         stock=stock.split(",")
-
-        stockName=stock[0].lower()
-        price_of_stock = getStockPrice1d(stockName)
+        try:
+            stockName=stock[0].lower()
+            price_of_stock = getStockPrice1d(stockName)
+        except:
+            flash("Input error!! Please try again", category = "error")
+            return redirect(url_for("views.profile"))
 
         if(len(stock)==1):
             quantity=1
@@ -161,7 +197,7 @@ def profile(): #this function will run everytime we access the view's route
                     total+=int(us.number_of_stock)*Stock.query.filter(Stock.id==us.stock_id).first().price
 
                 flash("Stock updated!", category = "success")
-                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total)# return the html file that we want to render to the website
+                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total,dividendInfo=dividendInfo,dividendYield=dividendYield,stocksOwned=stocksOwned)# return the html file that we want to render to the website
 
             elif (len(stockName)<0):
                 flash("stock name is too short!", category = "error")
@@ -182,11 +218,11 @@ def profile(): #this function will run everytime we access the view's route
                     total+=int(us.number_of_stock)*Stock.query.filter(Stock.id==us.stock_id).first().price
 
                 flash("new Stock added!", category = "success")
-                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total)# return the html file that we want to render to the website
+                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total,dividendInfo=dividendInfo,dividendYield=dividendYield,stocksOwned=stocksOwned)# return the html file that we want to render to the website
         else:
-            return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total)# return the html file that we want to render to the website
+            return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total,dividendInfo=dividendInfo,dividendYield=dividendYield,stockOwned=stocksOwned)# return the html file that we want to render to the website
 
-    return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total)# return the html file that we want to render to the website
+    return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total,dividendInfo=dividendInfo,dividendYield=dividendYield,stocksOwned=stocksOwned)# return the html file that we want to render to the website
 
 
 # delete stock name
@@ -233,7 +269,8 @@ def addComment(stockName):
     if request.method == "POST":
         text = request.form['comment']
         email = request.form['email']
-        newComment = Comment(email = email,stockName = stockName.lower(), comment=text)
+        rating = request.form['rating']
+        newComment = Comment(email = email,stockName = stockName.lower(), comment=text, rating =rating)
         db.session.add(newComment)
         db.session.commit()
         return redirect(url_for("views.search",stock=stockName))
@@ -285,27 +322,20 @@ dates=[]
 def search():
     try:
         form = SearchForm()
-        
         if (form.validate_on_submit()):
             searched = form.search.data
             comments = Comment.query.filter(Comment.stockName==searched.lower()).all()
             stats = stockInfo(searched,"1d")
-            if stats==-1:
-                return redirect(url_for('views.home'))
-            values= stats[0]
-            dates=stats[1]
             recomendation = information(searched)
             info = getGeneralInfo(searched)
-            return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=info,recomend=recomendation, comments=comments)
+            return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(stats[1]),money=json.dumps(stats[0]),Info=info,recomend=recomendation, comments=comments)
         else:
             searched = request.args.get('stock')
             comments = Comment.query.filter(Comment.stockName==searched.lower()).all()
             stats = stockInfo(searched,"1d")
-            values= stats[0]
-            dates=stats[1]
             recomendation= information(searched)
             info = getGeneralInfo(searched)
-            return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(dates),money=json.dumps(values),Info=info,recomend=recomendation, comments=comments)
+            return render_template("search.html",form=form, user=current_user, searched= searched,dates=json.dumps(stats[1]),money=json.dumps(stats[0]),Info=info,recomend=recomendation, comments=comments)
         
     except:
         flash("The stock you want is not available!!", category = 'error')
@@ -334,17 +364,18 @@ def compare():
         return json.dumps({})
     return json.dumps(ticker)
 
+
+
 def stockInfo(stock,time):
     if time=='1d':
-        information = yf.download(tickers=stock, period=time, interval='5m')
+        #information = yf.history(tickers=stock, period=time, interval='5m')
+        information=yf.Ticker(stock).history(period=time,interval='5m')
     elif time=='3mo'or time=='6mo':
         information = yf.download(tickers=stock, period=time, interval='1h')
     elif time=='1y':
         information = yf.download(tickers=stock, period=time, interval='1d')
     else:
         information = yf.download(tickers=stock, period=time, interval='1wk')
-    if information.empty :
-        return -1
     information=information.dropna()
     price=information['Open'].tolist()
     dates=[]

@@ -24,11 +24,11 @@ class UserStock(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key = True)
     stock_id = db.Column(db.Integer, db.ForeignKey('stock.id'), primary_key = True)
     date = db.Column(db.DateTime(timezone = True), default = func.now())
-    rating = db.Column(db.Integer,default=0)
     number_of_stock = db.Column(db.Integer) #calculated column
 
 class Comment(db.Model):
     email = db.Column(db.String(150), primary_key = True)
+    rating = db.Column(db.Integer,default=0)
     stockName = db.Column(db.String(10), primary_key = True)
     date = db.Column(db.DateTime(timezone = True), default = func.now(), primary_key = True)
     comment = db.Column(db.String(500))
