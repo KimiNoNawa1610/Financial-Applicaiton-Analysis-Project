@@ -53,7 +53,7 @@
 
 </div>
 
-<div class="w3-row-padding" style="margin-top:16px">
+<div class="w3-row-padding" style="margin-top:32px">
   <!--Rating-->
   <div class="w3-twothird">
     <div class="rating-css">
@@ -78,15 +78,14 @@
 </div>
 
 <!--About the company-->
-<div class="w3-container" style="margin-top:64px">
+<div class="w3-container" style="margin-top:32px">
   <div class="text-light w3-black">
     <h2 class="w3-center">About {{Info.get("longName","cant get long name")}}</h2>
   </div>
-  <p style=" text-indent: 1.2vw;">{{Info.get("longBusinessSummary","Does not have a long")}}</p>
+  <p style="text-indent: 1.2vw;">{{Info.get("longBusinessSummary","Does not have a long")}}</p>
 </div>
 
-<div>
-
+<div class="w3-container" style="margin-top:32px">
   <div class="text-light w3-black">
     <h2 class="w3-center">Financial Info</h2>
   </div>
@@ -102,10 +101,9 @@
       </tr>
     {% endfor %}
   </table>
-
 </div>
 
-<div>
+<div class="w3-container" style="margin-top:32px">
   <div class="text-light w3-black">
     <h2 class="w3-center">Price History</h2>
   </div>
@@ -120,7 +118,7 @@
 </div>
 
 
-<div>
+<div class="w3-container" style="margin-top:32px">
   <div class="text-light w3-black">
     <h2 class="w3-center">Value Measures</h2>
   </div>
@@ -147,12 +145,14 @@
     </p>
   </div>
 </div>
-<div>
+
+<div class="w3-container" style="margin-top:32px">
   <label>stock:</label>
   <input type="text" id="stockadd">
-  <button id="add"> add row</button>
+  <button class="w3-button w3-black" id="add"> add row</button>
 </div>
-<div>
+
+<div class="w3-container" style="margin-top:32px">
   <table id='comparing'>
     <thead>
       <tr>
@@ -181,32 +181,31 @@
         <td>{{Info['trailingPE']}}</td>
         <td><td>
       </tr>
-  </tbody>
-</table>
+    </tbody>
+  </table>
 </div>
 
 <!--comment-->
-<div class="commentSection">
+<div class="commentSection w3-container" style="margin-top:32px">
   <div class="text-light w3-black">
     <h2 class="w3-center">Comment</h2>
   </div>
   {% for comment in comments %}
   <div style="border-style: solid; border-color: black; background-color: darkgrey;">
-    <h5><b>{{comment.email}}:</b> </h5>
+    <h5><b>{{comment.email}}:</b></h5>
     <p> {{comment.comment}}</p>
   </div>
   
   {% endfor %}
   <form action="{{url_for('views.addComment',stockName=Info['symbol'])}}">
-    <button id="commentBtn">Add Comment</button>
+    <button class="w3-button w3-black" id="commentBtn">Add Comment</button>
   </form>
-  
 </div>
 
-<Button id="prediction">GET STOCK PREDICTION </button>
+<Button class="w3-button w3-black" id="prediction">GET STOCK PREDICTION</button>
 <!--prediction-->
-<div class="conatainer" style="width:900px;">
-        <canvas id="predictionChart"></canvas>
+<div class="w3-container" style="width:100%;">
+  <canvas id="predictionChart"></canvas>
 </div>
 
 
