@@ -35,13 +35,15 @@
   /* End of Star Rating */
 </style>
 
-<div class="w3-container w3-center" style="margin-top:128px" id="search">
-  <div class="text-light w3-black">
-    <h1 class="w3-center">{{Info.get("longName","Does not have a name")}}</h1>
-  </div>
-  <p class="w3-wide">Symbol: <span id="symbol">{{Info.get("symbol","does not have a name")}}</span></p>
-  <p class="w3-wide">Current Price: $<span id="dayHigh">{{Info.get("currentPrice","can't get current price")}}</span></p>  
-  <div class="w3-container" style="width:100%;">
+<div class="w3-row-padding">
+  <div class="w3-container w3-center" style="margin-top:128px" id="search">
+    <div class="text-light w3-black">
+      <h1 class="w3-center">{{Info.get("longName","Does not have a name")}}</h1>
+    </div>
+    <p class="w3-wide">Symbol: <span id="symbol">{{Info.get("symbol","does not have a name")}}</span></p>
+    <p class="w3-wide">Current Price: $<span id="dayHigh">{{Info.get("currentPrice","can't get current price")}}</span></p>
+    <div class="w3-half">  
+      <div class="w3-container" style="width:100%;">
         <canvas id="myChart"></canvas>
         <button id="day" class="w3-button w3-black">1 day</button>
         <button id="mo3" class="w3-button w3-black">3 months</button>
@@ -49,9 +51,18 @@
         <button id="year" class="w3-button w3-black">1 year</button>
         <button id="year5" class="w3-button w3-black">5 years</button>
         <button id="year10" class="w3-button w3-black">10 year</button>
+      </div>
+    </div>
+    <div class="w3-half">
+      <Button class="w3-button w3-black" id="prediction">GET STOCK PREDICTION</button>
+      <!--prediction-->
+      <div class="w3-container" style="width:100%;">
+        <canvas id="predictionChart"></canvas>
+      </div>
+    </div>
   </div>
-
 </div>
+
 
 <div class="w3-row-padding" style="margin-top:32px">
   <!--Rating-->
@@ -113,8 +124,7 @@
     <p><b>50 day average: </b>{{Info['fiftyDayAverage']}}</p>
     <p><b>200 day average: </b>{{Info['twoHundredDayAverage']}}</p>
 
-  </di>
-  
+  </div>
 </div>
 
 
@@ -200,16 +210,6 @@
   <form action="{{url_for('views.addComment',stockName=Info['symbol'])}}">
     <button class="w3-button w3-black" id="commentBtn">Add Comment</button>
   </form>
-</div>
-
-<Button class="w3-button w3-black" id="prediction">GET STOCK PREDICTION</button>
-<!--prediction-->
-<div class="w3-container" style="width:100%;">
-  <canvas id="predictionChart"></canvas>
-</div>
-
-
-
 </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
