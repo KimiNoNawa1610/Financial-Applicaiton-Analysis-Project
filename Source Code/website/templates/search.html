@@ -13,54 +13,35 @@
   table, th, td {
     border: 1px solid black;
   }
-*{
-      margin: 0;
-      padding: 0;
+  /* rating */
+  .rating-css div {
+    color: #ffc700;
+    text-align: left;
   }
-  .rate {
-      float: left;
-      height: 46px;
-      padding: 0 10px;
+  .rating-css input {
+    display: none;
   }
-  .rate:not(:checked) > input {
-      position:absolute;
-      top:-9999px;
+  .rating-css input + label {
+    font-size: 60px;
+    cursor: pointer;
   }
-  .rate:not(:checked) > label {
-      float:right;
-      width:1em;
-      overflow:hidden;
-      white-space:nowrap;
-      cursor:pointer;
-      font-size:30px;
-      color:#ccc;
+  .rating-css input:checked + label ~ label {
+    color: #ccc;
   }
-  .rate:not(:checked) > label:before {
-      content: '★ ';
+  .rating-css label:active {
+    transform: scale(0.8);
+    transition: 0.3s ease;
   }
-  .rate > input:checked ~ label {
-      color: #ffc700;    
-  }
-  .rate:not(:checked) > label:hover,
-  .rate:not(:checked) > label:hover ~ label {
-      color: #deb217;  
-  }
-  .rate > input:checked + label:hover,
-  .rate > input:checked + label:hover ~ label,
-  .rate > input:checked ~ label:hover,
-  .rate > input:checked ~ label:hover ~ label,
-  .rate > label:hover ~ input:checked ~ label {
-      color: #c59b08;
-  }
+  /* End of Star Rating */
 </style>
 
-<div class="w3-container" style="margin-top:128px" id="search">
+<div class="w3-container w3-center" style="margin-top:128px" id="search">
   <div class="text-light w3-black">
     <h1 class="w3-center">{{Info.get("longName","Does not have a name")}}</h1>
   </div>
   <p class="w3-wide">Symbol: <span id="symbol">{{Info.get("symbol","does not have a name")}}</span></p>
   <p class="w3-wide">Current Price: $<span id="dayHigh">{{Info.get("currentPrice","can't get current price")}}</span></p>  
-  <div class="conatainer" style="width:900px;">
+  <div class="w3-container" style="width:100%;">
         <canvas id="myChart"></canvas>
         <button id="day" class="w3-button w3-black">1 day</button>
         <button id="mo3" class="w3-button w3-black">3 months</button>
@@ -73,23 +54,26 @@
 </div>
 
 <div class="w3-row-padding" style="margin-top:16px">
+  <!--Rating-->
   <div class="w3-twothird">
-    <div class="rate w3-center">
-      <input type="radio" id="star5" name="rate5" value="5" />
-      <label for="star5" title="text">5 stars</label>
-      <input type="radio" id="star4" name="rate4" value="4" />
-      <label for="star4" title="text">4 stars</label>
-      <input type="radio" id="star3" name="rate3" value="3" />
-      <label for="star3" title="text">3 stars</label>
-      <input type="radio" id="star2" name="rate2" value="2" />
-      <label for="star2" title="text">2 stars</label>
-      <input type="radio" id="star1" name="rate1" value="1" />
-      <label for="star1" title="text">1 star</label>
+    <div class="rating-css">
+      <div class="star-icon">
+        <input type="radio" value="1" name="product_rating" id="rating1">
+        <label for="rating1" class="fa fa-star"></label>
+        <input type="radio" value="2" name="product_rating" id="rating2">
+        <label for="rating2" class="fa fa-star"></label>
+        <input type="radio" value="3" name="product_rating" id="rating3">
+        <label for="rating3" class="fa fa-star"></label>
+        <input type="radio" value="4" name="product_rating" id="rating4">
+        <label for="rating4" class="fa fa-star"></label>
+        <input type="radio" value="5" name="product_rating" id="rating5">
+        <label for="rating5" class="fa fa-star"></label>
+      </div>
     </div>
   </div>
-
-  <div class="w3-third">
-    <button class="w3-button" id="Copy">SHARE<i class="fa fa-clone w3-margin-left"></i></button>
+  <!--Sharing-->
+  <div class="w3-third" style="margin-top:10px;">
+    <button class="w3-button w3-black" id="Copy">SHARE<i class="fa fa-clone w3-margin-left"></i></button>
   </div>
 </div>
 
