@@ -15,12 +15,21 @@ def getStockPrice1d(stock):
 
 # print(getStockPrice1d("TSLA"))
 
+<<<<<<< Updated upstream
 # def checkStock(searched,target_price, email):
 #     alertValue = getStockPrice1d(searched)
 #     if alertValue < target_price: #modify number for user options in seconds
 #         #send email if price goes under 100, this number is abitrary for testing
 #         send_email(email,searched,target_price)
 
+=======
+def checkStock(searched,target_price, email):
+    alertValue = 0
+    alertValue = getStockPrice1d(searched)
+    if alertValue < target_price: #modify number for user options in seconds
+        #send email if price goes under 100, this number is abitrary for testing
+        send_email(email,searched,target_price)
+>>>>>>> Stashed changes
 
 def send_email(email, searched, target_price):
     alertValue = getStockPrice1d(searched)
@@ -54,11 +63,15 @@ def thread_1(searched,target_price, email):
         send_email(email, searched, target_price)
         time.sleep(1800)
         # 1800 is 30 minutes
+<<<<<<< Updated upstream
 
 # T = Thread(daemon = True, target=thread_1, args=["aapl",200,"@gmail.com"])
                 
 # starting of thread T
 # T.start()     
+=======
+  
+>>>>>>> Stashed changes
  
                  
 
