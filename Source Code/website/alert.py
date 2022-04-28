@@ -30,11 +30,11 @@ def send_email(email, searched, target_price):
     server.login('throwaway246abc@gmail.com', 'throwit246abc') #sender email
     subject = 'Price alert for '+searched
     if alertValue < target_price:
-        body = f'Price of {searched} is less than ${str(target_price)}\nPrice: {alertValue}'
+        body = f'Price of {searched} is less than ${str(target_price)}\nPrice: ${alertValue}'
     elif alertValue > target_price:
-        body = f'Price of {searched} is greater than ${str(target_price)}\nPrice: {alertValue}'
+        body = f'Price of {searched} is greater than ${str(target_price)}\nPrice: ${alertValue}'
     else:
-        body = f'Price of {searched} is equal to ${str(target_price)}\nPrice: {alertValue}'
+        body = f'Price of {searched} is equal to ${str(target_price)}\nPrice: ${alertValue}'
     msg = f'subject: {subject} \n{body}'
 
     server.sendmail( #change email to use the user's email
