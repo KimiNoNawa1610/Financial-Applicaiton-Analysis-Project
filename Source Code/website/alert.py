@@ -48,10 +48,10 @@ def thread_1(searched,target_price, email):
         time.sleep(1800)
         # 1800 is 30 minutes
 
-T = Thread(daemon = True, target=thread_1, args=["aapl",200,"vothanhnhan108@gmail.com"])
+# T = Thread(daemon = True, target=thread_1, args=["aapl",200,"@gmail.com"])
                 
 # starting of thread T
-T.start()     
+# T.start()     
  
                  
 
