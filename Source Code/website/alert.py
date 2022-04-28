@@ -13,12 +13,12 @@ def getStockPrice1d(stock):
     info = yf.Ticker(stock)
     return info.info['regularMarketPrice']
 
-def checkStock(searched,target_price, email):
-    alertValue = 0
-    alertValue = getStockPrice1d(searched)
-    if alertValue < target_price: #modify number for user options in seconds
-        #send email if price goes under 100, this number is abitrary for testing
-        send_email(email,searched,target_price)
+# def checkStock(searched,target_price, email):
+#     alertValue = 0
+#     alertValue = getStockPrice1d(searched)
+#     if alertValue < target_price: #modify number for user options in seconds
+#         #send email if price goes under 100, this number is abitrary for testing
+#         send_email(email,searched,target_price)
 
 def send_email(email, searched, target_price):
     alertValue = getStockPrice1d(searched)
