@@ -145,9 +145,6 @@ def profile(): #this function will run everytime we access the view's route
     total=0
     for us in uss:
         total+=int(us.number_of_stock)*Stock.query.filter(Stock.id==us.stock_id).first().price
-
-    stocksOwned=getStockesOwned(uss)
-    dividendInfo= getDividends(stocksOwned)
     if(request.method == "POST"):
         stock = request.form.get('stock')
 
@@ -194,6 +191,10 @@ def profile(): #this function will run everytime we access the view's route
                 total=0
                 for us in uss:
                     total+=int(us.number_of_stock)*Stock.query.filter(Stock.id==us.stock_id).first().price
+                
+                uss=UserStock.query.filter(UserStock.user_id==current_user.id).all()#user owned stock
+                stocksOwned=getStockesOwned(uss)
+                dividendInfo= getDividends(stocksOwned)
 
                 flash("Stock updated!", category = "success")
                 return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total,dividendInfo=dividendInfo,stocksOwned=stocksOwned)# return the html file that we want to render to the website
@@ -215,12 +216,19 @@ def profile(): #this function will run everytime we access the view's route
                 total=0
                 for us in uss:
                     total+=int(us.number_of_stock)*Stock.query.filter(Stock.id==us.stock_id).first().price
-
+                uss=UserStock.query.filter(UserStock.user_id==current_user.id).all()#user owned stock
+                stocksOwned=getStockesOwned(uss)
+                dividendInfo= getDividends(stocksOwned)
                 flash("new Stock added!", category = "success")
                 return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total,dividendInfo=dividendInfo,stocksOwned=stocksOwned)# return the html file that we want to render to the website
         else:
+            uss=UserStock.query.filter(UserStock.user_id==current_user.id).all()#user owned stock
+            stocksOwned=getStockesOwned(uss)
+            dividendInfo= getDividends(stocksOwned)
             return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total,dividendInfo=dividendInfo,stockOwned=stocksOwned)# return the html file that we want to render to the website
-
+    uss=UserStock.query.filter(UserStock.user_id==current_user.id).all()#user owned stock
+    stocksOwned=getStockesOwned(uss)
+    dividendInfo= getDividends(stocksOwned)
     return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total,dividendInfo=dividendInfo,stocksOwned=stocksOwned)# return the html file that we want to render to the website
 
 
