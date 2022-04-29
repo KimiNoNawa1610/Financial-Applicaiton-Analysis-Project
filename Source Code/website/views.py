@@ -30,7 +30,7 @@ views = Blueprint('views',__name__)
 
 #Get most gain
 def stockGain():
-    stockData = pd.read_csv('website\constituents.csv')
+    stockData = pd.read_csv('Source Code/website/constituents.csv')
 
     increasedStock = []
     price = []
@@ -315,6 +315,11 @@ def message():
         flash("Your message was sent. We will contact you soon.", category = 'error')
     
     return render_template("contactus.html", form = SearchForm(), user = current_user)
+
+#education page
+@views.route('/education', methods=['GET','POST'])
+def education():
+    return render_template("education.html", user = current_user)
 
 #Pass stuff to Navbar
 @views.context_processor

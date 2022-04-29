@@ -88,14 +88,15 @@
   </div>
 </div>
 
-<div class="w3-container">
-  <h3 class="w3-center">Dividends per year</h3>
+<div class="w3-container w3-padding-64">
+  <h3 class="w3-center">DIVIDENDS PER YEAR</h3>
+  <hr>
   <table class="w3-table w3-striped w3-gray w3-round">
       <tr>
-        <th style="text-align:center"> stock </th>
-        <th style="text-align:center"> Dividend amount</th>
-        <th style="text-align:center"> Dividend percentage</th>
-        <th style="text-align:center"> time paid </th>
+        <th style="text-align:center">Stock </th>
+        <th style="text-align:center">Dividend Amount</th>
+        <th style="text-align:center">Dividend Percentage</th>
+        <th style="text-align:center">Time Paid </th>
       </tr>
       {% for index in range(dividendInfo["dividendYields"]| length )%}
       <tr>

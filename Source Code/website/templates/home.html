@@ -5,10 +5,11 @@
 {% block content %} 
 
 <!-- GRAPHS -->
-<div class="w3-row-padding">
-    <div class="w3-center w3-padding-64">
-        <h3><b>DAILY MARKET CHARTS</b></h3>
+<div class="w3-row-padding w3-padding-64">
+    <div class="w3-center">
+        <h1>DAILY MARKET CHARTS</h1>
     </div>
+    <hr>
     <div class="w3-third w3-margin-bottom">
         <div class="w3-border w3-center">
             <div id="Dow">
@@ -32,12 +33,13 @@
     </div>
 </div>
 
-<div class="w3-row-padding">
+<div class="w3-row-padding w3-padding-64">
     <!-- Slideshow -->
-    <div class="w3-twothird slideshow-container">
-        <div class="w3-center w3-padding-64">
+    <div class="w3-half slideshow-container">
+        <div class="w3-center">
             <h3><b>LATEST MARKET NEWS</b></h3>
         </div>
+        <hr>
         {% for title, desc,img,p_date,url in contents %}
         <div class = "mySlides fade">
             <img src ="{{img}}" style = "width:100%; height: fit-content;">
@@ -52,11 +54,12 @@
         <div class="w3-left previous" onclick="plusDivs(-1)"><i class="fa fa-arrow-circle-left w3-hover-text-teal"></i></div>
         <div class="w3-right next" onclick="plusDivs(1)"><i class="fa fa-arrow-circle-right w3-hover-text-teal"></i></div>
     </div>
-    <div class="w3-third w3-container">
+    <div class="w3-half w3-container">
         <!--Daily stock graph table-->
-        <div class="w3-center w3-padding-64">
+        <div class="w3-center">
             <h3><b>STOCKS OF THE DAY</b></h3>
         </div>
+        <hr>
         <div class="w3-container">
             <table class="w3-table w3-striped w3-gray w3-round">
                 <tr>
@@ -77,12 +80,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
 
 <script>
     // Slideshow
