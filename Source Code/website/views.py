@@ -148,7 +148,7 @@ def profile(): #this function will run everytime we access the view's route
 
     stocksOwned=getStockesOwned(uss)
     dividendInfo= getDividends(stocksOwned)
-    dividendYield=round(dividendInfo["total"]/total,2)
+    #dividendYield=round(dividendInfo["total"]/total,2)
     if(request.method == "POST"):
         stock = request.form.get('stock')
 
@@ -197,7 +197,7 @@ def profile(): #this function will run everytime we access the view's route
                     total+=int(us.number_of_stock)*Stock.query.filter(Stock.id==us.stock_id).first().price
 
                 flash("Stock updated!", category = "success")
-                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total,dividendInfo=dividendInfo,dividendYield=dividendYield,stocksOwned=stocksOwned)# return the html file that we want to render to the website
+                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total,dividendInfo=dividendInfo,stocksOwned=stocksOwned)# return the html file that we want to render to the website
 
             elif (len(stockName)<0):
                 flash("stock name is too short!", category = "error")
@@ -218,11 +218,11 @@ def profile(): #this function will run everytime we access the view's route
                     total+=int(us.number_of_stock)*Stock.query.filter(Stock.id==us.stock_id).first().price
 
                 flash("new Stock added!", category = "success")
-                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total,dividendInfo=dividendInfo,dividendYield=dividendYield,stocksOwned=stocksOwned)# return the html file that we want to render to the website
+                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total,dividendInfo=dividendInfo,stocksOwned=stocksOwned)# return the html file that we want to render to the website
         else:
-            return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total,dividendInfo=dividendInfo,dividendYield=dividendYield,stockOwned=stocksOwned)# return the html file that we want to render to the website
+            return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total,dividendInfo=dividendInfo,stockOwned=stocksOwned)# return the html file that we want to render to the website
 
-    return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total,dividendInfo=dividendInfo,dividendYield=dividendYield,stocksOwned=stocksOwned)# return the html file that we want to render to the website
+    return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total,dividendInfo=dividendInfo,stocksOwned=stocksOwned)# return the html file that we want to render to the website
 
 
 # delete stock name
