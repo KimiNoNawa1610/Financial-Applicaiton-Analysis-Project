@@ -309,6 +309,11 @@ def message():
     
     return render_template("contactus.html", form = SearchForm(), user = current_user)
 
+#education page
+@views.route('/education', methods=['GET','POST'])
+def education():
+    return render_template("education.html", user = current_user)
+
 #Pass stuff to Navbar
 @views.context_processor
 def base():

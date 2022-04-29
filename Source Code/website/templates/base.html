@@ -113,6 +113,7 @@
           <a href="/login" class="w3-bar-item w3-button" id="login">LOGIN</a>
           {% endif %}
           <a href="/contactus" class="w3-bar-item w3-button" id="message">ABOUT US</a>
+          <a href="/education" class="w3-bar-item w3-button" id="education">LEARN STOCKS</a>
           <!-- Search form-->
           <form class="searchForm w3-bar-item form-inline" action="{{url_for('views.search')}}" method="POST">
             {{ form.hidden_tag() }}
@@ -139,6 +140,7 @@
       <a href="/login" onclick="w3_close()" class="w3-bar-item w3-button" id="login">LOGIN</a>
       {% endif %}
       <a href="/contactus" onclick="w3_close()" class="w3-bar-item w3-button" id="message">ABOUT US</a>
+      <a href="/education" onclick="w3_close()" class="w3-bar-item w3-button" id="education">LEARN STOCKS</a>
       <!-- Search form-->
       <form class="searchForm w3-bar-item form-inline " action="{{url_for('views.search')}}" method="POST">
         {{ form.hidden_tag() }}
