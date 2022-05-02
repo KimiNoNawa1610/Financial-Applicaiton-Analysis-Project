@@ -95,15 +95,11 @@
       <tr>
         <th style="text-align:center">Stock </th>
         <th style="text-align:center">Dividend Amount</th>
-        <th style="text-align:center">Dividend Percentage</th>
-        <th style="text-align:center">Time Paid </th>
       </tr>
-      {% for index in range(dividendInfo["dividendYields"]| length )%}
+      {% for index in range(dividendInfo| length )%}
       <tr>
         <td style="text-align:center">{{stocksOwned[index]}}</td>
-        <td style="text-align:center">{{dividendInfo["dividendRates"][index]}}</td>
-        <td style="text-align:center">{{dividendInfo["dividendYields"][index]}}</td>
-        <td style="text-align:center">{{dividendInfo["dates"][index]}}</td>
+        <td style="text-align:center">{{dividendInfo[index]}}</td>
       </tr>
       {% endfor %}
   </table >

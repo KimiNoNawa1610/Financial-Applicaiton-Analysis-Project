@@ -25,6 +25,7 @@ from sklearn.preprocessing import MinMaxScaler
 from yahoo_fin import stock_info as si
 from threading import *
 import random
+import math
 
 views = Blueprint('views',__name__)
 
@@ -112,25 +113,24 @@ def getStockesOwned(uss):
     return owned
 
 def getDividends(stocks):
-    dividendRates=[]
-    dividendYields=[]
-    dates=[]
-    total=0
-    for stock in stocks:
-        information=yf.Ticker(stock).info
-        try:
-            dividendRates.append(information["dividendRate"])
-            dividendYields.append(round(information["dividendYield"]*100,2))
-            total=total*+information["dividendRate"]
-        except:
-            dividendRates.append(0)
-            dividendYields.append(0)
-        try:
-            timestamp= dt.datetime.fromtimestamp(information["exDividendDate"])
-            dates.append(timestamp.strftime('%Y-%m-%d %H:%M:%S'))
-        except:
-            dates.append("N/A")
-    return {"dividendRates":dividendRates,"dividendYields":dividendYields,"dates":dates,"total":total}
+    dividends=[]
+    own=[]
+    for i in stocks:
+        own.append(i.upper())
+    information=yf.Tickers(stocks)
+    info = information.download(period = "ytd", interval="3mo")
+    for stock in own:
+        dividend=-1
+        for i in info["Dividends"][stock]:
+            if math.isnan(i):
+                pass
+            else:
+                if(i!=0):
+                    dividend=i
+        if dividend==-1:
+            dividend=0
+        dividends.append(dividend)
+    return dividends
 
 
 
