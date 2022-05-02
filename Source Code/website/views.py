@@ -197,7 +197,7 @@ def profile(): #this function will run everytime we access the view's route
                 dividendInfo= getDividends(stocksOwned)
 
                 flash("Stock updated!", category = "success")
-                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total,dividendInfo=dividendInfo,stocksOwned=stocksOwned)# return the html file that we want to render to the website
+                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=float("{:.2f}".format(total)),dividendInfo=dividendInfo,stocksOwned=stocksOwned)# return the html file that we want to render to the website
 
             elif (len(stockName)<0):
                 flash("stock name is too short!", category = "error")
@@ -220,16 +220,16 @@ def profile(): #this function will run everytime we access the view's route
                 stocksOwned=getStockesOwned(uss)
                 dividendInfo= getDividends(stocksOwned)
                 flash("new Stock added!", category = "success")
-                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=total,dividendInfo=dividendInfo,stocksOwned=stocksOwned)# return the html file that we want to render to the website
+                return  render_template("profile.html", form = SearchForm(), user = current_user, uss=uss, Stock=Stock,total=float("{:.2f}".format(total)),dividendInfo=dividendInfo,stocksOwned=stocksOwned)# return the html file that we want to render to the website
         else:
             uss=UserStock.query.filter(UserStock.user_id==current_user.id).all()#user owned stock
             stocksOwned=getStockesOwned(uss)
             dividendInfo= getDividends(stocksOwned)
-            return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total,dividendInfo=dividendInfo,stockOwned=stocksOwned)# return the html file that we want to render to the website
+            return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=float("{:.2f}".format(total)),dividendInfo=dividendInfo,stockOwned=stocksOwned)# return the html file that we want to render to the website
     uss=UserStock.query.filter(UserStock.user_id==current_user.id).all()#user owned stock
     stocksOwned=getStockesOwned(uss)
     dividendInfo= getDividends(stocksOwned)
-    return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=total,dividendInfo=dividendInfo,stocksOwned=stocksOwned)# return the html file that we want to render to the website
+    return  render_template("profile.html", form = SearchForm(), user = current_user,uss=uss,Stock=Stock,total=float("{:.2f}".format(total)),dividendInfo=dividendInfo,stocksOwned=stocksOwned)# return the html file that we want to render to the website
 
 
 # delete stock name
