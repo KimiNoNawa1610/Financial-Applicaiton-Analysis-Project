@@ -129,18 +129,24 @@ def getStockesOwned(uss):
     for us in uss:
         a=Stock.query.filter(Stock.id==us.stock_id).first().name
         owned.append(a)
+        print("the type")
+        print(type(a))
     return owned
 
 def getDividends(stocks):
-    if stocks==[]:
+    a=len(stocks)
+    own=[]
+    for stock in stocks:
+        own.append(stock.upper())
+    stocks=own
+    if a==0:
         return []
     dividends=[]
-    own=[]
-    for i in stocks:
-        own.append(i.upper())
-    information=yf.Tickers(own)
+    if a==1:
+        stocks.append("AAPL")
+    information=yf.Tickers(stocks)
     info = information.download(period = "ytd", interval="3mo")
-    for stock in own:
+    for stock in stocks:
         dividend=-1
         for i in info["Dividends"][stock]:
             if math.isnan(i):
@@ -151,6 +157,8 @@ def getDividends(stocks):
         if dividend==-1:
             dividend=0
         dividends.append(dividend)
+    if a==1:
+        dividends.pop()
     return dividends
 
 
