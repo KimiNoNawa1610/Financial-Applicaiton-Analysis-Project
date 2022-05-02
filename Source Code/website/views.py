@@ -30,26 +30,45 @@ import math
 views = Blueprint('views',__name__)
 
 #Get most gain
-def stockGain():
-    stockData = pd.read_csv('website\constituents.csv')
+def stockGainLoss():
+    stockData = pd.read_csv('website/constituents.csv')
+    stocks=[]
+    increasedStocks = []
+    decreasedStocks =[]
+    increasedPrice = []
+    decreasedPrice = []
+    marketCondition=""
+    color=""
+    for i in range(13):
+        stocks.append(random.choice(stockData['Symbol']))
+    tickers = yf.Tickers(stocks)
+    info = tickers.download(period="1d",interval="1d")
+    for i in stocks:
+        
+        if(float(info["Open"][i][0])<float(info["Close"][i][0])):
+            increasedStocks.append(i)
+            increasedPrice.append(float("{:.2f}".format(info["Close"][i][0])))
+        else:
+            decreasedStocks.append(i)
+            decreasedPrice.append(float("{:.2f}".format(info["Close"][i][0])))
+    if(len(increasedStocks)<len(decreasedStocks)):
+        marketCondition = "The overall market is in a down trend today"
+        color="red"
+    elif(len(increasedStocks)>len(decreasedStocks)):
+        marketCondition = "The overall market is in an up trend today"
+        color="green"
+    else:
+        marketCondition = "The overall market is trading sideways"
+        color="black"
+    return zip(increasedStocks,increasedPrice), zip(decreasedStocks,decreasedPrice),marketCondition,color
 
-    increasedStock = []
-    price = []
-    for i in range(15):
-        try:
-            stockInfo = yf.download(random.choice(stockData['Symbol']),period="1d")
-            if (stockInfo['Close'][0]>stockInfo['Open'][0]):
-                increasedStock.append(stockData['Symbol'][i])
-                price.append(float("{:.2f}".format(stockInfo['Close'][0])))
-        except:
-            pass
-    return zip(increasedStock,price)
 
 #home page
 @views.route('/', methods=['GET','POST'])
 def home():
     
-    gainers = stockGain()
+    gainers, losers, marketCondition, color = stockGainLoss()
+
 
     newsapi = NewsApiClient(api_key="a63384d0482844b3bee4612ea884705c")
 
@@ -79,7 +98,7 @@ def home():
     
     
     
-    return  render_template("home.html",form =SearchForm(), user=current_user, contents=contents,gainers = gainers)
+    return  render_template("home.html",form =SearchForm(), user=current_user, contents=contents, gainers = gainers, losers = losers,marketCondition = marketCondition,color=color )
 #alert
 @views.route('/alert/<int:id>', methods = ['GET','POST'])
 def alert(id):

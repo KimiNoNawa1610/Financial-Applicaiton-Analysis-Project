@@ -31,6 +31,10 @@
             </div>
         </div>
     </div>
+
+</div>
+<div class="w3-center">
+    <h3 style="color: {{color}};"><b>{{marketCondition}}</b></h3>
 </div>
 
 <div class="w3-row-padding w3-padding-64">
@@ -57,7 +61,7 @@
     <div class="w3-half w3-container">
         <!--Daily stock graph table-->
         <div class="w3-center">
-            <h3><b>STOCKS OF THE DAY</b></h3>
+            <h3><b>STOCKS GAIN</b></h3>
         </div>
         <hr>
         <div class="w3-container">
@@ -72,7 +76,33 @@
                 <tr>
                   <td></td>
                   <td style="text-align:center"><b>{{name}}</b></td>
-                  <td style="text-align:center; color: green;">$ {{price}}</td>
+                  <td style="text-align:center; color: green;"><b>$ {{price}}</b></td>
+                  <td></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="w3-half w3-container">
+        <!--Daily stock graph table-->
+        <div class="w3-center">
+            <h3><b>STOCKS LOSS</b></h3>
+        </div>
+        <hr>
+        <div class="w3-container">
+            <table class="w3-table w3-striped w3-gray w3-round">
+                <tr>
+                  <th></th>
+                  <th style="text-align:center">NAME</th>
+                  <th style="text-align:center">PRICE</th>
+                  <th></th>
+                </tr>
+                {% for name, price in losers %}
+                <tr>
+                  <td></td>
+                  <td style="text-align:center"><b>{{name}}</b></td>
+                  <td style="text-align:center; color: red;"><b>$ {{price}}</b></td>
                   <td></td>
                 </tr>
                 {% endfor %}
