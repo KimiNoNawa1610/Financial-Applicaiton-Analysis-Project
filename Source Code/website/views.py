@@ -132,11 +132,13 @@ def getStockesOwned(uss):
     return owned
 
 def getDividends(stocks):
+    if stocks==[]:
+        return []
     dividends=[]
     own=[]
     for i in stocks:
         own.append(i.upper())
-    information=yf.Tickers(stocks)
+    information=yf.Tickers(own)
     info = information.download(period = "ytd", interval="3mo")
     for stock in own:
         dividend=-1
