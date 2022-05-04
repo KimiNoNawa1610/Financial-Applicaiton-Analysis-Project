@@ -31,7 +31,7 @@ views = Blueprint('views',__name__)
 
 #Get most gain
 def stockGainLoss():
-    stockData = pd.read_csv('website/constituents.csv')
+    stockData = pd.read_csv('Source Code/website/constituents.csv')
     stocks=[]
     increasedStocks = []
     decreasedStocks =[]
